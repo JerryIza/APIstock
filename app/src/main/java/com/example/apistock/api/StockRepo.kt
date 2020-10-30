@@ -1,18 +1,13 @@
 package com.example.apistock.api
 
-import com.example.apistock.overview.inputSymbol
+import com.example.apistock.ui.fragments.inputSymbol
+import com.example.apistock.utils.Resource
 
 
-class StockRepo(private val apiInterface: StockApiInterface) : BaseRepository() {
-    //private var urlStock = base("T")
-    //get stock using safe api call
-    suspend fun getStockDetails() : MutableList<SymbolDetails>?{
-        return safeApiCall(
-            //await the result of deferred type
-            call = {apiInterface.fetchSymbolDetailsAsync(inputSymbol)},
-            error = "error fetching stock details"
-            //convert to mutable list
-        )
-    }
+class StockRepo(private val apiInterface: MarketMoversService) : BaseDataSource() {
+
+    suspend fun getMarketMoversDetails() =
+        getResults { apiInterface.fetchSymbolDetailsAsync(inputSymbol) }
+
 }
 

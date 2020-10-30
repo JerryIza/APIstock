@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/APIstock.iml" filepath="$PROJECT_DIR$/.idea/modules/APIstock.iml" group="APIstock" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="APIstock/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/APIstock.iml" filepath="$PROJECT_DIR$/.idea/modules/APIstock.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/APIstock.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/APIstock.app.iml" />
     </modules>
   </component>
 </project>

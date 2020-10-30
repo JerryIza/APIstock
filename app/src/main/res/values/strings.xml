@@ -1,7 +1,15 @@
 <resources>
-    <string name="app_name">APIstock</string>
+    <string name="app_name">Stock Market Movers</string>
     <string name="enter_symbol_here">Enter Symbol Here</string>
     <string name="stock_details">Stock Details</string>
     <string name="invalid_symbol">Invalid Symbol</string>
     <string name="get">get</string>
+    <string name="market">Market:</string>
+
+    <string-array name="markets">
+        <item>$SPX.X</item>
+        <item>$COMPX</item>
+        <item>$DJI</item>
+    </string-array>
+
 </resources>
