@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
+
 
 android {
     compileSdkVersion 30
@@ -19,6 +21,14 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 
     buildTypes {
@@ -41,6 +51,7 @@ android {
 
             // Constraint Layout
             implementation "androidx.constraintlayout:constraintlayout:$version_constraint_layout"
+
 
             // ViewModel and LiveData
             implementation "androidx.lifecycle:lifecycle-extensions:$version_lifecycle_extensions"
@@ -72,6 +83,7 @@ android {
 
             //Timber Logger
             implementation 'com.jakewharton.timber:timber:4.7.1'
+            implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
 
             // Dependencies for local unit tests
@@ -90,6 +102,32 @@ android {
 
             // Kotlin
             implementation "androidx.fragment:fragment-ktx:$fragmentKtxVersion"
+
+            def nav_version = "2.3.1"
+            implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+            implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+            // Feature module Support
+            implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+
+            // Testing Navigation
+            androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+
+            // Jetpack Compose Integration
+            implementation "androidx.navigation:navigation-compose:1.0.0-alpha01"
+
+            //Hilt(project doesn't require it so far)
+            implementation "com.google.dagger:hilt-android:$version_hilt"
+            kapt "com.google.dagger:hilt-android-compiler:$version_hilt"
+
+
+            //needed to avoid creating a vm factory
+            implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_vm_version"
+            kapt "androidx.hilt:hilt-compiler:$hilt_vm_version"
+
+            //MpCharts
+            def mp_charts_version = "v3.1.0"
+            implementation "com.github.PhilJay:MPAndroidChart:$mp_charts_version"
 
 
 

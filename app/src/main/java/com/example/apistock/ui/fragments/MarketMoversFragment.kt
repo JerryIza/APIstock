@@ -6,31 +6,43 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.apistock.api.MarketMovers
+import com.example.apistock.R
+import com.example.apistock.data.entities.MarketMovers
 import com.example.apistock.databinding.MarketMoversFragmentBinding
-import com.example.apistock.ui.viewmodels.StockViewModel
 import com.example.apistock.ui.adapters.MarketMoversAdapter
+import com.example.apistock.ui.viewmodels.MarketMoversViewModel
 import com.example.apistock.utils.Resource
-import timber.log.Timber
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+
 
 private var Stock = "\$SPX.X"
 
+private  lateinit var test: Fragment
+
+
+@AndroidEntryPoint
 class MarketMoversFragment : Fragment() {
 
     private lateinit var binding: MarketMoversFragmentBinding
 
-    private lateinit var viewModel: StockViewModel
+    private val viewModel: MarketMoversViewModel by activityViewModels()
 
     private lateinit var adapter: MarketMoversAdapter
 
 
-    companion object {
-        fun newInstance() = MarketMoversFragment()
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,25 +55,20 @@ class MarketMoversFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(StockViewModel::class.java)
+
         selectMarket()
         setupRecyclerView()
         setUpObservers()
-        viewModel.autoRefreshResults()
+
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        //We need to cancel auto refresh job, otherwise application will continue to make request, leading to a memory leak.
-        viewModel.cancelRequest()
-        Timber.i("OnDestroy")
-    }
 
 
     private fun selectMarket() {
         binding.marketSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
+
             override fun onItemSelected(
                 parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
@@ -71,21 +78,25 @@ class MarketMoversFragment : Fragment() {
                     2 -> binding.marketSpinner.setSelection(2)
                 }
                 Stock = parent?.getItemAtPosition(position).toString()
-                viewModel.getStockDetails()
+                viewModel.getMoversDetails()
             }
         }
     }
 
     private fun setupRecyclerView() {
-        val dummyInputs = arrayListOf<MarketMovers>()
-        adapter = MarketMoversAdapter(dummyInputs)
+        val marketMovers = arrayListOf<MarketMovers>()
+        adapter = MarketMoversAdapter(marketMovers) {
+            viewModel.start(marketMovers[it].symbol)
+
+            findNavController().navigate(R.id.action_marketMoversFragment_to_stockDetailsFragment)
+        }
         binding.moversRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.moversRecycler.adapter = adapter
-        adapter.notifyDataSetChanged()
     }
+
     //With MVVM we use LiveData from our ViewModel, which is "Observable" and will update our adapter on data change.
     private fun setUpObservers() {
-        viewModel.stockLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.moversLiveData.observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 Resource.Status.SUCCESS -> {
                     binding.loadingBar.visibility = View.GONE
@@ -99,7 +110,23 @@ class MarketMoversFragment : Fragment() {
             }
         })
     }
+
+    //Not advisable to hit server every 1-5 seconds, since server can take a few seconds to respond. Therefore leading to too many queued request -> crash :).
+    init {
+        lifecycleScope.launchWhenCreated {
+
+            while (isActive && this@MarketMoversFragment.isAdded) {
+
+                viewModel.getMoversDetails()
+                delay(10000)
+            }
+        }
+    }
+
 }
 
-    val inputSymbol: String
-        get() = Stock
+
+val inputSymbol: String
+    get() = Stock
+
+

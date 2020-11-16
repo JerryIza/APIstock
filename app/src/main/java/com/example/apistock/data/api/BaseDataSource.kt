@@ -1,10 +1,8 @@
-package com.example.apistock.api
+package com.example.apistock.data.api
 
-import android.util.Log
 import com.example.apistock.utils.Resource
 import retrofit2.Response
 import timber.log.Timber
-import java.io.IOException
 import java.lang.Exception
 
 //abstract means we must have at least one method that is overwritten, this will be overwritten in our repo
@@ -16,6 +14,7 @@ abstract class BaseDataSource {
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) return Resource.success(body)
+
             }
             return error("${response.code()} ${response.message()}")
         } catch (e: Exception) {

@@ -5,6 +5,7 @@
     <string name="invalid_symbol">Invalid Symbol</string>
     <string name="get">get</string>
     <string name="market">Market:</string>
+    <string name="search_symbol">Search Symbol</string>
 
     <string-array name="markets">
         <item>$SPX.X</item>
