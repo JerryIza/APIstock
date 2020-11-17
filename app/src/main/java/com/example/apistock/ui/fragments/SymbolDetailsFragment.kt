@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.graphics.toColorInt
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -17,6 +18,7 @@ import com.example.apistock.databinding.SymbolDetailsFragmentBinding
 import com.example.apistock.ui.viewmodels.MarketMoversViewModel
 import com.example.apistock.utils.Resource
 import com.example.apistock.utils.ToCandleEntries
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.CandleData
 import com.github.mikephil.charting.data.CandleDataSet
 import com.github.mikephil.charting.data.CandleEntry
@@ -79,7 +81,8 @@ class SymbolDetailsFragment : Fragment() {
   private fun bindSymbolDetails(symbolDetails: SymbolDetails) {
         val regex = Regex(pattern = "-")
         //remove and update today's candle.
-        if (candleEntries.size > 23) {
+      println("Chart candles size: "+  candleEntries.size)
+        if (candleEntries.size > 22) {
             candleEntries.removeLast()
             candleEntries.add(
                 CandleEntry(
@@ -122,22 +125,32 @@ class SymbolDetailsFragment : Fragment() {
         binding.lastTv.text = ("$"+"%,.2f".format(symbolDetails.lastPrice))
         binding.askTv.text = ("Ask: $${symbolDetails.askPrice}")
 
+      binding.highLowProgressBar.progress = viewModel.get52WeekHighLow(symbolDetails.lastPrice,symbolDetails.wkLow, symbolDetails.wkHigh).toInt()
+        println("high and low position: "+ viewModel.get52WeekHighLow(symbolDetails.lastPrice,symbolDetails.wkLow, symbolDetails.wkHigh))
     }
 
 
     private fun setUpCandleChart(entries: MutableList<CandleEntry>) {
         val chartData = CandleDataSet(entries, "")
         chartData.color = Color.rgb(80, 80, 80)
-        chartData.shadowColor = Color.DKGRAY
+        chartData.shadowColor = Color.WHITE
         chartData.shadowWidth = 0.7f
         chartData.decreasingColor = Color.RED
         chartData.decreasingPaintStyle = Paint.Style.FILL
         chartData.increasingColor = Color.rgb(122, 242, 84)
         chartData.increasingPaintStyle = Paint.Style.STROKE
         chartData.neutralColor = Color.BLUE
-        chartData.valueTextColor = Color.RED
+        chartData.valueTextSize = 0f
+        binding.candleChart.legend.isEnabled = false
+        binding.candleChart.description.isEnabled = false
+        binding.candleChart.axisLeft.isEnabled = false
+
         binding.candleChart.data = CandleData(chartData)
         binding.candleChart.invalidate()
+        binding.candleChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        binding.candleChart.xAxis.textColor = Color.WHITE
+        binding.candleChart.axisRight.textColor = Color.WHITE
+
 
     }
 

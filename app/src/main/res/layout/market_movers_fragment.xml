@@ -16,6 +16,9 @@
         android:hint="@string/search_symbol"
         android:imeOptions="actionDone"
         android:maxLines="1"
+        android:shadowColor="#FFFFFF"
+        android:textColor="#CACACA"
+        android:textColorHint="#CACACA"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,7 +32,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/marketSpinner"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="1.0"
         tools:layout_conversion_absoluteHeight="0dp"
         tools:layout_conversion_absoluteWidth="0dp"
         tools:listitem="@layout/movers_list" />
@@ -41,11 +44,12 @@
         android:layout_marginTop="5dp"
         android:entries="@array/markets"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView"
+        />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="65dp"
+        android:layout_width="wrap_content"
         android:layout_height="23dp"
         android:fontFamily="@font/roboto_slab"
         android:text="@string/market"

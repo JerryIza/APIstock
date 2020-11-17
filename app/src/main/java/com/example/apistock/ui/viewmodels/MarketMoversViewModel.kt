@@ -17,9 +17,6 @@ import kotlin.coroutines.CoroutineContext
 
 class MarketMoversViewModel : ViewModel() {
 
-    var isSelected = true
-
-    var isSelected2 = false
 
     //create the job, which implements coroutines context.
     var job = Job()
@@ -49,8 +46,6 @@ class MarketMoversViewModel : ViewModel() {
         Timber.tag(("Start Symbol = " + _symbol.value))
     }
 
-    fun cancelRequest() = job.cancel()
-
     fun getHistoricalData() {
         scope.launch {
             val historicalData = symbolRepository.getHistoricalData(_symbol.value.toString())
@@ -72,22 +67,7 @@ class MarketMoversViewModel : ViewModel() {
             symbolLiveData.postValue(symbolDetails)
         }
     }
-
-
-
-    fun autoRefreshSymbolDetails(): Job {
-        return scope.launch {
-            while (isActive && isSelected2) {
-                getSymbolDetails()
-                delay(10000)
-            }
-        }
-    }
-
-    init {
-        viewModelScope.launch {
-
-        }
-    }
+    //make test
+    fun get52WeekHighLow(last: Double, low: Double, high: Double) = (((last-low)/(high-low))*100).toInt()
 
 }
