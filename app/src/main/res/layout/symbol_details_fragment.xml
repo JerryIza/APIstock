@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+    <ProgressBar
+        android:id="@+id/loadingBarDetail"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:translationZ="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="invisible"
+        />
+
+    <TextView
+        android:id="@+id/symbolView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AMD"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.github.mikephil.charting.charts.CandleStickChart
+        android:id="@+id/candleChart"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/symbolView" />
+
+    <TextView
+        android:id="@+id/descriptionTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Advance Micro Devices"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/candleChart" />
+
+    <TextView
+        android:id="@+id/bidTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bid: $12.49 "
+        app:layout_constraintBottom_toBottomOf="@+id/changeTv"
+        app:layout_constraintEnd_toStartOf="@+id/lastTv"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/lastTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="$12.50"
+        android:textSize="30sp"
+        android:translationZ="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionTv" />
+
+    <TextView
+        android:id="@+id/askTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ask: $12.50"
+        app:layout_constraintBottom_toBottomOf="@+id/changeTv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lastTv" />
+
+    <TextView
+        android:id="@+id/changeTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-1.10(8.10%)"
+        android:translationZ="1dp"
+        app:layout_constraintEnd_toEndOf="@+id/lastTv"
+        app:layout_constraintStart_toStartOf="@+id/lastTv"
+        app:layout_constraintTop_toBottomOf="@+id/lastTv" />
+
+    <TextView
+        android:id="@+id/weekTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="52 Week Range"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/changeTv" />
+
+
+    <TextView
+        android:id="@+id/lowTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$10.10"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar"
+        app:layout_constraintStart_toStartOf="@+id/progressBar" />
+
+    <TextView
+        android:id="@+id/highTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$15.53"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar"
+        app:layout_constraintEnd_toEndOf="@+id/progressBar" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/weekTv" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

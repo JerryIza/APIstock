@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    app:startDestination="@id/marketMoversFragment">
+
+    <fragment
+        android:id="@+id/marketMoversFragment"
+        android:name="com.example.apistock.ui.fragments.MarketMoversFragment"
+        android:label="MarketMoversFragment"
+        >
+
+        <action
+            android:id="@+id/action_marketMoversFragment_to_stockDetailsFragment"
+            app:destination="@id/stockDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/stockDetailsFragment"
+        android:name="com.example.apistock.ui.fragments.SymbolDetailsFragment"
+        android:label="SymbolDetailsFragment" />
+</navigation>

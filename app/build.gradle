@@ -7,7 +7,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "29.0.3"
+    buildToolsVersion "30.0.2"
 
     buildFeatures {
         viewBinding = true
@@ -43,92 +43,99 @@ android {
     }
 }
 
-        dependencies {
-            implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-            // Kotlin
-            implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version_kotlin"
-
-            // Constraint Layout
-            implementation "androidx.constraintlayout:constraintlayout:$version_constraint_layout"
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 
-            // ViewModel and LiveData
-            implementation "androidx.lifecycle:lifecycle-extensions:$version_lifecycle_extensions"
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version_kotlin"
 
-            // Navigation
-            implementation "android.arch.navigation:navigation-fragment-ktx:$version_navigation"
-            implementation "android.arch.navigation:navigation-ui-ktx:$version_navigation"
-
-            // Core with Ktx
-            implementation "androidx.core:core-ktx:$version_core"
-
-            // Moshi
-            implementation "com.squareup.moshi:moshi:$version_moshi"
-            implementation "com.squareup.moshi:moshi-kotlin:$version_moshi"
-
-            // Retrofit with Moshi Converter
-            implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
-            implementation "com.squareup.retrofit2:converter-moshi:$version_retrofit"
-
-            // Coroutines
-            implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version_kotlin_coroutines"
-            implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version_kotlin_coroutines"
-
-            // Glide
-            implementation "com.github.bumptech.glide:glide:$version_glide"
-
-            // RecyclerView
-            implementation "androidx.recyclerview:recyclerview:$version_recyclerview"
-
-            //Timber Logger
-            implementation 'com.jakewharton.timber:timber:4.7.1'
-            implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    // Constraint Layout
+    implementation "androidx.constraintlayout:constraintlayout:$version_constraint_layout"
 
 
-            // Dependencies for local unit tests
-            testImplementation "junit:junit:$junitVersion"
-            testImplementation "org.hamcrest:hamcrest-all:$hamcrestVersion"
-            testImplementation "androidx.arch.core:core-testing:$archTestingVersion"
-            testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    // ViewModel and LiveData
+    implementation "androidx.lifecycle:lifecycle-extensions:$version_lifecycle_extensions"
 
-            // AndroidX Test - JVM testing
-            testImplementation "androidx.test:core-ktx:$androidXTestCoreVersion"
-            testImplementation "androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion"
+    // Navigation
+    implementation "android.arch.navigation:navigation-fragment-ktx:$version_navigation"
+    implementation "android.arch.navigation:navigation-ui-ktx:$version_navigation"
 
-            // AndroidX Test - Instrumented testing
-            androidTestImplementation "androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion"
-            androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    // Core with Ktx
+    implementation "androidx.core:core-ktx:$version_core"
 
-            // Kotlin
-            implementation "androidx.fragment:fragment-ktx:$fragmentKtxVersion"
+    // Moshi
+    implementation "com.squareup.moshi:moshi:$version_moshi"
+    implementation "com.squareup.moshi:moshi-kotlin:$version_moshi"
 
-            def nav_version = "2.3.1"
-            implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
-            implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    // Retrofit with Moshi Converter
+    implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
+    implementation "com.squareup.retrofit2:converter-moshi:$version_retrofit"
 
-            // Feature module Support
-            implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version_kotlin_coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version_kotlin_coroutines"
 
-            // Testing Navigation
-            androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+    // Glide
+    implementation "com.github.bumptech.glide:glide:$version_glide"
 
-            // Jetpack Compose Integration
-            implementation "androidx.navigation:navigation-compose:1.0.0-alpha01"
+    // RecyclerView
+    implementation "androidx.recyclerview:recyclerview:$version_recyclerview"
 
-            //Hilt(project doesn't require it so far)
-            implementation "com.google.dagger:hilt-android:$version_hilt"
-            kapt "com.google.dagger:hilt-android-compiler:$version_hilt"
+    //Timber Logger
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    def junitVersion = '4.13.1'
+    def archTestingVersion = '2.1.0'
+    // Dependencies for local unit tests
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "org.hamcrest:hamcrest-all:$hamcrestVersion"
+    testImplementation "androidx.arch.core:core-testing:$archTestingVersion"
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
+
+    def androidXTestCoreVersion = '1.3.0'
+    def androidXTestExtKotlinRunnerVersion = '1.1.2'
+    // AndroidX Test - JVM testing
+    testImplementation "androidx.test:core-ktx:$androidXTestCoreVersion"
+    testImplementation "androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion"
+
+    // AndroidX Test - Instrumented testing
+    androidTestImplementation "androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+
+    def fragmentKtxVersion = '1.2.5'
+    // Kotlin
+    implementation "androidx.fragment:fragment-ktx:$fragmentKtxVersion"
+
+    def nav_version = "2.3.1"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    // Feature module Support
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+
+    // Testing Navigation
+    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+
+    // Jetpack Compose Integration
+    implementation "androidx.navigation:navigation-compose:1.0.0-alpha02"
+
+    //Hilt(project doesn't require it so far)
+    implementation "com.google.dagger:hilt-android:$version_hilt"
+    kapt "com.google.dagger:hilt-android-compiler:$version_hilt"
 
 
-            //needed to avoid creating a vm factory
-            implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_vm_version"
-            kapt "androidx.hilt:hilt-compiler:$hilt_vm_version"
+    //needed to avoid creating a vm factory
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_vm_version"
+    kapt "androidx.hilt:hilt-compiler:$hilt_vm_version"
 
-            //MpCharts
-            def mp_charts_version = "v3.1.0"
-            implementation "com.github.PhilJay:MPAndroidChart:$mp_charts_version"
+    //MpCharts
+    def mp_charts_version = "v3.1.0"
+    implementation "com.github.PhilJay:MPAndroidChart:$mp_charts_version"
 
 
+    implementation 'com.google.android.material:material:1.2.1'
 
-        }
+
+}
