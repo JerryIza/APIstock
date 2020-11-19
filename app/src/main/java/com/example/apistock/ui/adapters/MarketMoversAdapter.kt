@@ -50,11 +50,11 @@ class MoversViewHolder(private val itemBinding: MoversListBinding) : RecyclerVie
         itemBinding.moversChange.text = if (regex.containsMatchIn(result.change.toString())) {
             itemBinding.moversChange.setTextColor(ContextCompat.getColor(this.itemView.context, R.color.colorDown))
             itemBinding.moversDirection.setTextColor(ContextCompat.getColor(this.itemView.context, R.color.colorDown))
-            ("Change: " + ("%,.3f".format(result.change * 100)) + "%")
+            ("Change: " + ("%,.2f".format(result.change * 100)) + "%")
         } else {
             itemBinding.moversChange.setTextColor(ContextCompat.getColor(this.itemView.context, R.color.colorUp))
             itemBinding.moversDirection.setTextColor(ContextCompat.getColor(this.itemView.context, R.color.colorUp))
-            ("Change: " + ("%,.3f".format(result.change * 100)) + "%")
+            ("Change: " + ("%,.2f".format(result.change * 100)) + "%")
         }
         itemBinding.moversVolume.text = ("Volume: ${("%,d".format(result.totalVolume))}")
         itemView.setOnClickListener { listener(pos) }

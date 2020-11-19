@@ -29,8 +29,6 @@ import kotlinx.coroutines.launch
 
 private var Stock = "\$SPX.X"
 
-private  lateinit var test: Fragment
-
 
 @AndroidEntryPoint
 class MarketMoversFragment : Fragment() {
