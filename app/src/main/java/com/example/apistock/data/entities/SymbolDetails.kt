@@ -48,6 +48,7 @@ data class SymbolDetails(
     val symbol: String,
     val totalVolume: Int,
     val tradeTimeInLong: Long,
+    //ok? front, back, implied, historical??? basically useless since we don't know what its based off of.
     val volatility: Double,
     @field:Json(name = "52WkHigh")
     val wkHigh: Double,

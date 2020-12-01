@@ -6,11 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -24,42 +21,37 @@ import com.example.apistock.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
 
 
-private var Stock = "\$SPX.X"
-
-
-@AndroidEntryPoint
 class MarketMoversFragment : Fragment() {
 
     private lateinit var binding: MarketMoversFragmentBinding
 
-    private val viewModel: MarketMoversViewModel by activityViewModels()
-
     private lateinit var adapter: MarketMoversAdapter
 
+    private val viewModel: MarketMoversViewModel by activityViewModels()
 
+    private var market = "\$SPX.X"
 
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = MarketMoversFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         selectMarket()
         setupRecyclerView()
         setUpObservers()
-
+        binding.autoCompleteTextView.setOnClickListener {
+            findNavController().navigate(R.id.action_marketMoversFragment_to_searchFragment)
+        }
     }
-
 
 
     private fun selectMarket() {
@@ -75,8 +67,11 @@ class MarketMoversFragment : Fragment() {
                     1 -> binding.marketSpinner.setSelection(1)
                     2 -> binding.marketSpinner.setSelection(2)
                 }
-                Stock = parent?.getItemAtPosition(position).toString()
-                viewModel.getMoversDetails()
+                //prevent spinner from fetching data on viewCreated
+                if (market != parent?.getItemAtPosition(position).toString()) {
+                    market = parent?.getItemAtPosition(position).toString()
+                    viewModel.getMoversDetails(market)
+                }
             }
         }
     }
@@ -85,16 +80,14 @@ class MarketMoversFragment : Fragment() {
         val marketMovers = arrayListOf<MarketMovers>()
         adapter = MarketMoversAdapter(marketMovers) {
             viewModel.start(marketMovers[it].symbol)
-
             findNavController().navigate(R.id.action_marketMoversFragment_to_stockDetailsFragment)
         }
         binding.moversRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.moversRecycler.adapter = adapter
     }
 
-    //With MVVM we use LiveData from our ViewModel, which is "Observable" and will update our adapter on data change.
     private fun setUpObservers() {
-        viewModel.moversLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.moversLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
                 Resource.Status.SUCCESS -> {
                     binding.loadingBar.visibility = View.GONE
@@ -109,22 +102,16 @@ class MarketMoversFragment : Fragment() {
         })
     }
 
-    //Not advisable to hit server every 1-5 seconds, since server can take a few seconds to respond. Therefore leading to too many queued request -> crash :).
+    //Not advisable to hit server every 1-5 seconds, since server can sometimes take a few seconds to respond. Therefore leading to too many queued request -> crash :).
     init {
         lifecycleScope.launchWhenCreated {
-
             while (isActive && this@MarketMoversFragment.isAdded) {
-
-                viewModel.getMoversDetails()
+                viewModel.getMoversDetails(market)
                 delay(10000)
             }
         }
     }
 
 }
-
-
-val inputSymbol: String
-    get() = Stock
 
 

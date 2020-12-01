@@ -1,17 +1,18 @@
 package com.example.apistock.data.api
 
-import com.example.apistock.data.api.BaseDataSource
-import com.example.apistock.data.api.MarketMoversService
-import com.example.apistock.ui.fragments.inputSymbol
+import javax.inject.Inject
 
 
-class SymbolRepo(private val apiInterface: MarketMoversService) : BaseDataSource() {
+class SymbolRepo @Inject constructor(private val stockMarketService: StockMarketService) : BaseDataSource() {
 
-    suspend fun getMarketMoversDetails() = getResults { apiInterface.fetchMoversDetailsAsync(inputSymbol) }
+    suspend fun getMarketMoversDetails(market: String) = getResults { stockMarketService.fetchMoversDetailsAsync(market) }
 
-    suspend fun getSymbolDetails(symbol: String) = getResults { apiInterface.fetchSymbolDetailsAsync(symbol)}
+    suspend fun getSymbolDetails(symbol: String) = getResults { stockMarketService.fetchSymbolDetailsAsync(symbol)}
 
-    suspend fun getHistoricalData(symbol: String) = getResults { apiInterface.fetchHistoricalDataAsync(symbol, "month", "1", "daily") }
+    suspend fun getHistoricalData(symbol: String, periodType: String, periods: String, frequency: String) = getResults { stockMarketService.fetchHistoricalDataAsync(symbol, periodType, periods, frequency) }
+
+    suspend fun getSearchResults(symbol: String) = getResults { stockMarketService.fetchSearchSymbolsAsync("${symbol}.*", "symbol-regex") }
+
 }
 
 

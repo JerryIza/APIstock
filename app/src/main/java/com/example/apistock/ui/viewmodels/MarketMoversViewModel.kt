@@ -1,25 +1,26 @@
 package com.example.apistock.ui.viewmodels
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.apistock.data.api.StockApiService
 import com.example.apistock.data.api.SymbolRepo
 import com.example.apistock.data.entities.HistoricalData
 import com.example.apistock.data.entities.MarketMovers
 import com.example.apistock.data.entities.SymbolDetails
+import com.example.apistock.data.entities.SymbolSearch
+import com.example.apistock.indicators.UpperIndicators
 import com.example.apistock.utils.Resource
 import com.example.apistock.utils.ToCandleEntries
 import com.github.mikephil.charting.data.CandleEntry
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import com.github.mikephil.charting.data.Entry
+import kotlinx.coroutines.*
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
 
-class MarketMoversViewModel : ViewModel() {
+class MarketMoversViewModel @ViewModelInject constructor(private val repository: SymbolRepo) :
+    ViewModel() {
 
     //create the job, which implements coroutines context.
     var job = Job()
@@ -27,28 +28,25 @@ class MarketMoversViewModel : ViewModel() {
     //create the coroutine context with the job and the dispatcher(identifies the Thread that will be used)
     private val coroutineContext: CoroutineContext get() = job + Dispatchers.Main
 
-    //create a coroutine Scope with the coroutine context
     private val scope = CoroutineScope(coroutineContext)
 
-    //initialize stock repo
-    private val symbolRepository: SymbolRepo = SymbolRepo(StockApiService.stockApi)
-
-    //input symbol
     private val _symbol = MutableLiveData<String>()
 
-    //live data that will be populated as stock updates.
     val moversLiveData = MutableLiveData<Resource<MutableList<MarketMovers>>>()
 
-    //LiveData1
     val symbolLiveData = MutableLiveData<Resource<MutableMap<String?, SymbolDetails>>>()
 
-    //LiveData2
-    private val historicalLiveData = MutableLiveData<Resource<HistoricalData>>()
+    var upperIndicators = UpperIndicators()
 
-    //two different paths needed to build our chart, therefore two instances of live data.
     val chartLiveData = MediatorLiveData<MutableList<CandleEntry>>()
 
-    private var candleEntries: MutableList<CandleEntry> = ArrayList()
+    var candleEntries: MutableList<CandleEntry> = ArrayList()
+
+    var indicatorEntries: List<Entry> = ArrayList()
+
+    var indicatorLiveData: MutableLiveData<List<Entry>> = MutableLiveData()
+
+    var searchResultsLiveData: MutableLiveData<MutableMap<String, SymbolSearch>> = MutableLiveData()
 
 
     fun start(symbol: String) {
@@ -56,38 +54,88 @@ class MarketMoversViewModel : ViewModel() {
         Timber.tag(("Start Symbol = " + _symbol.value))
     }
 
-    fun getHistoricalData() {
+
+
+    fun getChartData(periodType: String, period: String, frequency: String) {
         scope.launch {
-            val historicalData = symbolRepository.getHistoricalData(_symbol.value.toString())
-            historicalLiveData.postValue(historicalData)
+            val historicalData = repository.getHistoricalData(
+                _symbol.value.toString(),
+                periodType,
+                period,
+                frequency
+            )
+            val historicalData2 = repository.getHistoricalData(
+                _symbol.value.toString(),
+                "year",
+                "2",
+                frequency
+            )
+            try {
+                chartLiveData.addSource(symbolLiveData) {
+                    if (candleEntries.isEmpty()) {
+                        scope.launch {
+                            indicatorLiveData.postValue(getIndicatorData(historicalData2))
+                        }
+                    }
 
-            //add one source only, because historical data only needs to be called once per symbol.
-            chartLiveData.addSource(symbolLiveData) {
-                candleEntries = ToCandleEntries.toCandleEntry(historicalData)
-                //remove and update today's candle.
-                chartLiveData.value = ToCandleEntries.lastCandleUpdate(candleEntries, it.data?.values!!.last())
+                    if (candleEntries.isEmpty()) {
+                        candleEntries = ToCandleEntries.toCandleEntry(historicalData)
+                    }
+
+                    val historicalDataSize = (historicalData.data!!.candles.lastIndex + 1)
+                    //remove and update today's candle.
+                    chartLiveData.value = ToCandleEntries.lastCandleUpdate(
+                        candleEntries,
+                        it.data?.values!!.last(),
+                        historicalDataSize
+                    )
                 }
+            } catch (e: IllegalArgumentException) {
+                chartLiveData.removeSource(symbolLiveData)
             }
         }
-
-        fun getSymbolDetails() {
-            scope.launch {
-                val symbolDetails = symbolRepository.getSymbolDetails(_symbol.value.toString())
-                symbolLiveData.postValue(symbolDetails)
-            }
-        }
-
-        //we have to call this function in scope, because getMoversDetails is a suspending function
-        fun getMoversDetails() {
-            scope.launch {
-                val moversDetail = symbolRepository.getMarketMoversDetails()
-                moversLiveData.postValue(moversDetail)
-            }
-        }
-
-
-        //make test
-        fun get52WeekHighLow(last: Double, low: Double, high: Double) =
-            (((last - low) / (high - low)) * 100).toInt()
-
     }
+
+    /*
+    Indicators need more data than what is originally requested, in order to be calculated properly.
+     */
+    private suspend fun getIndicatorData(historicalData: Resource<HistoricalData>): List<Entry> {
+        val results = CompletableDeferred<List<Entry>>()
+        withContext(Dispatchers.IO) {
+            results.complete(
+                upperIndicators.simpleMovingAverage(
+                    historicalData,
+                    20,
+                    candleEntries.size
+                )
+            )
+        }
+        return results.await()
+    }
+
+    fun getSearchResults(symbol: String) {
+        scope.launch {
+            val searchResults = repository.getSearchResults(symbol)
+            searchResultsLiveData.postValue(searchResults.data)
+        }
+    }
+
+    fun getSymbolDetails() {
+        scope.launch {
+            val symbolDetails = repository.getSymbolDetails(_symbol.value.toString())
+            symbolLiveData.postValue(symbolDetails)
+        }
+    }
+
+    fun getMoversDetails(market: String) {
+        scope.launch {
+            val moversDetail = repository.getMarketMoversDetails(market)
+            moversLiveData.postValue(moversDetail)
+        }
+    }
+
+    //make test
+    fun get52WeekHighLow(last: Double, low: Double, high: Double) =
+        (((last - low) / (high - low)) * 100).toInt()
+
+}
