@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.ui.graphics.Shadow
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -165,8 +166,8 @@ class SymbolDetailsFragment : Fragment() {
         val chartData = CandleDataSet(candleEntries, "")
         data.setData(CandleData(chartData))
         chartData.color = Color.rgb(80, 80, 80)
-        chartData.shadowColor = Color.WHITE
         chartData.shadowWidth = 0.7f
+        chartData.shadowColorSameAsCandle = true
         chartData.decreasingColor = Color.RED
         chartData.decreasingPaintStyle = Paint.Style.FILL
         chartData.increasingColor = Color.rgb(122, 242, 84)
