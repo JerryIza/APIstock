@@ -25,7 +25,11 @@
         android:name="com.example.apistock.ui.fragments.SymbolDetailsFragment"
         android:label="SymbolDetailsFragment"
         tools:layout="@layout/symbol_details_fragment"
-        />
+        >
+        <action
+            android:id="@+id/action_stockDetailsFragment_to_chartSettingsFragment"
+            app:destination="@id/chartSettingsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.apistock.ui.fragments.SearchFragment"
@@ -38,4 +42,10 @@
             app:popUpTo="@id/stockDetailsFragment"
             app:popUpToInclusive="false" />
     </fragment>
+    <fragment
+        android:id="@+id/chartSettingsFragment"
+        android:name="com.example.apistock.ui.fragments.ChartSettingsFragment"
+        android:label="ChartSettingsFragment"
+        tools:layout="@layout/chart_settings_fragment"
+        />
 </navigation>

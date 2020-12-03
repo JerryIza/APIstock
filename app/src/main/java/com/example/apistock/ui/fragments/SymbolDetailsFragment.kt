@@ -7,25 +7,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.compose.ui.graphics.Shadow
+import androidx.core.graphics.toColor
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.apistock.R
 import com.example.apistock.data.entities.SymbolDetails
 import com.example.apistock.databinding.SymbolDetailsFragmentBinding
-import com.example.apistock.indicators.UpperIndicators
 import com.example.apistock.ui.viewmodels.MarketMoversViewModel
 import com.example.apistock.utils.Resource
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
-import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.main_activity.*
+import kotlinx.android.synthetic.main.main_activity.view.*
 import kotlinx.android.synthetic.main.symbol_details_fragment.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
-import timber.log.Timber
 
 
 class SymbolDetailsFragment : Fragment() {
@@ -35,14 +33,13 @@ class SymbolDetailsFragment : Fragment() {
 
     private val viewModel: MarketMoversViewModel by activityViewModels()
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = SymbolDetailsFragmentBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -75,6 +72,7 @@ class SymbolDetailsFragment : Fragment() {
             viewModel.getChartData("year", "1", "daily")
 
         }
+
 
     }
 
@@ -120,9 +118,10 @@ class SymbolDetailsFragment : Fragment() {
         binding.changeTv.text =
             (if (regex.containsMatchIn(symbolDetails.markChangeInDouble.toString())) {
                 binding.changeTv.setTextColor(resources.getColor(R.color.colorDown))
-                ("%,.2f".format(symbolDetails.markChangeInDouble) + " (" + "%,.2f".format(
-                    symbolDetails.markPercentChangeInDouble
-                ) + "%)")
+
+
+                ("%,.2f".format(symbolDetails.markChangeInDouble) + " (" + "%,.2f".format(symbolDetails.markPercentChangeInDouble) + "%)")
+
             } else {
                 binding.changeTv.setTextColor(resources.getColor(R.color.colorUp))
                 ("%,.2f".format(symbolDetails.markChangeInDouble) + " (" + "%,.2f".format(
@@ -130,7 +129,8 @@ class SymbolDetailsFragment : Fragment() {
                 ) + "%)")
             })
         binding.symbolView.text = symbolDetails.symbol
-        binding.descriptionTv.text = (symbolDetails.description + " - " + symbolDetails.exchangeName)
+        binding.descriptionTv.text =
+            (symbolDetails.description + " - " + symbolDetails.exchangeName)
         binding.lowTv.text = ("$${symbolDetails.wkLow}")
         binding.highTv.text = ("$${symbolDetails.wkHigh}")
         binding.bidTv.text = (" Bid: $${symbolDetails.bidPrice}")
@@ -153,11 +153,13 @@ class SymbolDetailsFragment : Fragment() {
             symbolDetails.wkLow,
             symbolDetails.wkHigh
         )
-
     }
 
 
-    private fun setUpCandleChart(candleEntries: MutableList<CandleEntry>, indicatorEntries: List<Entry>) {
+    private fun setUpCandleChart(
+        candleEntries: MutableList<CandleEntry>,
+        indicatorEntries: List<Entry>
+    ) {
 
         val pinkColor = Color.parseColor("#FE657A")
 
@@ -172,7 +174,7 @@ class SymbolDetailsFragment : Fragment() {
         chartData.decreasingPaintStyle = Paint.Style.FILL
         chartData.increasingColor = Color.rgb(122, 242, 84)
         chartData.increasingPaintStyle = Paint.Style.FILL
-        chartData.neutralColor = Color.BLUE
+        chartData.neutralColor = Color.WHITE
         chartData.valueTextSize = 0f
 
 
@@ -185,7 +187,7 @@ class SymbolDetailsFragment : Fragment() {
         indicatorData.setDrawCircles(false)
 
         val chart = binding.candleChart
-        chart.xAxis.axisMaximum = candleEntries.size+10.toFloat()
+        chart.xAxis.axisMaximum = candleEntries.size + 10.toFloat()
         chart.legend.isEnabled = false
         chart.description.isEnabled = false
         chart.axisLeft.isEnabled = false

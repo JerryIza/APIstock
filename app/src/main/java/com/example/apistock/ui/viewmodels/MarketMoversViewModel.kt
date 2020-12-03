@@ -105,7 +105,7 @@ class MarketMoversViewModel @ViewModelInject constructor(private val repository:
             results.complete(
                 upperIndicators.simpleMovingAverage(
                     historicalData,
-                    20,
+                    50,
                     candleEntries.size
                 )
             )

@@ -8,13 +8,14 @@
 
 
     <AutoCompleteTextView
-        android:focusable="false"
         android:id="@+id/autoCompleteTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="32dp"
         android:clickable="true"
+        android:focusable="false"
         android:hint="@string/search_symbol"
         android:imeOptions="actionDone"
         android:maxLines="1"

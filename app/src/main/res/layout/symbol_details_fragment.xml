@@ -59,7 +59,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
         android:layout_width="0dp"
@@ -90,7 +89,7 @@
                 android:id="@+id/titleVolume"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/today_s_volume"
                 app:layout_constraintStart_toStartOf="@+id/highLowProgressBar"
                 app:layout_constraintTop_toBottomOf="@+id/highLowProgressBar" />
@@ -137,7 +136,7 @@
                 android:id="@+id/weekTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/_52_week_range"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -167,7 +166,7 @@
                 android:id="@+id/shortableTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/shortable"
                 app:layout_constraintStart_toStartOf="@+id/marginableTitle"
                 app:layout_constraintTop_toBottomOf="@+id/marginableTitle" />
@@ -178,7 +177,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/_110_0"
                 app:layout_constraintEnd_toEndOf="@+id/volumeTv"
-                app:layout_constraintStart_toStartOf="@+id/volumeTv"
                 app:layout_constraintTop_toTopOf="@+id/titlePeRatio" />
 
             <TextView
@@ -194,7 +192,7 @@
                 android:id="@+id/titlePeRatio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/p_e_ratino"
                 app:layout_constraintStart_toStartOf="@+id/titleVolume"
                 app:layout_constraintTop_toBottomOf="@+id/titleVolume" />
@@ -203,7 +201,7 @@
                 android:id="@+id/marginableTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/marginable"
                 app:layout_constraintStart_toStartOf="@+id/titlePeRatio"
                 app:layout_constraintTop_toBottomOf="@+id/titlePeRatio" />
