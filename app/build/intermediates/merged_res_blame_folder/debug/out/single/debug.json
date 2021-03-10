@@ -1,0 +1,110 @@
+[
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\font_roboto_slab_light.xml.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\font\\roboto_slab_light.xml"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\navigation_nav_graph.xml.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\navigation\\nav_graph.xml"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_chart_settings_fragment.xml.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\layout\\chart_settings_fragment.xml"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v24_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\drawable-v24\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_search_list.xml.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\layout\\search_list.xml"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_main_activity.xml.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\layout\\main_activity.xml"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\menu_tool_menu.xml.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\menu\\tool_menu.xml"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\font_roboto_slab.xml.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\font\\roboto_slab.xml"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_market_movers_fragment.xml.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\layout\\market_movers_fragment.xml"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_movers_list.xml.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\layout\\movers_list.xml"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_login_fragment.xml.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\layout\\login_fragment.xml"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\xml_symbol_details_fragment_scene.xml.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\xml\\symbol_details_fragment_scene.xml"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_search_fragment.xml.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\layout\\search_fragment.xml"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\res\\merged\\debug\\layout_symbol_details_fragment.xml.flat",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\layout\\symbol_details_fragment.xml"
+    }
+]
