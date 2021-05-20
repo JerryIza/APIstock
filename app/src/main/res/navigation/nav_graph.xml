@@ -7,14 +7,14 @@
 
     <fragment
         android:id="@+id/marketMoversFragment"
-        android:name="com.example.apistock.ui.fragments.MarketMoversFragment"
+        android:name="com.example.apistock.ui.fragments.DashboardFragment"
         android:label="MarketMoversFragment"
-        tools:layout="@layout/market_movers_fragment"
+        tools:layout="@layout/dashboard_fragment"
         >
 
         <action
             android:id="@+id/action_marketMoversFragment_to_stockDetailsFragment"
-            app:destination="@id/stockDetailsFragment" />
+            app:destination="@id/chartFragment" />
         <action
             android:id="@+id/action_marketMoversFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
@@ -24,11 +24,14 @@
     </fragment>
 
     <fragment
-        android:id="@+id/stockDetailsFragment"
-        android:name="com.example.apistock.ui.fragments.SymbolDetailsFragment"
-        android:label="SymbolDetailsFragment"
-        tools:layout="@layout/symbol_details_fragment"
+        android:id="@+id/chartFragment"
+        android:name="com.example.apistock.ui.fragments.ChartFragment"
+        android:label="Title"
+        tools:layout="@layout/chart_fragment"
         >
+
+
+
         <action
             android:id="@+id/action_stockDetailsFragment_to_chartSettingsFragment"
             app:destination="@id/chartSettingsFragment" />
@@ -41,8 +44,8 @@
         >
         <action
             android:id="@+id/action_searchFragment_to_stockDetailsFragment"
-            app:destination="@id/stockDetailsFragment"
-            app:popUpTo="@id/stockDetailsFragment"
+            app:destination="@id/chartFragment"
+            app:popUpTo="@id/chartFragment"
             app:popUpToInclusive="false" />
     </fragment>
     <fragment
@@ -50,7 +53,11 @@
         android:name="com.example.apistock.ui.fragments.ChartSettingsFragment"
         android:label="ChartSettingsFragment"
         tools:layout="@layout/chart_settings_fragment"
-        />
+        >
+        <action
+            android:id="@+id/action_chartSettingsFragment_to_stockDetailsFragment"
+            app:destination="@id/chartFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.apistock.ui.fragments.LoginFragment"

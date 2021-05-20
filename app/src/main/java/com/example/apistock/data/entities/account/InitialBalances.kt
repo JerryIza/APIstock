@@ -9,25 +9,25 @@ data class InitialBalances(
     @Json(name = "accountValue")
     val accountValue: Double,
     @Json(name = "accruedInterest")
-    val accruedInterest: Int,
+    val accruedInterest: Double,
     @Json(name = "availableFundsNonMarginableTrade")
     val availableFundsNonMarginableTrade: Double,
     @Json(name = "bondValue")
     val bondValue: Int,
     @Json(name = "buyingPower")
-    val buyingPower: Int,
+    val buyingPower: Double,
     @Json(name = "cashAvailableForTrading")
-    val cashAvailableForTrading: Int,
+    val cashAvailableForTrading: Double,
     @Json(name = "cashBalance")
     val cashBalance: Double,
     @Json(name = "cashReceipts")
     val cashReceipts: Int,
     @Json(name = "dayTradingBuyingPower")
-    val dayTradingBuyingPower: Int,
+    val dayTradingBuyingPower: Double,
     @Json(name = "dayTradingBuyingPowerCall")
-    val dayTradingBuyingPowerCall: Int,
+    val dayTradingBuyingPowerCall: Double,
     @Json(name = "dayTradingEquityCall")
-    val dayTradingEquityCall: Int,
+    val dayTradingEquityCall: Double,
     @Json(name = "equity")
     val equity: Double,
     @Json(name = "equityPercentage")
@@ -37,19 +37,19 @@ data class InitialBalances(
     @Json(name = "liquidationValue")
     val liquidationValue: Double,
     @Json(name = "longMarginValue")
-    val longMarginValue: Int,
+    val longMarginValue: Double,
     @Json(name = "longOptionMarketValue")
     val longOptionMarketValue: Int,
     @Json(name = "longStockValue")
-    val longStockValue: Int,
+    val longStockValue: Double,
     @Json(name = "maintenanceCall")
-    val maintenanceCall: Int,
+    val maintenanceCall: Double,
     @Json(name = "maintenanceRequirement")
     val maintenanceRequirement: Double,
     @Json(name = "margin")
     val margin: Double,
     @Json(name = "marginBalance")
-    val marginBalance: Int,
+    val marginBalance: Double,
     @Json(name = "marginEquity")
     val marginEquity: Double,
     @Json(name = "moneyMarketFund")
@@ -59,7 +59,7 @@ data class InitialBalances(
     @Json(name = "pendingDeposits")
     val pendingDeposits: Int,
     @Json(name = "regTCall")
-    val regTCall: Int,
+    val regTCall: Double,
     @Json(name = "shortBalance")
     val shortBalance: Double,
     @Json(name = "shortMarginValue")
@@ -69,5 +69,5 @@ data class InitialBalances(
     @Json(name = "shortStockValue")
     val shortStockValue: Double,
     @Json(name = "totalCash")
-    val totalCash: Int
+    val totalCash: Double
 )

@@ -7,7 +7,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class CurrentBalances(
     @Json(name = "accruedInterest")
-    val accruedInterest: Int,
+    val accruedInterest: Double,
     @Json(name = "availableFunds")
     val availableFunds: Double,
     @Json(name = "availableFundsNonMarginableTrade")
@@ -15,7 +15,7 @@ data class CurrentBalances(
     @Json(name = "bondValue")
     val bondValue: Int,
     @Json(name = "buyingPower")
-    val buyingPower: Int,
+    val buyingPower: Double,
     @Json(name = "buyingPowerNonMarginableTrade")
     val buyingPowerNonMarginableTrade: Double,
     @Json(name = "cashBalance")
@@ -31,17 +31,17 @@ data class CurrentBalances(
     @Json(name = "liquidationValue")
     val liquidationValue: Double,
     @Json(name = "longMarginValue")
-    val longMarginValue: Int,
+    val longMarginValue: Double,
     @Json(name = "longMarketValue")
-    val longMarketValue: Int,
+    val longMarketValue: Double,
     @Json(name = "longOptionMarketValue")
-    val longOptionMarketValue: Int,
+    val longOptionMarketValue: Double,
     @Json(name = "maintenanceCall")
     val maintenanceCall: Int,
     @Json(name = "maintenanceRequirement")
     val maintenanceRequirement: Double,
     @Json(name = "marginBalance")
-    val marginBalance: Int,
+    val marginBalance: Double,
     @Json(name = "moneyMarketFund")
     val moneyMarketFund: Double,
     @Json(name = "mutualFundValue")
@@ -59,7 +59,7 @@ data class CurrentBalances(
     @Json(name = "shortMarketValue")
     val shortMarketValue: Double,
     @Json(name = "shortOptionMarketValue")
-    val shortOptionMarketValue: Int,
+    val shortOptionMarketValue: Double,
     @Json(name = "sma")
     val sma: Double
 )

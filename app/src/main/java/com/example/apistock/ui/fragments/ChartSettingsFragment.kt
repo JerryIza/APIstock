@@ -1,6 +1,9 @@
 package com.example.apistock.ui.fragments
 
+import android.graphics.Canvas
+import android.opengl.ETC1.getHeight
 import android.os.Bundle
+import android.text.TextPaint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +25,23 @@ class ChartSettingsFragment :Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        fun rotateText(canvas: Canvas){
+            canvas.save();
+            canvas.rotate(-90f);
+
+
+            canvas.restore()
+
+        }
+
+
+
+
+
+
 
     }
+
+
+
 }

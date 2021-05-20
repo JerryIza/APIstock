@@ -4,20 +4,28 @@
         "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\layout\\search_fragment.xml"
     },
     {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\order_fragment.xml",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\layout\\order_fragment.xml"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\positions_list.xml",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\layout\\positions_list.xml"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\dashboard_fragment.xml",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\layout\\dashboard_fragment.xml"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\chart_fragment.xml",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\layout\\chart_fragment.xml"
+    },
+    {
         "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\chart_settings_fragment.xml",
         "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\layout\\chart_settings_fragment.xml"
     },
     {
-        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\movers_list.xml",
-        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\layout\\movers_list.xml"
-    },
-    {
-        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\symbol_details_fragment.xml",
-        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\layout\\symbol_details_fragment.xml"
-    },
-    {
-        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\market_movers_fragment.xml",
-        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\layout\\market_movers_fragment.xml"
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\delete.xml",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\layout\\delete.xml"
     },
     {
         "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\search_list.xml",
@@ -30,5 +38,9 @@
     {
         "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\login_fragment.xml",
         "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\layout\\login_fragment.xml"
+    },
+    {
+        "merged": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\watchlist_list.xml",
+        "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\src\\main\\res\\layout\\watchlist_list.xml"
     }
 ]

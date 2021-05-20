@@ -32,6 +32,7 @@ class LoginFragment  : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpObservers()
         val signInBtn = binding.signInBtn
 
         signInBtn.setOnClickListener {
@@ -66,13 +67,17 @@ class LoginFragment  : Fragment() {
                         //     and then reload the site
                     } else {
                         val decodedToken = UrlQuerySanitizer(failingUrl).getValue("code")
-                        println("Code: "+ decodedToken)
-                        viewModel.postTokenAccess(decodedToken)
-
-                        findNavController().navigate(R.id.action_loginFragment_to_marketMoversFragment)
+                       viewModel.postTokenAccess(decodedToken)
                     }
                 }
             }
+        }
+
+    }
+    private fun setUpObservers(){
+        viewModel.tokenLiveData.observe(viewLifecycleOwner,){
+            if (!it.isNullOrEmpty()) findNavController().navigate(R.id.action_loginFragment_to_marketMoversFragment)
+
         }
     }
 }

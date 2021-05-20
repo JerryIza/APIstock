@@ -4,7 +4,7 @@
             "outputFile": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v24\\values-v24.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Jerry\\.gradle\\caches\\transforms-2\\files-2.1\\1953cce8799af4fe73cbe526190d8ca0\\appcompat-1.3.0-alpha01\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\Jerry\\.gradle\\caches\\transforms-2\\files-2.1\\8bb2cfe54c13e109130599bc6a5c4b07\\appcompat-1.2.0\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Jerry\\.gradle\\caches\\transforms-2\\files-2.1\\8c3895fbb96cebeff46e71c42b0e7ddd\\media-1.0.0\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\Jerry\\.gradle\\caches\\transforms-2\\files-2.1\\1465c66bc8a1e143f09e3f28cfe32791\\media-1.0.0\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",

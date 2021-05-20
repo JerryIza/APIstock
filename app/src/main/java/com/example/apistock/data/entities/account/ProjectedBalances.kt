@@ -11,7 +11,7 @@ data class ProjectedBalances(
     @Json(name = "availableFundsNonMarginableTrade")
     val availableFundsNonMarginableTrade: Double,
     @Json(name = "buyingPower")
-    val buyingPower: Int,
+    val buyingPower: Double,
     @Json(name = "dayTradingBuyingPower")
     val dayTradingBuyingPower: Int,
     @Json(name = "dayTradingBuyingPowerCall")
@@ -23,5 +23,5 @@ data class ProjectedBalances(
     @Json(name = "regTCall")
     val regTCall: Int,
     @Json(name = "stockBuyingPower")
-    val stockBuyingPower: Int
+    val stockBuyingPower: Double
 )

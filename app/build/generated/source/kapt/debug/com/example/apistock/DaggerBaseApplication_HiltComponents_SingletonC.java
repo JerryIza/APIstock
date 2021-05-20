@@ -9,18 +9,20 @@ import androidx.hilt.lifecycle.ViewModelFactoryModules_ActivityModule_ProvideFac
 import androidx.hilt.lifecycle.ViewModelFactoryModules_FragmentModule_ProvideFactoryFactory;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import com.example.apistock.data.api.MainRepository;
+import com.example.apistock.data.api.RefreshTokenAuthenticator;
 import com.example.apistock.data.api.StockMarketService;
-import com.example.apistock.data.api.SymbolRepo;
 import com.example.apistock.di.AppModule;
 import com.example.apistock.di.AppModule_ProvideMarketApiServiceFactory;
 import com.example.apistock.di.AppModule_ProvideRetrofitClientFactory;
 import com.example.apistock.di.AppModule_ProvidesOkHttpClientFactory;
 import com.example.apistock.di.AppModule_ProvidesOkHttpInterceptorFactory;
+import com.example.apistock.di.AppModule_ProvidesTokenRefreshAuthenticatorFactory;
 import com.example.apistock.ui.MainActivity;
 import com.example.apistock.ui.viewmodels.LoginViewModel_AssistedFactory;
 import com.example.apistock.ui.viewmodels.LoginViewModel_AssistedFactory_Factory;
-import com.example.apistock.ui.viewmodels.MarketMoversViewModel_AssistedFactory;
-import com.example.apistock.ui.viewmodels.MarketMoversViewModel_AssistedFactory_Factory;
+import com.example.apistock.ui.viewmodels.MarketViewModel_AssistedFactory;
+import com.example.apistock.ui.viewmodels.MarketViewModel_AssistedFactory_Factory;
 import com.example.apistock.utils.MyPreference;
 import dagger.hilt.android.ActivityRetainedLifecycle;
 import dagger.hilt.android.internal.builders.ActivityComponentBuilder;
@@ -59,6 +61,8 @@ public final class DaggerBaseApplication_HiltComponents_SingletonC extends BaseA
 
   private volatile Object myPreference = new MemoizedSentinel();
 
+  private volatile Object refreshTokenAuthenticator = new MemoizedSentinel();
+
   private volatile Provider<MyPreference> myPreferenceProvider;
 
   private DaggerBaseApplication_HiltComponents_SingletonC(
@@ -88,8 +92,22 @@ public final class DaggerBaseApplication_HiltComponents_SingletonC extends BaseA
     return AppModule_ProvidesOkHttpInterceptorFactory.providesOkHttpInterceptor(myPreference());
   }
 
+  private RefreshTokenAuthenticator refreshTokenAuthenticator() {
+    Object local = refreshTokenAuthenticator;
+    if (local instanceof MemoizedSentinel) {
+      synchronized (local) {
+        local = refreshTokenAuthenticator;
+        if (local instanceof MemoizedSentinel) {
+          local = AppModule_ProvidesTokenRefreshAuthenticatorFactory.providesTokenRefreshAuthenticator(myPreference());
+          refreshTokenAuthenticator = DoubleCheck.reentrantCheck(refreshTokenAuthenticator, local);
+        }
+      }
+    }
+    return (RefreshTokenAuthenticator) local;
+  }
+
   private OkHttpClient okHttpClient() {
-    return AppModule_ProvidesOkHttpClientFactory.providesOkHttpClient(interceptor());
+    return AppModule_ProvidesOkHttpClientFactory.providesOkHttpClient(interceptor(), refreshTokenAuthenticator());
   }
 
   private Retrofit retrofit() {
@@ -206,31 +224,31 @@ public final class DaggerBaseApplication_HiltComponents_SingletonC extends BaseA
     private final class ActivityCImpl extends BaseApplication_HiltComponents.ActivityC {
       private final Activity activity;
 
-      private volatile Provider<SymbolRepo> symbolRepoProvider;
+      private volatile Provider<MainRepository> mainRepositoryProvider;
 
       private volatile Provider<LoginViewModel_AssistedFactory> loginViewModel_AssistedFactoryProvider;
 
-      private volatile Provider<MarketMoversViewModel_AssistedFactory> marketMoversViewModel_AssistedFactoryProvider;
+      private volatile Provider<MarketViewModel_AssistedFactory> marketViewModel_AssistedFactoryProvider;
 
       private ActivityCImpl(Activity activityParam) {
         this.activity = activityParam;
       }
 
-      private SymbolRepo symbolRepo() {
-        return new SymbolRepo(DaggerBaseApplication_HiltComponents_SingletonC.this.stockMarketService());
+      private MainRepository mainRepository() {
+        return new MainRepository(DaggerBaseApplication_HiltComponents_SingletonC.this.stockMarketService());
       }
 
-      private Provider<SymbolRepo> symbolRepoProvider() {
-        Object local = symbolRepoProvider;
+      private Provider<MainRepository> mainRepositoryProvider() {
+        Object local = mainRepositoryProvider;
         if (local == null) {
           local = new SwitchingProvider<>(1);
-          symbolRepoProvider = (Provider<SymbolRepo>) local;
+          mainRepositoryProvider = (Provider<MainRepository>) local;
         }
-        return (Provider<SymbolRepo>) local;
+        return (Provider<MainRepository>) local;
       }
 
       private LoginViewModel_AssistedFactory loginViewModel_AssistedFactory() {
-        return LoginViewModel_AssistedFactory_Factory.newInstance(symbolRepoProvider(), DaggerBaseApplication_HiltComponents_SingletonC.this.myPreferenceProvider());
+        return LoginViewModel_AssistedFactory_Factory.newInstance(mainRepositoryProvider(), DaggerBaseApplication_HiltComponents_SingletonC.this.myPreferenceProvider());
       }
 
       private Provider<LoginViewModel_AssistedFactory> loginViewModel_AssistedFactoryProvider() {
@@ -242,23 +260,22 @@ public final class DaggerBaseApplication_HiltComponents_SingletonC extends BaseA
         return (Provider<LoginViewModel_AssistedFactory>) local;
       }
 
-      private MarketMoversViewModel_AssistedFactory marketMoversViewModel_AssistedFactory() {
-        return MarketMoversViewModel_AssistedFactory_Factory.newInstance(symbolRepoProvider());
+      private MarketViewModel_AssistedFactory marketViewModel_AssistedFactory() {
+        return MarketViewModel_AssistedFactory_Factory.newInstance(mainRepositoryProvider(), DaggerBaseApplication_HiltComponents_SingletonC.this.myPreferenceProvider());
       }
 
-      private Provider<MarketMoversViewModel_AssistedFactory> marketMoversViewModel_AssistedFactoryProvider(
-          ) {
-        Object local = marketMoversViewModel_AssistedFactoryProvider;
+      private Provider<MarketViewModel_AssistedFactory> marketViewModel_AssistedFactoryProvider() {
+        Object local = marketViewModel_AssistedFactoryProvider;
         if (local == null) {
           local = new SwitchingProvider<>(2);
-          marketMoversViewModel_AssistedFactoryProvider = (Provider<MarketMoversViewModel_AssistedFactory>) local;
+          marketViewModel_AssistedFactoryProvider = (Provider<MarketViewModel_AssistedFactory>) local;
         }
-        return (Provider<MarketMoversViewModel_AssistedFactory>) local;
+        return (Provider<MarketViewModel_AssistedFactory>) local;
       }
 
       private Map<String, Provider<ViewModelAssistedFactory<? extends ViewModel>>> mapOfStringAndProviderOfViewModelAssistedFactoryOf(
           ) {
-        return MapBuilder.<String, Provider<ViewModelAssistedFactory<? extends ViewModel>>>newMapBuilder(2).put("com.example.apistock.ui.viewmodels.LoginViewModel", (Provider) loginViewModel_AssistedFactoryProvider()).put("com.example.apistock.ui.viewmodels.MarketMoversViewModel", (Provider) marketMoversViewModel_AssistedFactoryProvider()).build();
+        return MapBuilder.<String, Provider<ViewModelAssistedFactory<? extends ViewModel>>>newMapBuilder(2).put("com.example.apistock.ui.viewmodels.LoginViewModel", (Provider) loginViewModel_AssistedFactoryProvider()).put("com.example.apistock.ui.viewmodels.MarketViewModel", (Provider) marketViewModel_AssistedFactoryProvider()).build();
       }
 
       private ViewModelProvider.Factory provideFactory() {
@@ -380,11 +397,11 @@ public final class DaggerBaseApplication_HiltComponents_SingletonC extends BaseA
             case 0: // com.example.apistock.ui.viewmodels.LoginViewModel_AssistedFactory 
             return (T) ActivityCImpl.this.loginViewModel_AssistedFactory();
 
-            case 1: // com.example.apistock.data.api.SymbolRepo 
-            return (T) ActivityCImpl.this.symbolRepo();
+            case 1: // com.example.apistock.data.api.MainRepository 
+            return (T) ActivityCImpl.this.mainRepository();
 
-            case 2: // com.example.apistock.ui.viewmodels.MarketMoversViewModel_AssistedFactory 
-            return (T) ActivityCImpl.this.marketMoversViewModel_AssistedFactory();
+            case 2: // com.example.apistock.ui.viewmodels.MarketViewModel_AssistedFactory 
+            return (T) ActivityCImpl.this.marketViewModel_AssistedFactory();
 
             default: throw new AssertionError(id);
           }

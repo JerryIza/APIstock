@@ -16,33 +16,23 @@ import kotlin.text.buildString
 class SymbolSearchJsonAdapter(
   moshi: Moshi
 ) : JsonAdapter<SymbolSearch>() {
-  private val options: JsonReader.Options = JsonReader.Options.of("assetType", "cusip",
-      "description", "exchange", "symbol")
+  private val options: JsonReader.Options = JsonReader.Options.of("description", "symbol")
 
   private val stringAdapter: JsonAdapter<String> = moshi.adapter(String::class.java, emptySet(),
-      "assetType")
+      "description")
 
   override fun toString(): String = buildString(34) {
       append("GeneratedJsonAdapter(").append("SymbolSearch").append(')') }
 
   override fun fromJson(reader: JsonReader): SymbolSearch {
-    var assetType: String? = null
-    var cusip: String? = null
     var description: String? = null
-    var exchange: String? = null
     var symbol: String? = null
     reader.beginObject()
     while (reader.hasNext()) {
       when (reader.selectName(options)) {
-        0 -> assetType = stringAdapter.fromJson(reader) ?: throw Util.unexpectedNull("assetType",
-            "assetType", reader)
-        1 -> cusip = stringAdapter.fromJson(reader) ?: throw Util.unexpectedNull("cusip", "cusip",
-            reader)
-        2 -> description = stringAdapter.fromJson(reader) ?:
+        0 -> description = stringAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("description", "description", reader)
-        3 -> exchange = stringAdapter.fromJson(reader) ?: throw Util.unexpectedNull("exchange",
-            "exchange", reader)
-        4 -> symbol = stringAdapter.fromJson(reader) ?: throw Util.unexpectedNull("symbol",
+        1 -> symbol = stringAdapter.fromJson(reader) ?: throw Util.unexpectedNull("symbol",
             "symbol", reader)
         -1 -> {
           // Unknown name, skip it.
@@ -53,11 +43,8 @@ class SymbolSearchJsonAdapter(
     }
     reader.endObject()
     return SymbolSearch(
-        assetType = assetType ?: throw Util.missingProperty("assetType", "assetType", reader),
-        cusip = cusip ?: throw Util.missingProperty("cusip", "cusip", reader),
         description = description ?: throw Util.missingProperty("description", "description",
             reader),
-        exchange = exchange ?: throw Util.missingProperty("exchange", "exchange", reader),
         symbol = symbol ?: throw Util.missingProperty("symbol", "symbol", reader)
     )
   }
@@ -67,14 +54,8 @@ class SymbolSearchJsonAdapter(
       throw NullPointerException("value was null! Wrap in .nullSafe() to write nullable values.")
     }
     writer.beginObject()
-    writer.name("assetType")
-    stringAdapter.toJson(writer, value.assetType)
-    writer.name("cusip")
-    stringAdapter.toJson(writer, value.cusip)
     writer.name("description")
     stringAdapter.toJson(writer, value.description)
-    writer.name("exchange")
-    stringAdapter.toJson(writer, value.exchange)
     writer.name("symbol")
     stringAdapter.toJson(writer, value.symbol)
     writer.endObject()

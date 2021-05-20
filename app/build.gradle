@@ -69,11 +69,14 @@ dependencies {
     // Core with Ktx
     implementation "androidx.core:core-ktx:$version_core"
 
-    // Moshi
-    implementation "com.squareup.moshi:moshi:$version_moshi"
-    implementation "com.squareup.moshi:moshi-kotlin:$version_moshi"
+    // Moshi codegen & custom adapters
+    implementation 'com.squareup.moshi:moshi-kotlin:1.9.2'
+    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
+    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.9.2'
 
-    // Retrofit with Moshi Converter
+    // Retrofit(Rest Client) with Moshi Converter(parsing library)
     implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$version_retrofit"
 
@@ -124,7 +127,7 @@ dependencies {
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 
     // Jetpack Compose Integration
-    implementation "androidx.navigation:navigation-compose:1.0.0-alpha02"
+    implementation "androidx.navigation:navigation-compose:1.0.0-alpha10"
 
     //Hilt(project doesn't require it so far)
     implementation "com.google.dagger:hilt-android:$version_hilt"
@@ -140,7 +143,15 @@ dependencies {
     implementation "com.github.PhilJay:MPAndroidChart:$mp_charts_version"
 
 
-    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'com.google.android.material:material:1.3.0'
+
+    //in order to convert timestamp to unix
+    implementation "org.jetbrains.kotlinx:kotlinx-datetime:0.1.1"
+
+    //DI androidx pref
+    implementation 'androidx.preference:preference:1.1.1'
+
+
 
 
 }

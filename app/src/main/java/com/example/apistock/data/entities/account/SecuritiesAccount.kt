@@ -17,7 +17,7 @@ data class SecuritiesAccount(
     @Json(name = "isDayTrader")
     val isDayTrader: Boolean,
     @Json(name = "positions")
-    val positions: List<Position>,
+    val positions: List<Positions>,
     @Json(name = "projectedBalances")
     val projectedBalances: ProjectedBalances,
     @Json(name = "roundTrips")

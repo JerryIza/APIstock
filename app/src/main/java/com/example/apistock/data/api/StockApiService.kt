@@ -2,30 +2,23 @@ package com.example.apistock.data.api
 
 
 import com.example.apistock.data.entities.*
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
+import com.example.apistock.data.entities.account.Accounts
+import com.example.apistock.data.entities.quotes.HistoricalData
+import com.example.apistock.data.entities.quotes.SymbolDetails
+import com.example.apistock.data.entities.user.UserPrincipals
+import com.example.apistock.data.entities.token.TokenAccess
+import com.example.apistock.data.entities.watchlist.Watchlist
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
-import java.util.*
+import retrofit2.http.*
 
 
 const val API_KEY = "LZBWODC3GHH1XMA5IMHFOFU2DNA81W6N"
 
-//https://api.tdameritrade.com/v1/marketdata/$SPX.X/movers?apikey=LZBWODC3GHH1XMA5IMHFOFU2DNA81W6N&direction=up&change=percent
-
-//v1/marketdata/quotes?apikey=LZBWODC3GHH1XMA5IMHFOFU2DNA81W6N&symbol=amd
-
-///1/marketdata/AMD/pricehistory?apikey=LZBWODC3GHH1XMA5IMHFOFU2DNA81W6N&periodType=month&period=1&frequencyType=daily
 
 interface StockMarketService {
-    @GET("/v1/marketdata/{Stock}/movers")
-    suspend fun fetchMoversDetailsAsync(@Path("Stock") Stock: String?): Response<MutableList<MarketMovers>>
 
     //use Map for dynamic keys
+    //@Headers("Authorization: Bearer: ${MyPreference.}")
     @GET("/v1/marketdata/quotes")
     suspend fun fetchSymbolDetailsAsync(@Query("symbol") symbol: String?): Response<MutableMap<String?, SymbolDetails>>
 
@@ -37,16 +30,49 @@ interface StockMarketService {
         @Query("frequencyType") frequencyType: String?
     ): Response<HistoricalData>
 
-    //https://api.tdameritrade.com/v1/instruments?apikey=LZBWODC3GHH1XMA5IMHFOFU2DNA81W6N&symbol=amd.*&projection=symbol-regex
-
     @GET("/v1/instruments")
     suspend fun fetchSearchSymbolsAsync(
         @Query("symbol") Symbol: String?,
         @Query("projection") Projection: String?
     ): Response<MutableMap<String, SymbolSearch>>
 
+    @FormUrlEncoded
+    @Headers("Content-Type:application/x-www-form-urlencoded")
+    @POST("/v1/oauth2/token")
+    suspend fun fetchTokenAsync(
+        @Field("grant_type") grant_Type: String,
+        @Field("refresh_token") refresh_Token: String,
+        @Field("access_type") access_Type: String,
+        @Field("code") Code: String,
+        @Field("client_id") client_Id: String,
+        @Field("redirect_uri") redirect_Uri : String
+    ): Response<TokenAccess>
+
+
+    @GET("/v1/userprincipals")
+    suspend fun fetchUserPrincipalsAsync(
+        @Query("fields") Fields: String
+    ): Response<UserPrincipals>
+
+
+    @GET("/v1/accounts/149235993")
+    suspend fun fetchAccountDetailsAsync(
+        @Query("fields") Fields: String
+    ): Response<Accounts>
+
+
+    //1568912277
+    @GET("v1/accounts/{AccountNumber}/watchlists/{watchlistId}")
+    suspend fun fetchWatchlistAsync(
+        @Path("AccountNumber") accountNumber: String?,
+        @Path("watchlistId") watchlistId: String?,
+    ): Response<List<Watchlist>>
+
 
 }
+
+
+
 
 
 

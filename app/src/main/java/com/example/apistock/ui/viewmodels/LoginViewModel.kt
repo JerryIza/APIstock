@@ -1,10 +1,9 @@
 package com.example.apistock.ui.viewmodels
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.apistock.data.api.SymbolRepo
+import com.example.apistock.data.api.MainRepository
 import com.example.apistock.utils.MyPreference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -13,16 +12,19 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 class LoginViewModel @ViewModelInject constructor(
-    private val repository: SymbolRepo,
+    private val repository: MainRepository,
     private val myPreference: MyPreference
 ) : ViewModel() {
 
     //create the job, which implements coroutines context.
     var job = Job()
+
     //create the coroutine context with the job and the dispatcher(identifies the Thread that will be used)
     private val coroutineContext: CoroutineContext get() = job + Dispatchers.Main
 
     private val scope = CoroutineScope(coroutineContext)
+
+    val tokenLiveData = MutableLiveData<String>()
 
 
     /*private val _loginResult = MutableLiveData<LoginResult>()
@@ -46,10 +48,17 @@ class LoginViewModel @ViewModelInject constructor(
 
     fun postTokenAccess(code: String) {
         scope.launch {
-
-            val tokenDetails = repository.postToken(code)
-            println(tokenDetails)
-            myPreference.setStoredTag(tokenDetails.data?.accessToken.toString())
+            val tokenDetails =
+                repository.postToken(
+                    grantType = "authorization_code",
+                    refreshToken = "",
+                    accessType = "offline",
+                    code
+                )
+            tokenLiveData.postValue(tokenDetails.toString())
+            myPreference.setAccessToken(tokenDetails.data!!.accessToken)
+            myPreference.setRefreshToken(tokenDetails.data.refreshToken)
+            println(tokenDetails.data.refreshToken)
         }
     }
 

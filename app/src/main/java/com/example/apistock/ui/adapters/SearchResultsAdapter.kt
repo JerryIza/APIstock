@@ -2,12 +2,8 @@ package com.example.apistock.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.apistock.R
-import com.example.apistock.data.entities.MarketMovers
 import com.example.apistock.data.entities.SymbolSearch
-import com.example.apistock.databinding.MoversListBinding
 import com.example.apistock.databinding.SearchListBinding
 
 class SearchResultsAdapter(
@@ -22,16 +18,13 @@ class SearchResultsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
-        val binding: SearchListBinding =
-            SearchListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding: SearchListBinding = SearchListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SearchViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) =
         holder.bind(inputs[position], position, listener)
-
     override fun getItemCount() = inputs.size
-
 }
 
 class SearchViewHolder(private val itemBinding: SearchListBinding) : RecyclerView.ViewHolder(

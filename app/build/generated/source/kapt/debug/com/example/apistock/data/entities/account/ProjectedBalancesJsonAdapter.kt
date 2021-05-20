@@ -27,7 +27,7 @@ class ProjectedBalancesJsonAdapter(
       "availableFunds")
 
   private val intAdapter: JsonAdapter<Int> = moshi.adapter(Int::class.java, emptySet(),
-      "buyingPower")
+      "dayTradingBuyingPower")
 
   private val booleanAdapter: JsonAdapter<Boolean> = moshi.adapter(Boolean::class.java, emptySet(),
       "isInCall")
@@ -38,13 +38,13 @@ class ProjectedBalancesJsonAdapter(
   override fun fromJson(reader: JsonReader): ProjectedBalances {
     var availableFunds: Double? = null
     var availableFundsNonMarginableTrade: Double? = null
-    var buyingPower: Int? = null
+    var buyingPower: Double? = null
     var dayTradingBuyingPower: Int? = null
     var dayTradingBuyingPowerCall: Int? = null
     var isInCall: Boolean? = null
     var maintenanceCall: Int? = null
     var regTCall: Int? = null
-    var stockBuyingPower: Int? = null
+    var stockBuyingPower: Double? = null
     reader.beginObject()
     while (reader.hasNext()) {
       when (reader.selectName(options)) {
@@ -53,8 +53,8 @@ class ProjectedBalancesJsonAdapter(
         1 -> availableFundsNonMarginableTrade = doubleAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("availableFundsNonMarginableTrade",
             "availableFundsNonMarginableTrade", reader)
-        2 -> buyingPower = intAdapter.fromJson(reader) ?: throw Util.unexpectedNull("buyingPower",
-            "buyingPower", reader)
+        2 -> buyingPower = doubleAdapter.fromJson(reader) ?:
+            throw Util.unexpectedNull("buyingPower", "buyingPower", reader)
         3 -> dayTradingBuyingPower = intAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("dayTradingBuyingPower", "dayTradingBuyingPower", reader)
         4 -> dayTradingBuyingPowerCall = intAdapter.fromJson(reader) ?:
@@ -66,7 +66,7 @@ class ProjectedBalancesJsonAdapter(
             throw Util.unexpectedNull("maintenanceCall", "maintenanceCall", reader)
         7 -> regTCall = intAdapter.fromJson(reader) ?: throw Util.unexpectedNull("regTCall",
             "regTCall", reader)
-        8 -> stockBuyingPower = intAdapter.fromJson(reader) ?:
+        8 -> stockBuyingPower = doubleAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("stockBuyingPower", "stockBuyingPower", reader)
         -1 -> {
           // Unknown name, skip it.
@@ -108,7 +108,7 @@ class ProjectedBalancesJsonAdapter(
     writer.name("availableFundsNonMarginableTrade")
     doubleAdapter.toJson(writer, value.availableFundsNonMarginableTrade)
     writer.name("buyingPower")
-    intAdapter.toJson(writer, value.buyingPower)
+    doubleAdapter.toJson(writer, value.buyingPower)
     writer.name("dayTradingBuyingPower")
     intAdapter.toJson(writer, value.dayTradingBuyingPower)
     writer.name("dayTradingBuyingPowerCall")
@@ -120,7 +120,7 @@ class ProjectedBalancesJsonAdapter(
     writer.name("regTCall")
     intAdapter.toJson(writer, value.regTCall)
     writer.name("stockBuyingPower")
-    intAdapter.toJson(writer, value.stockBuyingPower)
+    doubleAdapter.toJson(writer, value.stockBuyingPower)
     writer.endObject()
   }
 }

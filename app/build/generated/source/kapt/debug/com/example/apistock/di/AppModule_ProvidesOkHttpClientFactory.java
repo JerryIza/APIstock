@@ -1,5 +1,6 @@
 package com.example.apistock.di;
 
+import com.example.apistock.data.api.RefreshTokenAuthenticator;
 import dagger.internal.Factory;
 import dagger.internal.Preconditions;
 import javax.annotation.Generated;
@@ -18,21 +19,27 @@ import okhttp3.OkHttpClient;
 public final class AppModule_ProvidesOkHttpClientFactory implements Factory<OkHttpClient> {
   private final Provider<Interceptor> interceptorProvider;
 
-  public AppModule_ProvidesOkHttpClientFactory(Provider<Interceptor> interceptorProvider) {
+  private final Provider<RefreshTokenAuthenticator> authenticatorProvider;
+
+  public AppModule_ProvidesOkHttpClientFactory(Provider<Interceptor> interceptorProvider,
+      Provider<RefreshTokenAuthenticator> authenticatorProvider) {
     this.interceptorProvider = interceptorProvider;
+    this.authenticatorProvider = authenticatorProvider;
   }
 
   @Override
   public OkHttpClient get() {
-    return providesOkHttpClient(interceptorProvider.get());
+    return providesOkHttpClient(interceptorProvider.get(), authenticatorProvider.get());
   }
 
   public static AppModule_ProvidesOkHttpClientFactory create(
-      Provider<Interceptor> interceptorProvider) {
-    return new AppModule_ProvidesOkHttpClientFactory(interceptorProvider);
+      Provider<Interceptor> interceptorProvider,
+      Provider<RefreshTokenAuthenticator> authenticatorProvider) {
+    return new AppModule_ProvidesOkHttpClientFactory(interceptorProvider, authenticatorProvider);
   }
 
-  public static OkHttpClient providesOkHttpClient(Interceptor interceptor) {
-    return Preconditions.checkNotNull(AppModule.INSTANCE.providesOkHttpClient(interceptor), "Cannot return null from a non-@Nullable @Provides method");
+  public static OkHttpClient providesOkHttpClient(Interceptor interceptor,
+      RefreshTokenAuthenticator authenticator) {
+    return Preconditions.checkNotNull(AppModule.INSTANCE.providesOkHttpClient(interceptor, authenticator), "Cannot return null from a non-@Nullable @Provides method");
   }
 }

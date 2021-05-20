@@ -14,7 +14,7 @@ import com.example.apistock.R
 import com.example.apistock.data.entities.SymbolSearch
 import com.example.apistock.databinding.SearchFragmentBinding
 import com.example.apistock.ui.adapters.SearchResultsAdapter
-import com.example.apistock.ui.viewmodels.MarketMoversViewModel
+import com.example.apistock.ui.viewmodels.MarketViewModel
 
 class SearchFragment: Fragment() {
 
@@ -22,7 +22,7 @@ class SearchFragment: Fragment() {
 
     private lateinit var adapter: SearchResultsAdapter
 
-    private val viewModel: MarketMoversViewModel by activityViewModels()
+    private val viewModel: MarketViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,13 +40,17 @@ class SearchFragment: Fragment() {
 
         binding.searchSymbolInput.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(s: Editable?) {
+
+
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 viewModel.getSearchResults(s.toString())
+
             }
 
         })

@@ -1,15 +1,18 @@
 package com.example.apistock.utils
 
-import com.example.apistock.data.entities.HistoricalData
-import com.example.apistock.data.entities.SymbolDetails
+import com.example.apistock.data.entities.quotes.HistoricalData
+import com.example.apistock.data.entities.quotes.SymbolDetails
 import com.github.mikephil.charting.data.CandleEntry
 import timber.log.Timber
 
 
 object ToCandleEntries {
 
+
+//if no connection it crashes throw exception
     fun toCandleEntry (historicalData: Resource<HistoricalData>): MutableList<CandleEntry>{
         val candleEntries: MutableList<CandleEntry> = ArrayList()
+    try {
         for (i in historicalData.data!!.candles.indices) {
             Timber.i("Response to Candle Executed")
             candleEntries.add(
@@ -22,6 +25,7 @@ object ToCandleEntries {
                 )
             )
         }
+    }catch (e: NullPointerException){}
         return candleEntries
     }
     //remove and update today's candle.
@@ -39,7 +43,12 @@ object ToCandleEntries {
                 )
             )
         }else{
+            //don't show candle unless it's regular session like the TD app
             Timber.i("Add Last Candle For the First Time")
+            println(   "HERERERERERERERE " +   symbolDetails.highPrice.toFloat()+
+                symbolDetails.lowPrice.toFloat()+
+                symbolDetails.openPrice.toFloat()+
+                symbolDetails.lastPrice.toFloat()+ "DEEEEE " + symbolDetails)
             candleEntries.add(
                 CandleEntry(
                     candleEntries.size.toFloat()+ 1,

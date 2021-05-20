@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         findNavController(R.id.navHostFragment).addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.stockDetailsFragment, R.id.searchFragment, R.id.chartSettingsFragment ->
+                R.id.chartFragment, R.id.searchFragment, R.id.chartSettingsFragment ->
                     binding.myToolbar.visibility = View.VISIBLE
                 else -> binding.myToolbar.visibility = View.GONE
             }
@@ -33,6 +33,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 }
+
+
 
 
 

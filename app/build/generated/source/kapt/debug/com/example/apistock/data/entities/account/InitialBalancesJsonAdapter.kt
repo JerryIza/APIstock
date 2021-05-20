@@ -31,8 +31,7 @@ class InitialBalancesJsonAdapter(
   private val doubleAdapter: JsonAdapter<Double> = moshi.adapter(Double::class.java, emptySet(),
       "accountValue")
 
-  private val intAdapter: JsonAdapter<Int> = moshi.adapter(Int::class.java, emptySet(),
-      "accruedInterest")
+  private val intAdapter: JsonAdapter<Int> = moshi.adapter(Int::class.java, emptySet(), "bondValue")
 
   private val booleanAdapter: JsonAdapter<Boolean> = moshi.adapter(Boolean::class.java, emptySet(),
       "isInCall")
@@ -42,63 +41,63 @@ class InitialBalancesJsonAdapter(
 
   override fun fromJson(reader: JsonReader): InitialBalances {
     var accountValue: Double? = null
-    var accruedInterest: Int? = null
+    var accruedInterest: Double? = null
     var availableFundsNonMarginableTrade: Double? = null
     var bondValue: Int? = null
-    var buyingPower: Int? = null
-    var cashAvailableForTrading: Int? = null
+    var buyingPower: Double? = null
+    var cashAvailableForTrading: Double? = null
     var cashBalance: Double? = null
     var cashReceipts: Int? = null
-    var dayTradingBuyingPower: Int? = null
-    var dayTradingBuyingPowerCall: Int? = null
-    var dayTradingEquityCall: Int? = null
+    var dayTradingBuyingPower: Double? = null
+    var dayTradingBuyingPowerCall: Double? = null
+    var dayTradingEquityCall: Double? = null
     var equity: Double? = null
     var equityPercentage: Int? = null
     var isInCall: Boolean? = null
     var liquidationValue: Double? = null
-    var longMarginValue: Int? = null
+    var longMarginValue: Double? = null
     var longOptionMarketValue: Int? = null
-    var longStockValue: Int? = null
-    var maintenanceCall: Int? = null
+    var longStockValue: Double? = null
+    var maintenanceCall: Double? = null
     var maintenanceRequirement: Double? = null
     var margin: Double? = null
-    var marginBalance: Int? = null
+    var marginBalance: Double? = null
     var marginEquity: Double? = null
     var moneyMarketFund: Double? = null
     var mutualFundValue: Int? = null
     var pendingDeposits: Int? = null
-    var regTCall: Int? = null
+    var regTCall: Double? = null
     var shortBalance: Double? = null
     var shortMarginValue: Double? = null
     var shortOptionMarketValue: Int? = null
     var shortStockValue: Double? = null
-    var totalCash: Int? = null
+    var totalCash: Double? = null
     reader.beginObject()
     while (reader.hasNext()) {
       when (reader.selectName(options)) {
         0 -> accountValue = doubleAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("accountValue", "accountValue", reader)
-        1 -> accruedInterest = intAdapter.fromJson(reader) ?:
+        1 -> accruedInterest = doubleAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("accruedInterest", "accruedInterest", reader)
         2 -> availableFundsNonMarginableTrade = doubleAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("availableFundsNonMarginableTrade",
             "availableFundsNonMarginableTrade", reader)
         3 -> bondValue = intAdapter.fromJson(reader) ?: throw Util.unexpectedNull("bondValue",
             "bondValue", reader)
-        4 -> buyingPower = intAdapter.fromJson(reader) ?: throw Util.unexpectedNull("buyingPower",
-            "buyingPower", reader)
-        5 -> cashAvailableForTrading = intAdapter.fromJson(reader) ?:
+        4 -> buyingPower = doubleAdapter.fromJson(reader) ?:
+            throw Util.unexpectedNull("buyingPower", "buyingPower", reader)
+        5 -> cashAvailableForTrading = doubleAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("cashAvailableForTrading", "cashAvailableForTrading", reader)
         6 -> cashBalance = doubleAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("cashBalance", "cashBalance", reader)
         7 -> cashReceipts = intAdapter.fromJson(reader) ?: throw Util.unexpectedNull("cashReceipts",
             "cashReceipts", reader)
-        8 -> dayTradingBuyingPower = intAdapter.fromJson(reader) ?:
+        8 -> dayTradingBuyingPower = doubleAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("dayTradingBuyingPower", "dayTradingBuyingPower", reader)
-        9 -> dayTradingBuyingPowerCall = intAdapter.fromJson(reader) ?:
+        9 -> dayTradingBuyingPowerCall = doubleAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("dayTradingBuyingPowerCall", "dayTradingBuyingPowerCall",
             reader)
-        10 -> dayTradingEquityCall = intAdapter.fromJson(reader) ?:
+        10 -> dayTradingEquityCall = doubleAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("dayTradingEquityCall", "dayTradingEquityCall", reader)
         11 -> equity = doubleAdapter.fromJson(reader) ?: throw Util.unexpectedNull("equity",
             "equity", reader)
@@ -108,19 +107,19 @@ class InitialBalancesJsonAdapter(
             "isInCall", reader)
         14 -> liquidationValue = doubleAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("liquidationValue", "liquidationValue", reader)
-        15 -> longMarginValue = intAdapter.fromJson(reader) ?:
+        15 -> longMarginValue = doubleAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("longMarginValue", "longMarginValue", reader)
         16 -> longOptionMarketValue = intAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("longOptionMarketValue", "longOptionMarketValue", reader)
-        17 -> longStockValue = intAdapter.fromJson(reader) ?:
+        17 -> longStockValue = doubleAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("longStockValue", "longStockValue", reader)
-        18 -> maintenanceCall = intAdapter.fromJson(reader) ?:
+        18 -> maintenanceCall = doubleAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("maintenanceCall", "maintenanceCall", reader)
         19 -> maintenanceRequirement = doubleAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("maintenanceRequirement", "maintenanceRequirement", reader)
         20 -> margin = doubleAdapter.fromJson(reader) ?: throw Util.unexpectedNull("margin",
             "margin", reader)
-        21 -> marginBalance = intAdapter.fromJson(reader) ?:
+        21 -> marginBalance = doubleAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("marginBalance", "marginBalance", reader)
         22 -> marginEquity = doubleAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("marginEquity", "marginEquity", reader)
@@ -130,7 +129,7 @@ class InitialBalancesJsonAdapter(
             throw Util.unexpectedNull("mutualFundValue", "mutualFundValue", reader)
         25 -> pendingDeposits = intAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("pendingDeposits", "pendingDeposits", reader)
-        26 -> regTCall = intAdapter.fromJson(reader) ?: throw Util.unexpectedNull("regTCall",
+        26 -> regTCall = doubleAdapter.fromJson(reader) ?: throw Util.unexpectedNull("regTCall",
             "regTCall", reader)
         27 -> shortBalance = doubleAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("shortBalance", "shortBalance", reader)
@@ -140,7 +139,7 @@ class InitialBalancesJsonAdapter(
             throw Util.unexpectedNull("shortOptionMarketValue", "shortOptionMarketValue", reader)
         30 -> shortStockValue = doubleAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("shortStockValue", "shortStockValue", reader)
-        31 -> totalCash = intAdapter.fromJson(reader) ?: throw Util.unexpectedNull("totalCash",
+        31 -> totalCash = doubleAdapter.fromJson(reader) ?: throw Util.unexpectedNull("totalCash",
             "totalCash", reader)
         -1 -> {
           // Unknown name, skip it.
@@ -223,25 +222,25 @@ class InitialBalancesJsonAdapter(
     writer.name("accountValue")
     doubleAdapter.toJson(writer, value.accountValue)
     writer.name("accruedInterest")
-    intAdapter.toJson(writer, value.accruedInterest)
+    doubleAdapter.toJson(writer, value.accruedInterest)
     writer.name("availableFundsNonMarginableTrade")
     doubleAdapter.toJson(writer, value.availableFundsNonMarginableTrade)
     writer.name("bondValue")
     intAdapter.toJson(writer, value.bondValue)
     writer.name("buyingPower")
-    intAdapter.toJson(writer, value.buyingPower)
+    doubleAdapter.toJson(writer, value.buyingPower)
     writer.name("cashAvailableForTrading")
-    intAdapter.toJson(writer, value.cashAvailableForTrading)
+    doubleAdapter.toJson(writer, value.cashAvailableForTrading)
     writer.name("cashBalance")
     doubleAdapter.toJson(writer, value.cashBalance)
     writer.name("cashReceipts")
     intAdapter.toJson(writer, value.cashReceipts)
     writer.name("dayTradingBuyingPower")
-    intAdapter.toJson(writer, value.dayTradingBuyingPower)
+    doubleAdapter.toJson(writer, value.dayTradingBuyingPower)
     writer.name("dayTradingBuyingPowerCall")
-    intAdapter.toJson(writer, value.dayTradingBuyingPowerCall)
+    doubleAdapter.toJson(writer, value.dayTradingBuyingPowerCall)
     writer.name("dayTradingEquityCall")
-    intAdapter.toJson(writer, value.dayTradingEquityCall)
+    doubleAdapter.toJson(writer, value.dayTradingEquityCall)
     writer.name("equity")
     doubleAdapter.toJson(writer, value.equity)
     writer.name("equityPercentage")
@@ -251,19 +250,19 @@ class InitialBalancesJsonAdapter(
     writer.name("liquidationValue")
     doubleAdapter.toJson(writer, value.liquidationValue)
     writer.name("longMarginValue")
-    intAdapter.toJson(writer, value.longMarginValue)
+    doubleAdapter.toJson(writer, value.longMarginValue)
     writer.name("longOptionMarketValue")
     intAdapter.toJson(writer, value.longOptionMarketValue)
     writer.name("longStockValue")
-    intAdapter.toJson(writer, value.longStockValue)
+    doubleAdapter.toJson(writer, value.longStockValue)
     writer.name("maintenanceCall")
-    intAdapter.toJson(writer, value.maintenanceCall)
+    doubleAdapter.toJson(writer, value.maintenanceCall)
     writer.name("maintenanceRequirement")
     doubleAdapter.toJson(writer, value.maintenanceRequirement)
     writer.name("margin")
     doubleAdapter.toJson(writer, value.margin)
     writer.name("marginBalance")
-    intAdapter.toJson(writer, value.marginBalance)
+    doubleAdapter.toJson(writer, value.marginBalance)
     writer.name("marginEquity")
     doubleAdapter.toJson(writer, value.marginEquity)
     writer.name("moneyMarketFund")
@@ -273,7 +272,7 @@ class InitialBalancesJsonAdapter(
     writer.name("pendingDeposits")
     intAdapter.toJson(writer, value.pendingDeposits)
     writer.name("regTCall")
-    intAdapter.toJson(writer, value.regTCall)
+    doubleAdapter.toJson(writer, value.regTCall)
     writer.name("shortBalance")
     doubleAdapter.toJson(writer, value.shortBalance)
     writer.name("shortMarginValue")
@@ -283,7 +282,7 @@ class InitialBalancesJsonAdapter(
     writer.name("shortStockValue")
     doubleAdapter.toJson(writer, value.shortStockValue)
     writer.name("totalCash")
-    intAdapter.toJson(writer, value.totalCash)
+    doubleAdapter.toJson(writer, value.totalCash)
     writer.endObject()
   }
 }

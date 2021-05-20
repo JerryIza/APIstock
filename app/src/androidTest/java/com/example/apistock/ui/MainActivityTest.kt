@@ -34,7 +34,7 @@ class MainActivityTest {
     fun mainActivityTest() {
         val recyclerView = onView(
             allOf(
-                withId(R.id.moversRecycler),
+                withId(R.id.watchlistRv),
                 childAtPosition(
                     withClassName(`is`("androidx.constraintlayout.widget.ConstraintLayout")),
                     0

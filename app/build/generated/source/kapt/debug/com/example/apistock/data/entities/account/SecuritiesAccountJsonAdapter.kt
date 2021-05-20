@@ -36,8 +36,8 @@ class SecuritiesAccountJsonAdapter(
   private val booleanAdapter: JsonAdapter<Boolean> = moshi.adapter(Boolean::class.java, emptySet(),
       "isClosingOnlyRestricted")
 
-  private val listOfPositionAdapter: JsonAdapter<List<Position>> =
-      moshi.adapter(Types.newParameterizedType(List::class.java, Position::class.java), emptySet(),
+  private val listOfPositionsAdapter: JsonAdapter<List<Positions>> =
+      moshi.adapter(Types.newParameterizedType(List::class.java, Positions::class.java), emptySet(),
       "positions")
 
   private val projectedBalancesAdapter: JsonAdapter<ProjectedBalances> =
@@ -55,7 +55,7 @@ class SecuritiesAccountJsonAdapter(
     var initialBalances: InitialBalances? = null
     var isClosingOnlyRestricted: Boolean? = null
     var isDayTrader: Boolean? = null
-    var positions: List<Position>? = null
+    var positions: List<Positions>? = null
     var projectedBalances: ProjectedBalances? = null
     var roundTrips: Int? = null
     var type: String? = null
@@ -72,7 +72,7 @@ class SecuritiesAccountJsonAdapter(
             throw Util.unexpectedNull("isClosingOnlyRestricted", "isClosingOnlyRestricted", reader)
         4 -> isDayTrader = booleanAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("isDayTrader", "isDayTrader", reader)
-        5 -> positions = listOfPositionAdapter.fromJson(reader) ?:
+        5 -> positions = listOfPositionsAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("positions", "positions", reader)
         6 -> projectedBalances = projectedBalancesAdapter.fromJson(reader) ?:
             throw Util.unexpectedNull("projectedBalances", "projectedBalances", reader)
@@ -123,7 +123,7 @@ class SecuritiesAccountJsonAdapter(
     writer.name("isDayTrader")
     booleanAdapter.toJson(writer, value.isDayTrader)
     writer.name("positions")
-    listOfPositionAdapter.toJson(writer, value.positions)
+    listOfPositionsAdapter.toJson(writer, value.positions)
     writer.name("projectedBalances")
     projectedBalancesAdapter.toJson(writer, value.projectedBalances)
     writer.name("roundTrips")
