@@ -50,7 +50,7 @@ class MainRepository @Inject constructor(private val stockMarketService: StockMa
             refresh_Token = refreshToken,
             access_Type = accessType,
             Code = code,
-            client_Id = "LZBWODC3GHH1XMA5IMHFOFU2DNA81W6N@AMER.OAUTHAP",
+            client_Id = "YOUR AUTH KEY HERE",
             redirect_Uri = "http://localhost"
         )
     }
@@ -59,10 +59,6 @@ class MainRepository @Inject constructor(private val stockMarketService: StockMa
     suspend fun getAccountDetails() = getResults {
         stockMarketService.fetchAccountDetailsAsync("positions")
     }
-
-
-
-
 
 }
 
