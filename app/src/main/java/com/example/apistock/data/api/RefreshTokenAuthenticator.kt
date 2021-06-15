@@ -71,7 +71,7 @@ class RefreshTokenAuthenticator @Inject constructor(
                 refresh_Token = myPreference.getRefreshToken(),
                 access_Type = "",
                 Code = "",
-                "LZBWODC3GHH1XMA5IMHFOFU2DNA81W6N@AMER.OAUTHAP",
+                "YOUR AUTH KEY HERE",
                 "http://localhost")
                     result.body()
                 }
