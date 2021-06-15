@@ -9,8 +9,6 @@ Including:
 * Navigation Components
 
 
-
-
 ![alt text](https://i.imgur.com/NWxeZwZ.png?2) ![alt text](https://i.imgur.com/emKol4B.png?2) ![alt text](https://i.imgur.com/wshabWP.png?2) 
 
 
