@@ -45,7 +45,6 @@ object ToCandleEntries {
         }else{
             //don't show candle unless it's regular session like the TD app
             Timber.i("Add Last Candle For the First Time")
-            println(   "HERERERERERERERE " +   symbolDetails.highPrice.toFloat()+
                 symbolDetails.lowPrice.toFloat()+
                 symbolDetails.openPrice.toFloat()+
                 symbolDetails.lastPrice.toFloat()+ "DEEEEE " + symbolDetails)
