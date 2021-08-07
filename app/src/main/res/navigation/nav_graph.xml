@@ -6,20 +6,20 @@
     app:startDestination="@id/loginFragment">
 
     <fragment
-        android:id="@+id/marketMoversFragment"
+        android:id="@+id/dashboardFragment"
         android:name="com.example.apistock.ui.fragments.DashboardFragment"
-        android:label="MarketMoversFragment"
+        android:label="DashboardFragment"
         tools:layout="@layout/dashboard_fragment"
         >
 
         <action
-            android:id="@+id/action_marketMoversFragment_to_stockDetailsFragment"
+            android:id="@+id/action_dashboardFragment_to_stockDetailsFragment"
             app:destination="@id/chartFragment" />
         <action
-            android:id="@+id/action_marketMoversFragment_to_searchFragment"
+            android:id="@+id/action_dashboardFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
         <action
-            android:id="@+id/action_marketMoversFragment_to_loginFragment"
+            android:id="@+id/action_dashboardFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
 
@@ -65,7 +65,7 @@
         tools:layout="@layout/login_fragment"
         >
         <action
-            android:id="@+id/action_loginFragment_to_marketMoversFragment"
-            app:destination="@id/marketMoversFragment" />
+            android:id="@+id/action_loginFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
     </fragment>
 </navigation>

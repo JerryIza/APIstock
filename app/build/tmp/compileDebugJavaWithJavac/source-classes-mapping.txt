@@ -57,15 +57,21 @@ com/example/apistock/BaseApplication_HiltComponents.java
  com.example.apistock.BaseApplication_HiltComponents$ViewWithFragmentCBuilderModule
 com/example/apistock/databinding/LoginFragmentBinding.java
  com.example.apistock.databinding.LoginFragmentBinding
+com/example/apistock/ui/viewmodels/MarketMoversViewModel_AssistedFactory.java
+ com.example.apistock.ui.viewmodels.MarketMoversViewModel_AssistedFactory
 com/example/apistock/di/AppModule_ProvidesTokenRefreshAuthenticatorFactory.java
  com.example.apistock.di.AppModule_ProvidesTokenRefreshAuthenticatorFactory
 com/example/apistock/databinding/DashboardFragmentBinding.java
  com.example.apistock.databinding.DashboardFragmentBinding
 com/example/apistock/databinding/SearchFragmentBinding.java
  com.example.apistock.databinding.SearchFragmentBinding
+com/example/apistock/databinding/MoversListBinding.java
+ com.example.apistock.databinding.MoversListBinding
 com/example/apistock/di/AppModule_TokenRefreshAuthenticatorFactory.java
  com.example.apistock.di.AppModule_TokenRefreshAuthenticatorFactory
  com.example.apistock.di.AppModule_TokenRefreshAuthenticatorFactory$InstanceHolder
+com/example/apistock/data/api/SymbolRepo_Factory.java
+ com.example.apistock.data.api.SymbolRepo_Factory
 com/example/apistock/di/AppModule_ProvidesBearerTokenFactory.java
  com.example.apistock.di.AppModule_ProvidesBearerTokenFactory
 com/example/apistock/databinding/SearchListBinding.java
@@ -77,6 +83,8 @@ hilt_aggregated_deps/com_example_apistock_ui_MainActivity_GeneratedInjectorModul
 com/example/apistock/Hilt_BaseApplication.java
  com.example.apistock.Hilt_BaseApplication
  com.example.apistock.Hilt_BaseApplication$1
+com/example/apistock/ui/viewmodels/MarketMoversViewModel_HiltModule.java
+ com.example.apistock.ui.viewmodels.MarketMoversViewModel_HiltModule
 com/example/apistock/databinding/ChartFragmentBinding.java
  com.example.apistock.databinding.ChartFragmentBinding
 com/example/apistock/databinding/DeleteBinding.java
@@ -95,14 +103,20 @@ com/example/apistock/ui/viewmodels/MarketViewModel_HiltModule.java
  com.example.apistock.ui.viewmodels.MarketViewModel_HiltModule
 com/example/apistock/databinding/ChartSettingsFragmentBinding.java
  com.example.apistock.databinding.ChartSettingsFragmentBinding
+com/example/apistock/ui/viewmodels/MarketMoversViewModel_AssistedFactory_Factory.java
+ com.example.apistock.ui.viewmodels.MarketMoversViewModel_AssistedFactory_Factory
 hilt_aggregated_deps/com_example_apistock_ui_viewmodels_LoginViewModel_HiltModuleModuleDeps.java
  hilt_aggregated_deps.com_example_apistock_ui_viewmodels_LoginViewModel_HiltModuleModuleDeps
 com/example/apistock/di/AppModule_ProvidesOkHttpInterceptorFactory.java
  com.example.apistock.di.AppModule_ProvidesOkHttpInterceptorFactory
+hilt_aggregated_deps/com_example_apistock_ui_viewmodels_MarketMoversViewModel_HiltModuleModuleDeps.java
+ hilt_aggregated_deps.com_example_apistock_ui_viewmodels_MarketMoversViewModel_HiltModuleModuleDeps
 com/example/apistock/BuildConfig.java
  com.example.apistock.BuildConfig
 com/example/apistock/databinding/MainActivityBinding.java
  com.example.apistock.databinding.MainActivityBinding
+com/example/apistock/databinding/MarketMoversFragmentBinding.java
+ com.example.apistock.databinding.MarketMoversFragmentBinding
 com/example/apistock/databinding/OrderFragmentBinding.java
  com.example.apistock.databinding.OrderFragmentBinding
 com/example/apistock/BaseApplication_GeneratedInjector.java
@@ -113,5 +127,7 @@ hilt_aggregated_deps/com_example_apistock_di_AppModuleModuleDeps.java
  hilt_aggregated_deps.com_example_apistock_di_AppModuleModuleDeps
 com/example/apistock/databinding/PositionsListBinding.java
  com.example.apistock.databinding.PositionsListBinding
+com/example/apistock/databinding/SymbolDetailsFragmentBinding.java
+ com.example.apistock.databinding.SymbolDetailsFragmentBinding
 com/example/apistock/ui/viewmodels/LoginViewModel_AssistedFactory.java
  com.example.apistock.ui.viewmodels.LoginViewModel_AssistedFactory

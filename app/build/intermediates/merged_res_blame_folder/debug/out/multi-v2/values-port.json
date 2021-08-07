@@ -4,7 +4,7 @@
             "outputFile": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-port\\values-port.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Jerry\\.gradle\\caches\\transforms-2\\files-2.1\\8bb2cfe54c13e109130599bc6a5c4b07\\appcompat-1.2.0\\res\\values-port\\values-port.xml",
+                    "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\.gradle\\7.0.2\\caches\\transforms-2\\files-2.1\\8bb2cfe54c13e109130599bc6a5c4b07\\appcompat-1.2.0\\res\\values-port\\values-port.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

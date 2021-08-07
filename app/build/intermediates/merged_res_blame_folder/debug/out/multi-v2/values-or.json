@@ -4,75 +4,7 @@
             "outputFile": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-or\\values-or.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Jerry\\.gradle\\caches\\transforms-2\\files-2.1\\130222f8150c29a6ed8dcec2266e5ce8\\jetified-navigation-dynamic-features-fragment-2.3.1\\res\\values-or\\values-or.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7",
-                        "startColumns": "4,4,4,4,4,4",
-                        "startOffsets": "55,165,266,370,440,515",
-                        "endColumns": "109,100,103,69,74,82",
-                        "endOffsets": "160,261,365,435,510,593"
-                    },
-                    "to": {
-                        "startLines": "42,43,44,94,97,98",
-                        "startColumns": "4,4,4,4,4,4",
-                        "startOffsets": "3765,3875,3976,7955,8248,8323",
-                        "endColumns": "109,100,103,69,74,82",
-                        "endOffsets": "3870,3971,4075,8020,8318,8401"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Jerry\\.gradle\\caches\\transforms-2\\files-2.1\\8bb2cfe54c13e109130599bc6a5c4b07\\appcompat-1.2.0\\res\\values-or\\values-or.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,224,334,441,527,631,751,829,905,996,1089,1185,1280,1380,1473,1568,1664,1755,1845,1934,2044,2148,2254,2365,2469,2587,2750,2856",
-                        "endColumns": "118,109,106,85,103,119,77,75,90,92,95,94,99,92,94,95,90,89,88,109,103,105,110,103,117,162,105,89",
-                        "endOffsets": "219,329,436,522,626,746,824,900,991,1084,1180,1275,1375,1468,1563,1659,1750,1840,1929,2039,2143,2249,2360,2464,2582,2745,2851,2941"
-                    },
-                    "to": {
-                        "startLines": "6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,99",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "277,396,506,613,699,803,923,1001,1077,1168,1261,1357,1452,1552,1645,1740,1836,1927,2017,2106,2216,2320,2426,2537,2641,2759,2922,8406",
-                        "endColumns": "118,109,106,85,103,119,77,75,90,92,95,94,99,92,94,95,90,89,88,109,103,105,110,103,117,162,105,89",
-                        "endOffsets": "391,501,608,694,798,918,996,1072,1163,1256,1352,1447,1547,1640,1735,1831,1922,2012,2101,2211,2315,2421,2532,2636,2754,2917,3023,8491"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Jerry\\.gradle\\caches\\transforms-2\\files-2.1\\3e0af82aa2cc886f3b6d9a6ba2c7bfe0\\preference-1.1.1\\res\\values-or\\values-or.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "105,179,268,347,486,655,739",
-                        "endColumns": "73,88,78,138,168,83,80",
-                        "endOffsets": "174,263,342,481,650,734,815"
-                    },
-                    "to": {
-                        "startLines": "37,39,93,96,101,102,103",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "3383,3522,7876,8109,8597,8766,8850",
-                        "endColumns": "73,88,78,138,168,83,80",
-                        "endOffsets": "3452,3606,7950,8243,8761,8845,8926"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Jerry\\.gradle\\caches\\transforms-2\\files-2.1\\de4e68186ecf0e2b6e50a61953fc1612\\navigation-ui-2.3.1\\res\\values-or\\values-or.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,172",
-                        "endColumns": "116,120",
-                        "endOffsets": "167,288"
-                    },
-                    "to": {
-                        "startLines": "91,92",
-                        "startColumns": "4,4",
-                        "startOffsets": "7638,7755",
-                        "endColumns": "116,120",
-                        "endOffsets": "7750,7871"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Jerry\\.gradle\\caches\\transforms-2\\files-2.1\\15c748f251a5ca5f3a537428d7cb46b8\\material-1.3.0\\res\\values-or\\values-or.xml",
+                    "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\.gradle\\7.0.2\\caches\\transforms-2\\files-2.1\\15c748f251a5ca5f3a537428d7cb46b8\\material-1.3.0\\res\\values-or\\values-or.xml",
                     "from": {
                         "startLines": "2,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -91,7 +23,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Jerry\\.gradle\\caches\\transforms-2\\files-2.1\\acf398b66d39a988acd778f76004c871\\core-1.5.0-beta01\\res\\values-or\\values-or.xml",
+                    "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\.gradle\\7.0.2\\caches\\transforms-2\\files-2.1\\130222f8150c29a6ed8dcec2266e5ce8\\jetified-navigation-dynamic-features-fragment-2.3.1\\res\\values-or\\values-or.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "55,165,266,370,440,515",
+                        "endColumns": "109,100,103,69,74,82",
+                        "endOffsets": "160,261,365,435,510,593"
+                    },
+                    "to": {
+                        "startLines": "42,43,44,94,97,98",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "3765,3875,3976,7955,8248,8323",
+                        "endColumns": "109,100,103,69,74,82",
+                        "endOffsets": "3870,3971,4075,8020,8318,8401"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\.gradle\\7.0.2\\caches\\transforms-2\\files-2.1\\acf398b66d39a988acd778f76004c871\\core-1.5.0-beta01\\res\\values-or\\values-or.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -105,6 +54,57 @@
                         "startOffsets": "8496",
                         "endColumns": "100",
                         "endOffsets": "8592"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\.gradle\\7.0.2\\caches\\transforms-2\\files-2.1\\3e0af82aa2cc886f3b6d9a6ba2c7bfe0\\preference-1.1.1\\res\\values-or\\values-or.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "105,179,268,347,486,655,739",
+                        "endColumns": "73,88,78,138,168,83,80",
+                        "endOffsets": "174,263,342,481,650,734,815"
+                    },
+                    "to": {
+                        "startLines": "37,39,93,96,101,102,103",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "3383,3522,7876,8109,8597,8766,8850",
+                        "endColumns": "73,88,78,138,168,83,80",
+                        "endOffsets": "3452,3606,7950,8243,8761,8845,8926"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\.gradle\\7.0.2\\caches\\transforms-2\\files-2.1\\8bb2cfe54c13e109130599bc6a5c4b07\\appcompat-1.2.0\\res\\values-or\\values-or.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,224,334,441,527,631,751,829,905,996,1089,1185,1280,1380,1473,1568,1664,1755,1845,1934,2044,2148,2254,2365,2469,2587,2750,2856",
+                        "endColumns": "118,109,106,85,103,119,77,75,90,92,95,94,99,92,94,95,90,89,88,109,103,105,110,103,117,162,105,89",
+                        "endOffsets": "219,329,436,522,626,746,824,900,991,1084,1180,1275,1375,1468,1563,1659,1750,1840,1929,2039,2143,2249,2360,2464,2582,2745,2851,2941"
+                    },
+                    "to": {
+                        "startLines": "6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,99",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "277,396,506,613,699,803,923,1001,1077,1168,1261,1357,1452,1552,1645,1740,1836,1927,2017,2106,2216,2320,2426,2537,2641,2759,2922,8406",
+                        "endColumns": "118,109,106,85,103,119,77,75,90,92,95,94,99,92,94,95,90,89,88,109,103,105,110,103,117,162,105,89",
+                        "endOffsets": "391,501,608,694,798,918,996,1072,1163,1256,1352,1447,1547,1640,1735,1831,1922,2012,2101,2211,2315,2421,2532,2636,2754,2917,3023,8491"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\.gradle\\7.0.2\\caches\\transforms-2\\files-2.1\\de4e68186ecf0e2b6e50a61953fc1612\\navigation-ui-2.3.1\\res\\values-or\\values-or.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,172",
+                        "endColumns": "116,120",
+                        "endOffsets": "167,288"
+                    },
+                    "to": {
+                        "startLines": "91,92",
+                        "startColumns": "4,4",
+                        "startOffsets": "7638,7755",
+                        "endColumns": "116,120",
+                        "endOffsets": "7750,7871"
                     }
                 }
             ]

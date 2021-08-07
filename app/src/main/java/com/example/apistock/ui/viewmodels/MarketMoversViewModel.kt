@@ -5,10 +5,10 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.apistock.data.api.SymbolRepo
-import com.example.apistock.data.entities.HistoricalData
 import com.example.apistock.data.entities.MarketMovers
-import com.example.apistock.data.entities.SymbolDetails
 import com.example.apistock.data.entities.SymbolSearch
+import com.example.apistock.data.entities.quotes.HistoricalData
+import com.example.apistock.data.entities.quotes.SymbolDetails
 import com.example.apistock.indicators.UpperIndicators
 import com.example.apistock.utils.Resource
 import com.example.apistock.utils.ToCandleEntries
@@ -127,12 +127,12 @@ class MarketMoversViewModel @ViewModelInject constructor(private val repository:
         }
     }
 
-    fun getMoversDetails(market: String) {
+    /*fun getMoversDetails(market: String) {
         scope.launch {
             val moversDetail = repository.getMarketMoversDetails(market)
             moversLiveData.postValue(moversDetail)
         }
-    }
+    }*/
 
     //make test
     fun get52WeekHighLow(last: Double, low: Double, high: Double) =

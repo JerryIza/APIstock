@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.apistock.data.api.MainRepository;
 import com.example.apistock.data.api.RefreshTokenAuthenticator;
 import com.example.apistock.data.api.StockMarketService;
+import com.example.apistock.data.api.SymbolRepo;
 import com.example.apistock.di.AppModule;
 import com.example.apistock.di.AppModule_ProvideMarketApiServiceFactory;
 import com.example.apistock.di.AppModule_ProvideRetrofitClientFactory;
@@ -21,6 +22,8 @@ import com.example.apistock.di.AppModule_ProvidesTokenRefreshAuthenticatorFactor
 import com.example.apistock.ui.MainActivity;
 import com.example.apistock.ui.viewmodels.LoginViewModel_AssistedFactory;
 import com.example.apistock.ui.viewmodels.LoginViewModel_AssistedFactory_Factory;
+import com.example.apistock.ui.viewmodels.MarketMoversViewModel_AssistedFactory;
+import com.example.apistock.ui.viewmodels.MarketMoversViewModel_AssistedFactory_Factory;
 import com.example.apistock.ui.viewmodels.MarketViewModel_AssistedFactory;
 import com.example.apistock.ui.viewmodels.MarketViewModel_AssistedFactory_Factory;
 import com.example.apistock.utils.MyPreference;
@@ -209,8 +212,8 @@ public final class DaggerBaseApplication_HiltComponents_SingletonC extends BaseA
       private Activity activity;
 
       @Override
-      public ActivityCBuilder activity(Activity activity) {
-        this.activity = Preconditions.checkNotNull(activity);
+      public ActivityCBuilder activity(Activity arg0) {
+        this.activity = Preconditions.checkNotNull(arg0);
         return this;
       }
 
@@ -227,6 +230,10 @@ public final class DaggerBaseApplication_HiltComponents_SingletonC extends BaseA
       private volatile Provider<MainRepository> mainRepositoryProvider;
 
       private volatile Provider<LoginViewModel_AssistedFactory> loginViewModel_AssistedFactoryProvider;
+
+      private volatile Provider<SymbolRepo> symbolRepoProvider;
+
+      private volatile Provider<MarketMoversViewModel_AssistedFactory> marketMoversViewModel_AssistedFactoryProvider;
 
       private volatile Provider<MarketViewModel_AssistedFactory> marketViewModel_AssistedFactoryProvider;
 
@@ -260,6 +267,33 @@ public final class DaggerBaseApplication_HiltComponents_SingletonC extends BaseA
         return (Provider<LoginViewModel_AssistedFactory>) local;
       }
 
+      private SymbolRepo symbolRepo() {
+        return new SymbolRepo(DaggerBaseApplication_HiltComponents_SingletonC.this.stockMarketService());
+      }
+
+      private Provider<SymbolRepo> symbolRepoProvider() {
+        Object local = symbolRepoProvider;
+        if (local == null) {
+          local = new SwitchingProvider<>(3);
+          symbolRepoProvider = (Provider<SymbolRepo>) local;
+        }
+        return (Provider<SymbolRepo>) local;
+      }
+
+      private MarketMoversViewModel_AssistedFactory marketMoversViewModel_AssistedFactory() {
+        return MarketMoversViewModel_AssistedFactory_Factory.newInstance(symbolRepoProvider());
+      }
+
+      private Provider<MarketMoversViewModel_AssistedFactory> marketMoversViewModel_AssistedFactoryProvider(
+          ) {
+        Object local = marketMoversViewModel_AssistedFactoryProvider;
+        if (local == null) {
+          local = new SwitchingProvider<>(2);
+          marketMoversViewModel_AssistedFactoryProvider = (Provider<MarketMoversViewModel_AssistedFactory>) local;
+        }
+        return (Provider<MarketMoversViewModel_AssistedFactory>) local;
+      }
+
       private MarketViewModel_AssistedFactory marketViewModel_AssistedFactory() {
         return MarketViewModel_AssistedFactory_Factory.newInstance(mainRepositoryProvider(), DaggerBaseApplication_HiltComponents_SingletonC.this.myPreferenceProvider());
       }
@@ -267,7 +301,7 @@ public final class DaggerBaseApplication_HiltComponents_SingletonC extends BaseA
       private Provider<MarketViewModel_AssistedFactory> marketViewModel_AssistedFactoryProvider() {
         Object local = marketViewModel_AssistedFactoryProvider;
         if (local == null) {
-          local = new SwitchingProvider<>(2);
+          local = new SwitchingProvider<>(4);
           marketViewModel_AssistedFactoryProvider = (Provider<MarketViewModel_AssistedFactory>) local;
         }
         return (Provider<MarketViewModel_AssistedFactory>) local;
@@ -275,7 +309,7 @@ public final class DaggerBaseApplication_HiltComponents_SingletonC extends BaseA
 
       private Map<String, Provider<ViewModelAssistedFactory<? extends ViewModel>>> mapOfStringAndProviderOfViewModelAssistedFactoryOf(
           ) {
-        return MapBuilder.<String, Provider<ViewModelAssistedFactory<? extends ViewModel>>>newMapBuilder(2).put("com.example.apistock.ui.viewmodels.LoginViewModel", (Provider) loginViewModel_AssistedFactoryProvider()).put("com.example.apistock.ui.viewmodels.MarketViewModel", (Provider) marketViewModel_AssistedFactoryProvider()).build();
+        return MapBuilder.<String, Provider<ViewModelAssistedFactory<? extends ViewModel>>>newMapBuilder(3).put("com.example.apistock.ui.viewmodels.LoginViewModel", (Provider) loginViewModel_AssistedFactoryProvider()).put("com.example.apistock.ui.viewmodels.MarketMoversViewModel", (Provider) marketMoversViewModel_AssistedFactoryProvider()).put("com.example.apistock.ui.viewmodels.MarketViewModel", (Provider) marketViewModel_AssistedFactoryProvider()).build();
       }
 
       private ViewModelProvider.Factory provideFactory() {
@@ -305,8 +339,8 @@ public final class DaggerBaseApplication_HiltComponents_SingletonC extends BaseA
         private Fragment fragment;
 
         @Override
-        public FragmentCBuilder fragment(Fragment fragment) {
-          this.fragment = Preconditions.checkNotNull(fragment);
+        public FragmentCBuilder fragment(Fragment arg0) {
+          this.fragment = Preconditions.checkNotNull(arg0);
           return this;
         }
 
@@ -342,8 +376,8 @@ public final class DaggerBaseApplication_HiltComponents_SingletonC extends BaseA
           private View view;
 
           @Override
-          public ViewWithFragmentCBuilder view(View view) {
-            this.view = Preconditions.checkNotNull(view);
+          public ViewWithFragmentCBuilder view(View arg0) {
+            this.view = Preconditions.checkNotNull(arg0);
             return this;
           }
 
@@ -365,8 +399,8 @@ public final class DaggerBaseApplication_HiltComponents_SingletonC extends BaseA
         private View view;
 
         @Override
-        public ViewCBuilder view(View view) {
-          this.view = Preconditions.checkNotNull(view);
+        public ViewCBuilder view(View arg0) {
+          this.view = Preconditions.checkNotNull(arg0);
           return this;
         }
 
@@ -400,7 +434,13 @@ public final class DaggerBaseApplication_HiltComponents_SingletonC extends BaseA
             case 1: // com.example.apistock.data.api.MainRepository 
             return (T) ActivityCImpl.this.mainRepository();
 
-            case 2: // com.example.apistock.ui.viewmodels.MarketViewModel_AssistedFactory 
+            case 2: // com.example.apistock.ui.viewmodels.MarketMoversViewModel_AssistedFactory 
+            return (T) ActivityCImpl.this.marketMoversViewModel_AssistedFactory();
+
+            case 3: // com.example.apistock.data.api.SymbolRepo 
+            return (T) ActivityCImpl.this.symbolRepo();
+
+            case 4: // com.example.apistock.ui.viewmodels.MarketViewModel_AssistedFactory 
             return (T) ActivityCImpl.this.marketViewModel_AssistedFactory();
 
             default: throw new AssertionError(id);
@@ -414,8 +454,8 @@ public final class DaggerBaseApplication_HiltComponents_SingletonC extends BaseA
     private Service service;
 
     @Override
-    public ServiceCBuilder service(Service service) {
-      this.service = Preconditions.checkNotNull(service);
+    public ServiceCBuilder service(Service arg0) {
+      this.service = Preconditions.checkNotNull(arg0);
       return this;
     }
 

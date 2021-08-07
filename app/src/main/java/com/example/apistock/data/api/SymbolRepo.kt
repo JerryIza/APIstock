@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class SymbolRepo @Inject constructor(private val stockMarketService: StockMarketService) : BaseDataSource() {
 
-    suspend fun getMarketMoversDetails(market: String) = getResults { stockMarketService.fetchMoversDetailsAsync(market) }
+    //suspend fun getMarketMoversDetails(market: String) = getResults { stockMarketService.fetchMoversDetailsAsync(market) }
 
     suspend fun getSymbolDetails(symbol: String) = getResults { stockMarketService.fetchSymbolDetailsAsync(symbol)}
 

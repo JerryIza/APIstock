@@ -47,7 +47,7 @@ object ToCandleEntries {
             Timber.i("Add Last Candle For the First Time")
                 symbolDetails.lowPrice.toFloat()+
                 symbolDetails.openPrice.toFloat()+
-                symbolDetails.lastPrice.toFloat())
+                symbolDetails.lastPrice.toFloat()
             candleEntries.add(
                 CandleEntry(
                     candleEntries.size.toFloat()+ 1,

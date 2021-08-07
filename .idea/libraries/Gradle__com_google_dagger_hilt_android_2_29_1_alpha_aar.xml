@@ -4,14 +4,15 @@
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/dc31a53a51a7523cab7f5e337f29015e/jetified-hilt-android-2.29.1-alpha/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4ec0759981a2e04cff7f80ac220e828d/jetified-hilt-android-2.29.1-alpha/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/fdf061c783a61415cd94c37fc030d8c6/jetified-hilt-android-2.29.1-alpha/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/fdf061c783a61415cd94c37fc030d8c6/jetified-hilt-android-2.29.1-alpha/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/fdf061c783a61415cd94c37fc030d8c6/jetified-hilt-android-2.29.1-alpha/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/.gradle/7.0.2/caches/transforms-2/files-2.1/fdf061c783a61415cd94c37fc030d8c6/jetified-hilt-android-2.29.1-alpha/res" />
+      <root url="file://$PROJECT_DIR$/.gradle/7.0.2/caches/transforms-2/files-2.1/fdf061c783a61415cd94c37fc030d8c6/jetified-hilt-android-2.29.1-alpha/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/.gradle/7.0.2/caches/transforms-2/files-2.1/fdf061c783a61415cd94c37fc030d8c6/jetified-hilt-android-2.29.1-alpha/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.dagger/hilt-android/2.29.1-alpha/e128b65a1ad95097fa9407c6b9f49489a1499eb2/hilt-android-2.29.1-alpha-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/.gradle/7.0.2/caches/modules-2/files-2.1/com.google.dagger/hilt-android/2.29.1-alpha/e128b65a1ad95097fa9407c6b9f49489a1499eb2/hilt-android-2.29.1-alpha-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.dagger/hilt-android/2.29.1-alpha/da66fc4854ba6266507ee955c08e1a17db063f8c/hilt-android-2.29.1-alpha-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/.gradle/7.0.2/caches/modules-2/files-2.1/com.google.dagger/hilt-android/2.29.1-alpha/da66fc4854ba6266507ee955c08e1a17db063f8c/hilt-android-2.29.1-alpha-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

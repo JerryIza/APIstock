@@ -66,18 +66,16 @@ class LoginFragment  : Fragment() {
                         //     set it through the setHttpAuthUsernamePassword(...) shown below
                         //     and then reload the site
                     } else {
-                        val decodedToken = UrlQuerySanitizer(failingUrl).getValue("code")
-                       viewModel.postTokenAccess(decodedToken)
+                        val decodedUrlCode = UrlQuerySanitizer(failingUrl).getValue("code")
+                        viewModel.postTokenAccess(decodedUrlCode)
                     }
                 }
             }
         }
-
     }
     private fun setUpObservers(){
         viewModel.tokenLiveData.observe(viewLifecycleOwner,){
-            if (!it.isNullOrEmpty()) findNavController().navigate(R.id.action_loginFragment_to_marketMoversFragment)
-
-        }
+            if (!it.isNullOrEmpty()) findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)}
     }
+
 }

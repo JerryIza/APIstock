@@ -50,7 +50,7 @@ class MainRepository @Inject constructor(private val stockMarketService: StockMa
             refresh_Token = refreshToken,
             access_Type = accessType,
             Code = code,
-            client_Id = "YOUR AUTH KEY HERE",
+            client_Id = "LZBWODC3GHH1XMA5IMHFOFU2DNA81W6N@AMER.OAUTHAP",
             redirect_Uri = "http://localhost"
         )
     }

@@ -62,7 +62,7 @@ class DashboardFragment : Fragment() {
         binding.refreshBtn.setOnClickListener { viewModel.refreshTokenAccess() }
 
         binding.autoCompleteTextView.setOnClickListener {
-            findNavController().navigate(R.id.action_marketMoversFragment_to_searchFragment)
+            findNavController().navigate(R.id.action_dashboardFragment_to_searchFragment)
 
             findNavController().addOnDestinationChangedListener {
                     controller, destination, arguments ->
@@ -96,14 +96,14 @@ class DashboardFragment : Fragment() {
         val watchlist = arrayListOf<SymbolDetails>()
         wlAdapter = WatchlistAdapter(watchlist) {
             viewModel.start(watchlist[it].symbol)
-            findNavController().navigate(R.id.action_marketMoversFragment_to_stockDetailsFragment)
+            findNavController().navigate(R.id.action_dashboardFragment_to_stockDetailsFragment)
         }
         binding.watchlistRv.layoutManager = LinearLayoutManager(requireContext())
         binding.watchlistRv.adapter = wlAdapter
         val positionList = ArrayList<Pair<Positions, SymbolDetails>>()
         pAdapter = PositionsAdapter(positionList) {
             viewModel.start(positionList[it].second.symbol)
-            findNavController().navigate(R.id.action_marketMoversFragment_to_stockDetailsFragment)
+            findNavController().navigate(R.id.action_dashboardFragment_to_stockDetailsFragment)
         }
         binding.positionRv.layoutManager = LinearLayoutManager(requireContext())
         binding.positionRv.adapter = pAdapter

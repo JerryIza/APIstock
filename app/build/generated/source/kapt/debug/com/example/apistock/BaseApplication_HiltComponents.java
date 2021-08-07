@@ -4,6 +4,7 @@ import androidx.hilt.lifecycle.ViewModelFactoryModules;
 import com.example.apistock.di.AppModule;
 import com.example.apistock.ui.MainActivity_GeneratedInjector;
 import com.example.apistock.ui.viewmodels.LoginViewModel_HiltModule;
+import com.example.apistock.ui.viewmodels.MarketMoversViewModel_HiltModule;
 import com.example.apistock.ui.viewmodels.MarketViewModel_HiltModule;
 import dagger.Binds;
 import dagger.Component;
@@ -137,6 +138,7 @@ public final class BaseApplication_HiltComponents {
           ActivityCBuilderModule.class,
           HiltWrapper_ActivityRetainedComponentManager_LifecycleModule.class,
           LoginViewModel_HiltModule.class,
+          MarketMoversViewModel_HiltModule.class,
           MarketViewModel_HiltModule.class
       }
   )

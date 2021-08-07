@@ -37,7 +37,6 @@ object AppModule {
             println(Calendar.getInstance().time)
             if (myPreference.getAccessToken().isBlank()) {
                 println("Before Authentication" + myPreference.getAccessToken())
-
                 chain.proceed(request)
             } else {
                 println("After Authentication: " + myPreference.getAccessToken())

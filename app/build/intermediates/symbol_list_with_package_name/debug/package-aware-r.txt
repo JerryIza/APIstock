@@ -1871,13 +1871,13 @@ id action_bar_title
 id action_chartSettingsFragment_to_stockDetailsFragment
 id action_container
 id action_context_bar
+id action_dashboardFragment_to_loginFragment
+id action_dashboardFragment_to_searchFragment
+id action_dashboardFragment_to_stockDetailsFragment
 id action_divider
 id action_favorite
 id action_image
-id action_loginFragment_to_marketMoversFragment
-id action_marketMoversFragment_to_loginFragment
-id action_marketMoversFragment_to_searchFragment
-id action_marketMoversFragment_to_stockDetailsFragment
+id action_loginFragment_to_dashboardFragment
 id action_menu_divider
 id action_menu_presenter
 id action_mode_bar
@@ -1949,6 +1949,7 @@ id clip_vertical
 id clockwise
 id collapseActionView
 id confirm_button
+id constraintLayout
 id container
 id content
 id contentPanel
@@ -1959,6 +1960,7 @@ id counterclockwise
 id custom
 id customPanel
 id cut
+id dashboardFragment
 id date_picker_actions
 id dayBtn
 id dayExtBtn
@@ -2036,6 +2038,8 @@ id gtcExtBtn
 id guideline
 id header_title
 id hideable
+id highLowProgressBar
+id highTv
 id home
 id homeAsUp
 id honorRequest
@@ -2071,8 +2075,11 @@ id list_item
 id loadingBar
 id loadingBarDetail
 id loginFragment
+id lowTv
+id marginableTitle
+id marginableTv
 id marketBtn
-id marketMoversFragment
+id marketSpinner
 id masked
 id material_clock_display
 id material_clock_face
@@ -2106,6 +2113,13 @@ id month_navigation_previous
 id month_title
 id motionLayout
 id motion_base
+id moversChange
+id moversDescription
+id moversDirection
+id moversLast
+id moversRecycler
+id moversSymbol
+id moversVolume
 id mtrl_anchor_parent
 id mtrl_calendar_day_selector_frame
 id mtrl_calendar_days_of_week
@@ -2169,6 +2183,7 @@ id parent_matrix
 id password_toggle
 id path
 id pathRelative
+id peRatioTv
 id peekHeight
 id percent
 id pin
@@ -2225,6 +2240,8 @@ id select_dialog_listview
 id selected
 id selection_type
 id sharesInput
+id shortableTitle
+id shortableTv
 id shortcut
 id showCustom
 id showHome
@@ -2291,6 +2308,7 @@ id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
 id textTop
+id textView
 id textView2
 id textView3
 id text_input_end_icon
@@ -2306,6 +2324,8 @@ id threeMonthBtn
 id time
 id title
 id titleDividerNoCustom
+id titlePeRatio
+id titleVolume
 id title_template
 id toggle
 id toggleButton
@@ -2332,9 +2352,11 @@ id view_tree_saved_state_registry_owner
 id view_tree_view_model_store_owner
 id visible
 id visible_removing_fragment_view_tag
+id volumeTv
 id watchlistRv
 id watchlistSp
 id watchlistTitle
+id weekTv
 id withText
 id withinBounds
 id wlDescription
@@ -2431,6 +2453,7 @@ layout expand_button
 layout image_frame
 layout login_fragment
 layout main_activity
+layout market_movers_fragment
 layout material_chip_input_combo
 layout material_clock_display
 layout material_clock_display_divider
@@ -2445,6 +2468,7 @@ layout material_time_input
 layout material_timepicker
 layout material_timepicker_dialog
 layout material_timepicker_textinput_display
+layout movers_list
 layout mtrl_alert_dialog
 layout mtrl_alert_dialog_actions
 layout mtrl_alert_dialog_title
@@ -2512,6 +2536,7 @@ layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
+layout symbol_details_fragment
 layout test_action_chip
 layout test_chip_zero_corner_radius
 layout test_design_checkbox
@@ -3605,3 +3630,4 @@ xml standalone_badge_gravity_bottom_end
 xml standalone_badge_gravity_bottom_start
 xml standalone_badge_gravity_top_start
 xml standalone_badge_offset
+xml symbol_details_fragment_scene

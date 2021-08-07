@@ -30,6 +30,8 @@ class LoginViewModel @ViewModelInject constructor(
     /*private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
 */
+
+
     /*fun login(username: String, password: String) {
         // can be launched in a separate asynchronous job
         val result = loginRepository.login(username, password)
@@ -56,9 +58,12 @@ class LoginViewModel @ViewModelInject constructor(
                     code
                 )
             tokenLiveData.postValue(tokenDetails.toString())
-            myPreference.setAccessToken(tokenDetails.data!!.accessToken)
-            myPreference.setRefreshToken(tokenDetails.data.refreshToken)
+            println("Viewmodel tehe: " + tokenDetails.data)
+            if (tokenDetails.data?.accessToken  != null){
+            myPreference.setAccessToken(tokenDetails.data.accessToken)
+                tokenDetails.data.let { myPreference.setRefreshToken(it.refreshToken) }
             println(tokenDetails.data.refreshToken)
+            }
         }
     }
 
