@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewbinding.ViewBinding;
+import androidx.viewbinding.ViewBindings;
 import com.example.apistock.R;
 import java.lang.NullPointerException;
 import java.lang.Override;
@@ -59,13 +60,13 @@ public final class SearchListBinding implements ViewBinding {
     int id;
     missingId: {
       id = R.id.sDescriptionTv;
-      TextView sDescriptionTv = rootView.findViewById(id);
+      TextView sDescriptionTv = ViewBindings.findChildViewById(rootView, id);
       if (sDescriptionTv == null) {
         break missingId;
       }
 
       id = R.id.sSymbolTv;
-      TextView sSymbolTv = rootView.findViewById(id);
+      TextView sSymbolTv = ViewBindings.findChildViewById(rootView, id);
       if (sSymbolTv == null) {
         break missingId;
       }

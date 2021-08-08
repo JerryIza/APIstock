@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewbinding.ViewBinding;
+import androidx.viewbinding.ViewBindings;
 import com.example.apistock.R;
 import java.lang.NullPointerException;
 import java.lang.Override;
@@ -61,7 +62,7 @@ public final class MainActivityBinding implements ViewBinding {
       ConstraintLayout container = (ConstraintLayout) rootView;
 
       id = R.id.my_toolbar;
-      Toolbar myToolbar = rootView.findViewById(id);
+      Toolbar myToolbar = ViewBindings.findChildViewById(rootView, id);
       if (myToolbar == null) {
         break missingId;
       }

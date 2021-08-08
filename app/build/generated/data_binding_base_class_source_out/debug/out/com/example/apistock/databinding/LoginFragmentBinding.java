@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewbinding.ViewBinding;
+import androidx.viewbinding.ViewBindings;
 import com.example.apistock.R;
 import java.lang.NullPointerException;
 import java.lang.Override;
@@ -60,13 +61,13 @@ public final class LoginFragmentBinding implements ViewBinding {
     int id;
     missingId: {
       id = R.id.myWebView;
-      WebView myWebView = rootView.findViewById(id);
+      WebView myWebView = ViewBindings.findChildViewById(rootView, id);
       if (myWebView == null) {
         break missingId;
       }
 
       id = R.id.signInBtn;
-      Button signInBtn = rootView.findViewById(id);
+      Button signInBtn = ViewBindings.findChildViewById(rootView, id);
       if (signInBtn == null) {
         break missingId;
       }

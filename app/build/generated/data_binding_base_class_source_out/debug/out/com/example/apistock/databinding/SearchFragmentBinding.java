@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
+import androidx.viewbinding.ViewBindings;
 import com.example.apistock.R;
 import java.lang.NullPointerException;
 import java.lang.Override;
@@ -60,13 +61,13 @@ public final class SearchFragmentBinding implements ViewBinding {
     int id;
     missingId: {
       id = R.id.searchRecycler;
-      RecyclerView searchRecycler = rootView.findViewById(id);
+      RecyclerView searchRecycler = ViewBindings.findChildViewById(rootView, id);
       if (searchRecycler == null) {
         break missingId;
       }
 
       id = R.id.searchSymbolInput;
-      EditText searchSymbolInput = rootView.findViewById(id);
+      EditText searchSymbolInput = ViewBindings.findChildViewById(rootView, id);
       if (searchSymbolInput == null) {
         break missingId;
       }

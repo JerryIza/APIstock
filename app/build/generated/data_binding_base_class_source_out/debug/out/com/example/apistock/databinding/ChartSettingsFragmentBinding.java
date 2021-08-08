@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewbinding.ViewBinding;
+import androidx.viewbinding.ViewBindings;
 import com.example.apistock.R;
 import java.lang.NullPointerException;
 import java.lang.Override;
@@ -70,25 +71,25 @@ public final class ChartSettingsFragmentBinding implements ViewBinding {
     int id;
     missingId: {
       id = R.id.editTextNumber;
-      EditText editTextNumber = rootView.findViewById(id);
+      EditText editTextNumber = ViewBindings.findChildViewById(rootView, id);
       if (editTextNumber == null) {
         break missingId;
       }
 
       id = R.id.switch1;
-      Switch switch1 = rootView.findViewById(id);
+      Switch switch1 = ViewBindings.findChildViewById(rootView, id);
       if (switch1 == null) {
         break missingId;
       }
 
       id = R.id.textView2;
-      TextView textView2 = rootView.findViewById(id);
+      TextView textView2 = ViewBindings.findChildViewById(rootView, id);
       if (textView2 == null) {
         break missingId;
       }
 
       id = R.id.textView3;
-      TextView textView3 = rootView.findViewById(id);
+      TextView textView3 = ViewBindings.findChildViewById(rootView, id);
       if (textView3 == null) {
         break missingId;
       }

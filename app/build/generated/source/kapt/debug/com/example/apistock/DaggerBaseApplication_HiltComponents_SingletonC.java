@@ -212,8 +212,8 @@ public final class DaggerBaseApplication_HiltComponents_SingletonC extends BaseA
       private Activity activity;
 
       @Override
-      public ActivityCBuilder activity(Activity arg0) {
-        this.activity = Preconditions.checkNotNull(arg0);
+      public ActivityCBuilder activity(Activity activity) {
+        this.activity = Preconditions.checkNotNull(activity);
         return this;
       }
 
@@ -339,8 +339,8 @@ public final class DaggerBaseApplication_HiltComponents_SingletonC extends BaseA
         private Fragment fragment;
 
         @Override
-        public FragmentCBuilder fragment(Fragment arg0) {
-          this.fragment = Preconditions.checkNotNull(arg0);
+        public FragmentCBuilder fragment(Fragment fragment) {
+          this.fragment = Preconditions.checkNotNull(fragment);
           return this;
         }
 
@@ -376,8 +376,8 @@ public final class DaggerBaseApplication_HiltComponents_SingletonC extends BaseA
           private View view;
 
           @Override
-          public ViewWithFragmentCBuilder view(View arg0) {
-            this.view = Preconditions.checkNotNull(arg0);
+          public ViewWithFragmentCBuilder view(View view) {
+            this.view = Preconditions.checkNotNull(view);
             return this;
           }
 
@@ -399,8 +399,8 @@ public final class DaggerBaseApplication_HiltComponents_SingletonC extends BaseA
         private View view;
 
         @Override
-        public ViewCBuilder view(View arg0) {
-          this.view = Preconditions.checkNotNull(arg0);
+        public ViewCBuilder view(View view) {
+          this.view = Preconditions.checkNotNull(view);
           return this;
         }
 
@@ -454,8 +454,8 @@ public final class DaggerBaseApplication_HiltComponents_SingletonC extends BaseA
     private Service service;
 
     @Override
-    public ServiceCBuilder service(Service arg0) {
-      this.service = Preconditions.checkNotNull(arg0);
+    public ServiceCBuilder service(Service service) {
+      this.service = Preconditions.checkNotNull(service);
       return this;
     }
 

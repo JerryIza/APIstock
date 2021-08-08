@@ -4,7 +4,7 @@
             "outputFile": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-watch-v20\\values-watch-v20.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\.gradle\\7.0.2\\caches\\transforms-2\\files-2.1\\8bb2cfe54c13e109130599bc6a5c4b07\\appcompat-1.2.0\\res\\values-watch-v20\\values-watch-v20.xml",
+                    "source": "C:\\Users\\Jerry\\AndroidStudioProjects\\StockMarketApp\\.gradle\\7.0.2\\caches\\transforms-3\\3e9903231f10a4177cc199d9ec04ce55\\transformed\\appcompat-1.2.0\\res\\values-watch-v20\\values-watch-v20.xml",
                     "from": {
                         "startLines": "2,5,8",
                         "startColumns": "4,4,4",

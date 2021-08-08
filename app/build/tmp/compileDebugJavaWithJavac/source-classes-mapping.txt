@@ -1,3 +1,5 @@
+hilt_aggregated_deps/com_example_apistock_ui_viewmodels_MarketViewModel_HiltModuleModuleDeps.java
+ hilt_aggregated_deps.com_example_apistock_ui_viewmodels_MarketViewModel_HiltModuleModuleDeps
 com/example/apistock/DaggerBaseApplication_HiltComponents_SingletonC.java
  com.example.apistock.DaggerBaseApplication_HiltComponents_SingletonC
  com.example.apistock.DaggerBaseApplication_HiltComponents_SingletonC$1
@@ -16,14 +18,12 @@ com/example/apistock/DaggerBaseApplication_HiltComponents_SingletonC.java
  com.example.apistock.DaggerBaseApplication_HiltComponents_SingletonC$ServiceCBuilder
  com.example.apistock.DaggerBaseApplication_HiltComponents_SingletonC$ServiceCImpl
  com.example.apistock.DaggerBaseApplication_HiltComponents_SingletonC$SwitchingProvider
-hilt_aggregated_deps/com_example_apistock_ui_viewmodels_MarketViewModel_HiltModuleModuleDeps.java
- hilt_aggregated_deps.com_example_apistock_ui_viewmodels_MarketViewModel_HiltModuleModuleDeps
 com/example/apistock/di/AppModule_ProvideRetrofitClientFactory.java
  com.example.apistock.di.AppModule_ProvideRetrofitClientFactory
-com/example/apistock/data/api/MainRepository_Factory.java
- com.example.apistock.data.api.MainRepository_Factory
 com/example/apistock/di/AppModule_ProvidesOkHttpClientFactory.java
  com.example.apistock.di.AppModule_ProvidesOkHttpClientFactory
+com/example/apistock/data/api/MainRepository_Factory.java
+ com.example.apistock.data.api.MainRepository_Factory
 com/example/apistock/ui/MainActivity_GeneratedInjector.java
  com.example.apistock.ui.MainActivity_GeneratedInjector
 hilt_aggregated_deps/com_example_apistock_BaseApplication_GeneratedInjectorModuleDeps.java
@@ -57,10 +57,10 @@ com/example/apistock/BaseApplication_HiltComponents.java
  com.example.apistock.BaseApplication_HiltComponents$ViewWithFragmentCBuilderModule
 com/example/apistock/databinding/LoginFragmentBinding.java
  com.example.apistock.databinding.LoginFragmentBinding
-com/example/apistock/ui/viewmodels/MarketMoversViewModel_AssistedFactory.java
- com.example.apistock.ui.viewmodels.MarketMoversViewModel_AssistedFactory
 com/example/apistock/di/AppModule_ProvidesTokenRefreshAuthenticatorFactory.java
  com.example.apistock.di.AppModule_ProvidesTokenRefreshAuthenticatorFactory
+com/example/apistock/ui/viewmodels/MarketMoversViewModel_AssistedFactory.java
+ com.example.apistock.ui.viewmodels.MarketMoversViewModel_AssistedFactory
 com/example/apistock/databinding/DashboardFragmentBinding.java
  com.example.apistock.databinding.DashboardFragmentBinding
 com/example/apistock/databinding/SearchFragmentBinding.java
@@ -74,12 +74,12 @@ com/example/apistock/data/api/SymbolRepo_Factory.java
  com.example.apistock.data.api.SymbolRepo_Factory
 com/example/apistock/di/AppModule_ProvidesBearerTokenFactory.java
  com.example.apistock.di.AppModule_ProvidesBearerTokenFactory
-com/example/apistock/databinding/SearchListBinding.java
- com.example.apistock.databinding.SearchListBinding
-com/example/apistock/ui/Hilt_MainActivity.java
- com.example.apistock.ui.Hilt_MainActivity
 hilt_aggregated_deps/com_example_apistock_ui_MainActivity_GeneratedInjectorModuleDeps.java
  hilt_aggregated_deps.com_example_apistock_ui_MainActivity_GeneratedInjectorModuleDeps
+com/example/apistock/ui/Hilt_MainActivity.java
+ com.example.apistock.ui.Hilt_MainActivity
+com/example/apistock/databinding/SearchListBinding.java
+ com.example.apistock.databinding.SearchListBinding
 com/example/apistock/Hilt_BaseApplication.java
  com.example.apistock.Hilt_BaseApplication
  com.example.apistock.Hilt_BaseApplication$1
@@ -87,47 +87,47 @@ com/example/apistock/ui/viewmodels/MarketMoversViewModel_HiltModule.java
  com.example.apistock.ui.viewmodels.MarketMoversViewModel_HiltModule
 com/example/apistock/databinding/ChartFragmentBinding.java
  com.example.apistock.databinding.ChartFragmentBinding
-com/example/apistock/databinding/DeleteBinding.java
- com.example.apistock.databinding.DeleteBinding
 com/example/apistock/data/api/RefreshTokenAuthenticator_MembersInjector.java
  com.example.apistock.data.api.RefreshTokenAuthenticator_MembersInjector
+com/example/apistock/databinding/DeleteBinding.java
+ com.example.apistock.databinding.DeleteBinding
 com/example/apistock/data/api/RefreshTokenAuthenticator_Factory.java
  com.example.apistock.data.api.RefreshTokenAuthenticator_Factory
 com/example/apistock/ui/viewmodels/MarketViewModel_AssistedFactory.java
  com.example.apistock.ui.viewmodels.MarketViewModel_AssistedFactory
 com/example/apistock/ui/viewmodels/MarketViewModel_AssistedFactory_Factory.java
  com.example.apistock.ui.viewmodels.MarketViewModel_AssistedFactory_Factory
-com/example/apistock/ui/viewmodels/LoginViewModel_AssistedFactory_Factory.java
- com.example.apistock.ui.viewmodels.LoginViewModel_AssistedFactory_Factory
 com/example/apistock/ui/viewmodels/MarketViewModel_HiltModule.java
  com.example.apistock.ui.viewmodels.MarketViewModel_HiltModule
-com/example/apistock/databinding/ChartSettingsFragmentBinding.java
- com.example.apistock.databinding.ChartSettingsFragmentBinding
-com/example/apistock/ui/viewmodels/MarketMoversViewModel_AssistedFactory_Factory.java
- com.example.apistock.ui.viewmodels.MarketMoversViewModel_AssistedFactory_Factory
+com/example/apistock/ui/viewmodels/LoginViewModel_AssistedFactory_Factory.java
+ com.example.apistock.ui.viewmodels.LoginViewModel_AssistedFactory_Factory
 hilt_aggregated_deps/com_example_apistock_ui_viewmodels_LoginViewModel_HiltModuleModuleDeps.java
  hilt_aggregated_deps.com_example_apistock_ui_viewmodels_LoginViewModel_HiltModuleModuleDeps
-com/example/apistock/di/AppModule_ProvidesOkHttpInterceptorFactory.java
- com.example.apistock.di.AppModule_ProvidesOkHttpInterceptorFactory
+com/example/apistock/ui/viewmodels/MarketMoversViewModel_AssistedFactory_Factory.java
+ com.example.apistock.ui.viewmodels.MarketMoversViewModel_AssistedFactory_Factory
+com/example/apistock/databinding/ChartSettingsFragmentBinding.java
+ com.example.apistock.databinding.ChartSettingsFragmentBinding
 hilt_aggregated_deps/com_example_apistock_ui_viewmodels_MarketMoversViewModel_HiltModuleModuleDeps.java
  hilt_aggregated_deps.com_example_apistock_ui_viewmodels_MarketMoversViewModel_HiltModuleModuleDeps
+com/example/apistock/di/AppModule_ProvidesOkHttpInterceptorFactory.java
+ com.example.apistock.di.AppModule_ProvidesOkHttpInterceptorFactory
 com/example/apistock/BuildConfig.java
  com.example.apistock.BuildConfig
-com/example/apistock/databinding/MainActivityBinding.java
- com.example.apistock.databinding.MainActivityBinding
-com/example/apistock/databinding/MarketMoversFragmentBinding.java
- com.example.apistock.databinding.MarketMoversFragmentBinding
 com/example/apistock/databinding/OrderFragmentBinding.java
  com.example.apistock.databinding.OrderFragmentBinding
-com/example/apistock/BaseApplication_GeneratedInjector.java
- com.example.apistock.BaseApplication_GeneratedInjector
+com/example/apistock/databinding/MarketMoversFragmentBinding.java
+ com.example.apistock.databinding.MarketMoversFragmentBinding
+com/example/apistock/databinding/MainActivityBinding.java
+ com.example.apistock.databinding.MainActivityBinding
 com/example/apistock/ui/viewmodels/LoginViewModel_HiltModule.java
  com.example.apistock.ui.viewmodels.LoginViewModel_HiltModule
+com/example/apistock/BaseApplication_GeneratedInjector.java
+ com.example.apistock.BaseApplication_GeneratedInjector
 hilt_aggregated_deps/com_example_apistock_di_AppModuleModuleDeps.java
  hilt_aggregated_deps.com_example_apistock_di_AppModuleModuleDeps
-com/example/apistock/databinding/PositionsListBinding.java
- com.example.apistock.databinding.PositionsListBinding
-com/example/apistock/databinding/SymbolDetailsFragmentBinding.java
- com.example.apistock.databinding.SymbolDetailsFragmentBinding
 com/example/apistock/ui/viewmodels/LoginViewModel_AssistedFactory.java
  com.example.apistock.ui.viewmodels.LoginViewModel_AssistedFactory
+com/example/apistock/databinding/SymbolDetailsFragmentBinding.java
+ com.example.apistock.databinding.SymbolDetailsFragmentBinding
+com/example/apistock/databinding/PositionsListBinding.java
+ com.example.apistock.databinding.PositionsListBinding
