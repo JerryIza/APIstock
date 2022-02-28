@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+>
+
+
+    <TextView
+        android:id="@+id/pSymbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/roboto_slab"
+        android:text="GOOG"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/pDescription"
+        android:layout_width="80dp"
+        android:layout_height="16dp"
+        android:fontFamily="@font/roboto_slab_light"
+        android:text="Advaced Micro Devices"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/pSymbol"
+        app:layout_constraintTop_toBottomOf="@+id/pSymbol" />
+
+    <TextView
+        android:id="@+id/pCost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:fontFamily="@font/roboto_slab"
+        android:text="Cost: $2,070.32"
+        app:layout_constraintStart_toStartOf="@+id/pChg"
+        app:layout_constraintTop_toBottomOf="@+id/pChg" />
+
+    <TextView
+        android:id="@+id/pChg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:text="Chg: +$30"
+        app:layout_constraintStart_toStartOf="@+id/pLast"
+        app:layout_constraintTop_toBottomOf="@+id/pLast" />
+
+    <TextView
+        android:id="@+id/pLChg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_slab"
+        android:text="P/L Day: $100"
+        app:layout_constraintStart_toStartOf="@+id/pLOpen"
+        app:layout_constraintTop_toBottomOf="@+id/pLOpen" />
+
+    <TextView
+        android:id="@+id/pQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_slab"
+        android:text="Qty: -6"
+        app:layout_constraintStart_toStartOf="@+id/pDescription"
+        app:layout_constraintTop_toBottomOf="@+id/pDescription" />
+
+    <TextView
+        android:id="@+id/pLast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="8dp"
+        android:text="Last: $2,276.83"
+        app:layout_constraintStart_toEndOf="@+id/pDescription"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/pLOpen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="P/L Open: $-1,239.08"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/pCost"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/pMaint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Maint: 4,111.58"
+        app:layout_constraintStart_toStartOf="@+id/pLChg"
+        app:layout_constraintTop_toBottomOf="@+id/pLChg" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height=".5dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

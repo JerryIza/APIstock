@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/motionLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/symbol_details_fragment_scene">
+
+
+    <Button
+        android:id="@+id/monthBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="@string/_1m"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/candleChart" />
+
+    <Button
+        android:id="@+id/threeMonthBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/_3m"
+        app:layout_constraintStart_toEndOf="@+id/monthBtn"
+        app:layout_constraintTop_toTopOf="@+id/monthBtn" />
+
+    <Button
+        android:id="@+id/sixMonthsBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/_6m"
+        app:layout_constraintStart_toEndOf="@+id/threeMonthBtn"
+        app:layout_constraintTop_toTopOf="@+id/threeMonthBtn" />
+
+    <Button
+        android:id="@+id/oneYearBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/_1y"
+        app:layout_constraintStart_toEndOf="@+id/sixMonthsBtn"
+        app:layout_constraintTop_toTopOf="@+id/sixMonthsBtn" />
+
+    <ProgressBar
+        android:id="@+id/loadingBarDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:translationZ="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <com.github.mikephil.charting.charts.CombinedChart
+        android:id="@+id/candleChart"
+        android:layout_width="0dp"
+        android:layout_height="500dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/monthBtn">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toStartOf="@+id/monthBtn"
+            app:layout_constraintStart_toStartOf="@+id/monthBtn">
+
+            <TextView
+                android:id="@+id/highTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_15_53"
+                app:layout_constraintBottom_toTopOf="@+id/highLowProgressBar"
+                app:layout_constraintEnd_toEndOf="@+id/highLowProgressBar" />
+
+            <TextView
+                android:id="@+id/titleVolume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/today_s_volume"
+                app:layout_constraintStart_toStartOf="@+id/highLowProgressBar"
+                app:layout_constraintTop_toBottomOf="@+id/highLowProgressBar" />
+
+            <ProgressBar
+                android:id="@+id/highLowProgressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:progress="50"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/weekTv" />
+
+            <TextView
+                android:id="@+id/bidTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/bid_12_49"
+                app:layout_constraintStart_toStartOf="@+id/lowTv"
+                app:layout_constraintTop_toBottomOf="@+id/changeTv" />
+
+            <TextView
+                android:id="@+id/askTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ask_12_50"
+                app:layout_constraintEnd_toEndOf="@+id/highTv"
+                app:layout_constraintTop_toTopOf="@+id/bidTv" />
+
+            <TextView
+                android:id="@+id/marginableTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/yes"
+                app:layout_constraintEnd_toEndOf="@+id/peRatioTv"
+                app:layout_constraintStart_toStartOf="@+id/peRatioTv"
+                app:layout_constraintTop_toTopOf="@+id/marginableTitle" />
+
+            <TextView
+                android:id="@+id/weekTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/_52_week_range"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bidTv" />
+
+            <TextView
+                android:id="@+id/lowTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_10_10"
+                app:layout_constraintBottom_toTopOf="@+id/highLowProgressBar"
+                app:layout_constraintStart_toStartOf="@+id/highLowProgressBar" />
+
+            <TextView
+                android:id="@+id/lastTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_12_50"
+                android:textColor="@color/focusTextColor"
+                android:textSize="30sp"
+                android:translationZ="1dp"
+                app:layout_constraintEnd_toEndOf="@+id/descriptionTv"
+                app:layout_constraintStart_toStartOf="@+id/descriptionTv"
+                app:layout_constraintTop_toBottomOf="@+id/descriptionTv" />
+
+            <TextView
+                android:id="@+id/shortableTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/shortable"
+                app:layout_constraintStart_toStartOf="@+id/marginableTitle"
+                app:layout_constraintTop_toBottomOf="@+id/marginableTitle" />
+
+            <TextView
+                android:id="@+id/peRatioTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_110_0"
+                app:layout_constraintEnd_toEndOf="@+id/volumeTv"
+                app:layout_constraintTop_toTopOf="@+id/titlePeRatio" />
+
+            <TextView
+                android:id="@+id/descriptionTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/advance_micro_devices"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/symbolView" />
+
+            <TextView
+                android:id="@+id/titlePeRatio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/p_e_ratino"
+                app:layout_constraintStart_toStartOf="@+id/titleVolume"
+                app:layout_constraintTop_toBottomOf="@+id/titleVolume" />
+
+            <TextView
+                android:id="@+id/marginableTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/marginable"
+                app:layout_constraintStart_toStartOf="@+id/titlePeRatio"
+                app:layout_constraintTop_toBottomOf="@+id/titlePeRatio" />
+
+            <TextView
+                android:id="@+id/shortableTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/yes"
+                app:layout_constraintEnd_toEndOf="@+id/marginableTv"
+                app:layout_constraintTop_toTopOf="@+id/shortableTitle" />
+
+            <TextView
+                android:id="@+id/volumeTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_24_000_000"
+                app:layout_constraintEnd_toEndOf="@+id/highLowProgressBar"
+                app:layout_constraintTop_toTopOf="@+id/titleVolume" />
+
+            <TextView
+                android:id="@+id/changeTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_1_10_8_10"
+                android:translationZ="1dp"
+                app:layout_constraintEnd_toEndOf="@+id/lastTv"
+                app:layout_constraintStart_toStartOf="@+id/lastTv"
+                app:layout_constraintTop_toBottomOf="@+id/lastTv" />
+
+            <TextView
+                android:id="@+id/symbolView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/amd"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

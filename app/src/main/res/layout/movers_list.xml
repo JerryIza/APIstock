@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    >
+
+    <TextView
+        android:id="@+id/moversSymbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto_slab"
+        android:text="AMD"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/moversDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/roboto_slab_light"
+        android:text="Advaced Micro Devices"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/moversSymbol"
+        app:layout_constraintTop_toBottomOf="@+id/moversSymbol" />
+
+    <TextView
+        android:id="@+id/moversLast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto_slab"
+        android:text="Last: $70.50"
+        app:layout_constraintStart_toStartOf="@+id/moversSymbol"
+        app:layout_constraintTop_toBottomOf="@+id/moversDescription" />
+
+    <TextView
+        android:id="@+id/moversChange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/roboto_slab"
+        android:text="Change: +3.50"
+        app:layout_constraintStart_toEndOf="@+id/moversLast"
+        app:layout_constraintTop_toTopOf="@+id/moversLast" />
+
+    <TextView
+        android:id="@+id/moversVolume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/roboto_slab"
+        android:text="Volume: 3,000,000"
+        app:layout_constraintStart_toEndOf="@+id/moversChange"
+        app:layout_constraintTop_toTopOf="@+id/moversChange" />
+
+    <TextView
+        android:id="@+id/moversDirection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/roboto_slab"
+        android:text="Direction: Up"
+        app:layout_constraintBottom_toBottomOf="@+id/moversSymbol"
+        app:layout_constraintStart_toEndOf="@+id/moversSymbol"
+        app:layout_constraintTop_toTopOf="@+id/moversSymbol" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/textColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

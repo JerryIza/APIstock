@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.example.composetdaapp.ui.fragments.DashboardFragment"
+        android:label="DashboardFragment"
+        tools:layout="@layout/dashboard_fragment"
+        >
+
+        <action
+            android:id="@+id/action_dashboardFragment_to_stockDetailsFragment"
+            app:destination="@id/chartFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/chartFragment"
+        android:name="com.example.composetdaapp.ui.fragments.ChartFragment"
+        android:label="Title"
+        tools:layout="@layout/chart_fragment"
+        >
+
+
+
+        <action
+            android:id="@+id/action_stockDetailsFragment_to_chartSettingsFragment"
+            app:destination="@id/chartSettingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.composetdaapp.ui.fragments.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/search_fragment"
+        >
+        <action
+            android:id="@+id/action_searchFragment_to_stockDetailsFragment"
+            app:destination="@id/chartFragment"
+            app:popUpTo="@id/chartFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/chartSettingsFragment"
+        android:name="com.example.composetdaapp.ui.fragments.ChartSettingsFragment"
+        android:label="ChartSettingsFragment"
+        tools:layout="@layout/chart_settings_fragment"
+        >
+        <action
+            android:id="@+id/action_chartSettingsFragment_to_stockDetailsFragment"
+            app:destination="@id/chartFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.composetdaapp.ui.fragments.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/login_fragment"
+        >
+        <action
+            android:id="@+id/action_loginFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
+</navigation>

@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:motion="http://schemas.android.com/tools">
+
+
+    <ConstraintSet android:id="@+id/start">
+
+        <Constraint
+            android:id="@+id/loadingBarDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:translationZ="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <PropertySet
+                app:applyMotionScene="false"
+                app:visibilityMode="ignore" />
+        </Constraint>
+        <Constraint
+            android:id="@+id/candleChart"
+            android:layout_width="0dp"
+            android:layout_height="480dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <Constraint
+            android:id="@+id/toggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/posLinearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/posLinearLayout" />
+
+        <Constraint
+            android:id="@+id/btnBuy"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnDivider"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/changeTv" />
+        <Constraint
+            android:id="@+id/btnSell"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnDivider"
+            app:layout_constraintTop_toBottomOf="@+id/changeTv" />
+
+        <Constraint
+            android:id="@+id/orderBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/orderTypeTv" />
+        <Constraint
+            android:id="@+id/expirationBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/expTv" />
+        <Constraint
+            android:id="@+id/sharesInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/expirationBtn" />
+        <Constraint
+            android:id="@+id/priceInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sharesInput" />
+        <Constraint
+            android:id="@+id/effectBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/candleChart" />
+
+        <Constraint
+            android:id="@+id/posEffectTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/changeTv" />
+        <Constraint
+            android:id="@+id/orderTypeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/effectBtn" />
+        <Constraint
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@id/expirationBtn"
+            app:layout_editor_absoluteX="86dp"
+            app:layout_editor_absoluteY="484dp" />
+        <Constraint
+            android:id="@+id/descriptionTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/symbolView"
+            app:layout_constraintStart_toStartOf="@+id/symbolView"
+            app:layout_constraintTop_toBottomOf="@+id/symbolView" />
+        <Constraint
+            android:id="@+id/symbolView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toggleButton" />
+        <Constraint
+            android:id="@+id/lastTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:translationZ="1dp"
+            app:layout_constraintEnd_toEndOf="@+id/descriptionTv"
+            app:layout_constraintStart_toStartOf="@+id/descriptionTv"
+            app:layout_constraintTop_toBottomOf="@+id/descriptionTv" />
+        <Constraint
+            android:id="@+id/bidTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/lastTv"
+            app:layout_constraintEnd_toStartOf="@+id/lastTv"
+            app:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/askTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/lastTv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/lastTv" />
+        <Constraint
+            android:id="@+id/changeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:translationZ="1dp"
+            app:layout_constraintEnd_toEndOf="@+id/lastTv"
+            app:layout_constraintStart_toStartOf="@+id/lastTv"
+            app:layout_constraintTop_toBottomOf="@+id/lastTv" />
+
+
+        <Constraint
+            android:id="@+id/Confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+
+            />
+        <Constraint
+            android:id="@+id/cancelBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@+id/posLinearLayout" />
+        <Constraint
+            android:id="@+id/orderCardView"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/askTv"
+            app:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/expTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/orderBtn"
+            app:layout_constraintStart_toStartOf="parent"
+             />
+
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/cancelBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@+id/posLinearLayout" />
+        <Constraint
+            android:id="@+id/candleChart"
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <Constraint
+            android:id="@+id/descriptionTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/symbolView"
+            app:layout_constraintStart_toStartOf="@+id/symbolView"
+            app:layout_constraintTop_toBottomOf="@+id/symbolView" />
+        <Constraint
+            android:id="@+id/symbolView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.75"
+            android:scaleY="0.75"
+
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/posLinearLayout" />
+        <Constraint
+            android:id="@+id/lastTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.5"
+
+            android:scaleY="0.5"
+            android:translationZ="1dp"
+            android:visibility="visible"
+
+            app:layout_constraintEnd_toEndOf="@+id/descriptionTv"
+            app:layout_constraintStart_toStartOf="@+id/descriptionTv"
+            app:layout_constraintTop_toBottomOf="@+id/descriptionTv" />
+        <Constraint
+            android:id="@+id/bidTv"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/lastTv"
+            app:layout_constraintEnd_toStartOf="@+id/lastTv"
+            app:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/askTv"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/lastTv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/lastTv" />
+        <Constraint
+            android:id="@+id/changeTv"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:translationZ="1dp"
+            android:visibility="visible"
+
+            app:layout_constraintEnd_toEndOf="@+id/lastTv"
+            app:layout_constraintStart_toStartOf="@+id/lastTv"
+            app:layout_constraintTop_toBottomOf="@+id/lastTv" />
+
+
+        <Constraint
+            android:id="@+id/toggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/changeTv" />
+        <Constraint
+            android:id="@+id/btnBuy"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toStartOf="@+id/btnDivider"
+            app:layout_constraintStart_toStartOf="parent"
+
+            app:layout_constraintTop_toBottomOf="@+id/changeTv" />
+        <Constraint
+            android:id="@+id/btnSell"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnDivider"
+            app:layout_constraintTop_toBottomOf="@+id/changeTv" />
+        <Constraint
+            android:id="@+id/posEffectTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/changeTv"
+            android:layout_marginStart="8dp" />
+        <Constraint
+            android:id="@+id/effectBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/posEffectTv" />
+
+        <Constraint
+            android:id="@+id/sharesInput"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+
+            app:layout_constraintEnd_toEndOf="@+id/btnBuy"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/expirationBtn" />
+        <Constraint
+            android:id="@+id/expTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@+id/orderBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            />
+        <Constraint
+            android:id="@+id/priceInput"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/sharesInput"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/sharesInput"
+            app:layout_constraintTop_toTopOf="@+id/sharesInput" />
+        <Constraint
+            android:id="@+id/Confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        <Constraint
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/expirationBtn"
+            app:layout_editor_absoluteY="484dp" />
+        <Constraint
+            app:layout_editor_absoluteY="235dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/floatingActionButton" />
+        <Constraint
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/askTv"
+            app:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/orderTypeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/effectBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp" />
+
+
+    </ConstraintSet>
+
+
+    <Transition
+        app:constraintSetEnd="@id/end"
+        app:constraintSetStart="@+id/start"
+        motion:duration="1000"
+        motion:motionInterpolator="easeIn" />
+</MotionScene>
