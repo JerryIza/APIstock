@@ -40,7 +40,6 @@ class OrdersViewHolder(private val itemBinding: OrdersListBinding) : RecyclerVie
         itemBinding.oSpread.text = result.orderStrategyType
         itemBinding.oSide.text = result.orderType
         itemBinding.oEffect.text = result.orderType
-        itemBinding.oPrice.text = result.price.toString()
         itemBinding.oStatus.text = result.status
         itemBinding.oTif.text = result.session
 

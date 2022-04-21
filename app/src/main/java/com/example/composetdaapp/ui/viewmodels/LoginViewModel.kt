@@ -38,10 +38,11 @@ class LoginViewModel @Inject constructor(
 
     var userPrincipalsLiveData = MutableLiveData<UserPrincipals>()
 
-    fun checkTokenAccess() = myPreference.getAccessToken()
+    fun checkRefreshToken() = myPreference.getRefreshToken()
 
     fun refreshTokenAccess() {
         scope.launch {
+            myPreference.setAccessToken("")
             println("POSTED Malone #  " + myPreference.getAccessToken())
             val accessToken = repository.postRefreshToken(
                 refreshToken = myPreference.getRefreshToken(),
@@ -100,7 +101,7 @@ class LoginViewModel @Inject constructor(
             val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+SSSS")
             val date: Date = sdf.parse(tokenTimestamp)
             val tokenTimestampAsMs: Long = date.toInstant().toEpochMilli()
-            val tokenTimestampAsMsOffset: Long = (tokenTimestampAsMs - 21600000)
+            val tokenTimestampAsMsOffset: Long = (tokenTimestampAsMs - 18000000)
 
             println("With offset: " + tokenTimestampAsMsOffset)
 
@@ -133,8 +134,11 @@ class LoginViewModel @Inject constructor(
                     "version" to "1.0"
                 )
             )
+            println("onMessage LoginP: " + loginRequest)
 
             val payload = JSONObject(loginRequest as Map<*, *>?)
+
+
 
             myPreference.setSocketCredentials(payload.toString())
         }

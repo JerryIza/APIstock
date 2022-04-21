@@ -3,8 +3,11 @@ package com.example.composetdaapp.di
 import com.example.composetdaapp.data.websocket.WebServicesProvider
 import com.example.composetdaapp.utils.MyPreference
 import com.example.composetdaapp.data.api.API_KEY
+import com.example.composetdaapp.data.api.MainRepository
 import com.example.composetdaapp.data.api.RefreshTokenAuthenticator
 import com.example.composetdaapp.data.api.StockApiService
+import com.example.composetdaapp.ui.viewmodels.LoginViewModel
+import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,6 +18,7 @@ import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.*
+import javax.inject.Provider
 import javax.inject.Singleton
 
 @Module
@@ -36,8 +40,10 @@ object AppModule {
             println("HTTP Request: "+Calendar.getInstance().time)
             println("HTTP Request: "+url)
 
-            if (myPreference.getAccessToken().isBlank()) {
+            if (myPreference.getAccessToken().isBlank() ) {
                 println("Before Authentication" + myPreference.getAccessToken())
+                println("Before Authentication Refresh Token: " + myPreference.getRefreshToken())
+
                 chain.proceed(request)
             } else {
                 println("After Authentication Access Token: " + myPreference.getAccessToken())
@@ -75,13 +81,19 @@ object AppModule {
     fun provideMarketApiService(retrofit: Retrofit): StockApiService {
         return retrofit.create(StockApiService::class.java)
     }
-
+    //Circular Dependency, instance B to construct A and vice versa.
     @Singleton
     @Provides
     fun providesTokenRefreshAuthenticator(
-        myPreference: MyPreference
+        myPreference: MyPreference, service: Provider<MainRepository>
     ): RefreshTokenAuthenticator {
-        return RefreshTokenAuthenticator(myPreference)
+        return RefreshTokenAuthenticator(myPreference,service )
+    }
+
+    @Singleton
+    @Provides
+    fun provideMoshi(): Moshi {
+        return Moshi.Builder().build()
     }
 }
 

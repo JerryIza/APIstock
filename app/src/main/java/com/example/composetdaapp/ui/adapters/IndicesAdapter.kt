@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.composetdaapp.data.entities.websocket.Content
+import com.example.composetdaapp.data.entities.websocket.response.Content
 import com.example.composetdaapp.R
 import com.example.composetdaapp.databinding.IndicesListBinding
 

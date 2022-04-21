@@ -1,4 +1,4 @@
-package com.example.composetdaapp.ui.fragments.dashFragments
+package com.example.composetdaapp.ui.fragments.dashboard
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,9 +16,9 @@ import com.example.composetdaapp.MainActivity
 import com.example.composetdaapp.R
 import com.example.composetdaapp.data.entities.quotes.SymbolDetails
 import com.example.composetdaapp.databinding.WatchlistFragmentBinding
-import com.example.composetdaapp.other.Constants.ARG_OBJECT
 import com.example.composetdaapp.ui.adapters.WatchlistAdapter
 import com.example.composetdaapp.ui.viewmodels.MarketViewModel
+import com.example.composetdaapp.utils.ARG_OBJECT
 import com.example.composetdaapp.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.cancel
@@ -70,7 +70,6 @@ class WatchlistFragment : Fragment() {
 
         val watchlist = arrayListOf<SymbolDetails>()
         wlAdapter = WatchlistAdapter(watchlist) {
-            viewModel.start(watchlist[it].symbol)
             mainActivity.tickerSymbol = watchlist[it].symbol
             findNavController().navigate(R.id.action_dashboardFragment_to_stockDetailsFragment)
         }
@@ -199,9 +198,9 @@ class WatchlistFragment : Fragment() {
                 //we need to get watchlist first and use string builder
                 if (symbols.isNotEmpty()) {
                     viewModel.getMultiSymbolDetails(symbols)
-                    viewModel.accountPosDetails()
+                    //viewModel.accountPosDetails()
                 }
-                delay(4000)
+                delay(5000)
             }
         }
 

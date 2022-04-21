@@ -31,7 +31,7 @@ data class GetOrderItem(
     @Json(name = "orderType")
     val orderType: String,
     @Json(name = "price")
-    val price: Double,
+    val price: Double? = null,
     @Json(name = "quantity")
     val quantity: Int,
     @Json(name = "remainingQuantity")

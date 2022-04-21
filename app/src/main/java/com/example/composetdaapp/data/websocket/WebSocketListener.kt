@@ -4,6 +4,7 @@ import com.example.composetdaapp.data.websocket.WebServicesProvider.Companion.NO
 import com.example.composetdaapp.utils.MyPreference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import okhttp3.Response
@@ -21,7 +22,7 @@ class StockSocketListener @Inject constructor(private val myPreference: MyPrefer
     override fun onOpen(webSocket: WebSocket, response: Response) {
         webSocket.send(myPreference.getSocketCredentials())
 
-        println("OPENED WEB SOCKET")
+        println("OPENED WEB SOCKET " + myPreference.getSocketCredentials())
     }
 
 
@@ -30,12 +31,14 @@ class StockSocketListener @Inject constructor(private val myPreference: MyPrefer
         GlobalScope.launch {
             socketEventChannel.send(SocketUpdate(text))
             println("onMessage: " + text)
+
         }
     }
 
     override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
         GlobalScope.launch {
             socketEventChannel.send(SocketUpdate(exception = SocketAbortedException()))
+
 
         }
         println("onClosing: ")

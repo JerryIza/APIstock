@@ -13,9 +13,11 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Modifier.Companion.then
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -23,18 +25,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.composetdaapp.R
+import com.example.composetdaapp.data.entities.orders.get.GetOrderItem
 import com.example.composetdaapp.ui.viewmodels.MarketViewModel
 import com.example.composetdaapp.utils.EXPAND_ANIMATION_DURATION
 
 @ExperimentalAnimationApi
 @Composable
-fun ExpandableList (
+fun ExpandableList(
     //pass viewModelHilts
-    card: MarketViewModel.ExpandableCardModel,
+    order: GetOrderItem,
     onCardArrowClick: () -> Unit,
     expanded: Boolean,
 ) {
+    val viewModel = hiltViewModel<MarketViewModel>()
+    val orders = viewModel.cards.collectAsState()
 
 
     val transitionState = remember {
@@ -46,7 +52,8 @@ fun ExpandableList (
     val cardBgColor by transition.animateColor({
         tween(durationMillis = EXPAND_ANIMATION_DURATION)
     }, label = "") {
-        if (expanded == it) Color.Black else Color.Green
+        //            if (expanded == it) Color.White else Color.Red
+        if (expanded == it) Color.White else Color.White
     }
     val cardPaddingHorizontal by transition.animateDp({
         tween(durationMillis = EXPAND_ANIMATION_DURATION)
@@ -95,14 +102,16 @@ fun ExpandableList (
                     degrees = arrowRotationDegree,
                     onClick = onCardArrowClick
                 )
-                CardTitle(title = card.title)
+                CardTitle(
+                    title = (order.orderLegCollection[0].instruction)
+                            + " "  + order.quantity + " SHARE OF " +
+                            order.orderLegCollection[0].instrument.symbol+ " (" + order.status + ")"
+                )
             }
-            ExpandableContent(visible = expanded, initialVisibility = expanded)
+            ExpandableContent(visible = expanded, initialVisibility = expanded, orders = order)
         }
     }
 }
-
-
 
 
 @Composable

@@ -87,7 +87,7 @@ class ChartFragment : Fragment() {
         viewModel.subscribeToSocketEvents()
         binding.toggleButton.check(R.id.intraDayBtn)
 
-
+        //avoid if statements
         if (isMarketDay) {
             viewModel.getIntraDayChartData(
                 marketOpenInMilli.toString(),
@@ -234,12 +234,15 @@ class ChartFragment : Fragment() {
             false
         })
         binding.Confirm.setOnClickListener {
+
             orderPayload.price = binding.priceInputText.text.toString()
             orderPayload.orderLegCollection[0].quantity =
                 binding.sharesInputText.text.toString().toInt()
             orderPayload.orderLegCollection[0].instrument.symbol =
                 viewModel.tickerSymbol.value.toString()
             viewModel.placeOrder(order = orderPayload)
+
+
             viewModel.getAllOrders()
             binding.expirationBtn.clearChecked()
             binding.priceInputText.text?.clear()
@@ -309,7 +312,8 @@ class ChartFragment : Fragment() {
         val regex = Regex(pattern = "-")
         ("%,.2f".format(symbolDetails.markChangeInDouble) + " (" + "%,.2f".format(symbolDetails.markPercentChangeInDouble) + "%)")
         binding.symbolView.text = symbolDetails.symbol
-        binding.descriptionTv.text = (symbolDetails.description + " - " + symbolDetails.exchangeName)
+        binding.descriptionTv.text =
+            (symbolDetails.description + " - " + symbolDetails.exchangeName)
         binding.bidTv.text = (" Bid: $${"%,.2f".format(symbolDetails.bidPrice)}")
         binding.lastTv.text = ("$" + "%,.2f".format(symbolDetails.mark))
         binding.askTv.text = ("Ask: $${"%,.2f".format(symbolDetails.askPrice)}")
@@ -322,17 +326,13 @@ class ChartFragment : Fragment() {
             binding.plTv.text = plOpen
             when {
                 regex.containsMatchIn(plOpen) -> {
-                    println("first")
                     binding.plTv.setTextColor(resources.getColor(R.color.colorDown))
                 }
                 symbolDetails.regularMarketNetChange != 0.0 -> {
-                    println("second")
 
                     binding.plTv.setTextColor(resources.getColor(R.color.colorUp))
                 }
                 else -> {
-                    println("last")
-
                 }
             }
         }
@@ -365,9 +365,9 @@ class ChartFragment : Fragment() {
 
     }
 
-
     private fun setUpObservers() {
         viewModel.chartHasPositionLiveData.observe(viewLifecycleOwner, {
+
             if (it == true) {
                 binding.posLayout.visibility = VISIBLE
             } else {
@@ -403,11 +403,13 @@ class ChartFragment : Fragment() {
 
 
         viewModel.symbolLiveData.observe(viewLifecycleOwner, {
+
             when (it.status) {
                 Resource.Status.SUCCESS -> {
                     binding.loadingBarDetail.visibility = GONE
                     if (!it.data.isNullOrEmpty())
                         bindSymbolDetails(it.data.values.last())
+                    println("HERE "+ it.data!!.values.last())
                 }
                 Resource.Status.ERROR ->
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
@@ -427,12 +429,13 @@ class ChartFragment : Fragment() {
                     if (it.data != null) {
                         /*Snackbar.make(binding, it.data[0], Snackbar.LENGTH_SHORT)
                             .show()*/
-                        Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_LONG)
+                            .show()
                     }
 
                 }
                 Resource.Status.ERROR -> {
-                    println("ERROR OrdersLiveData: "+ it.message)
+                    println("ERROR OrdersLiveData: " + it.message)
 
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                 }
@@ -444,9 +447,10 @@ class ChartFragment : Fragment() {
         })
 
         viewModel.chartMediatorLiveData.observe(viewLifecycleOwner, {
-            viewModel.historicalLiveData.value?.let { it1 -> setUpCandleChart(it, it1) }
-
-
+            //throw exception
+            if (viewModel.candleEntries.isNotEmpty()) {
+                viewModel.historicalLiveData.value?.let { it1 -> setUpCandleChart(it, it1) }
+            }
         })
         //we need to set up chart.
         viewModel.historicalLiveData.observe(viewLifecycleOwner, {
@@ -459,12 +463,14 @@ class ChartFragment : Fragment() {
 
     init {
         lifecycleScope.launchWhenResumed {
+
             //if we navigate from chart, cancel coroutine for that previous symbol.
             println("CHECK LIFECYCLE SCOPE " + (isActive && this@ChartFragment.isAdded && isMarketDay))
-            while (isActive && this@ChartFragment.isAdded && isMarketDay) {
+            if (isActive && this@ChartFragment.isAdded && isMarketDay) {
                 viewModel.getSymbolDetails()
                 delay(4000)
             }
+            //call once.
         }
     }
 

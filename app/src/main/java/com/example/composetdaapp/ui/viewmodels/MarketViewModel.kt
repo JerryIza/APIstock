@@ -1,18 +1,21 @@
 package com.example.composetdaapp.ui.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.*
-import com.example.composetdaapp.data.entities.quotes.SymbolSearch
 import com.example.composetdaapp.data.entities.account.Accounts
 import com.example.composetdaapp.data.entities.account.Positions
 import com.example.composetdaapp.data.entities.quotes.SymbolDetails
 import com.example.composetdaapp.data.entities.watchlist.Watchlist
-import com.example.composetdaapp.data.entities.websocket.Content
-import com.example.composetdaapp.data.entities.websocket.DataResponse
+import com.example.composetdaapp.data.entities.websocket.response.Content
+import com.example.composetdaapp.data.entities.websocket.response.DataResponse
 import com.example.composetdaapp.indicators.UpperIndicators
 import com.example.composetdaapp.utils.MyPreference
 import com.example.composetdaapp.utils.Resource
 import com.example.composetdaapp.data.api.MainRepository
+import com.example.composetdaapp.data.converters.SubscriberAdapter
 import com.example.composetdaapp.data.entities.orders.get.GetOrderItem
+import com.example.composetdaapp.data.entities.websocket.request.LevelOneFutures
+import com.example.composetdaapp.data.entities.websocket.request.Parameters
 import com.example.composetdaapp.utils.SocketInteractor
 import com.github.mikephil.charting.data.Entry
 import com.squareup.moshi.Moshi
@@ -22,50 +25,47 @@ import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.json.JSONObject
-import javax.annotation.concurrent.Immutable
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 import kotlin.coroutines.CoroutineContext
-
 
 
 @Suppress("TYPE_INFERENCE_ONLY_INPUT_TYPES_WARNING")
 @HiltViewModel
 class MarketViewModel @Inject constructor(
     private val interactor: SocketInteractor,
+    private val moshi: Moshi,
     private val repository: MainRepository,
-    private val myPreference: MyPreference
+    private val myPreference: MyPreference,
 ) :
     ViewModel() {
 
-
     /*Start of Jeptpack state*/
-    private val _cards = MutableStateFlow(listOf<ExpandableCardModel>())
-    val cards: StateFlow<List<ExpandableCardModel>> get() = _cards
+    private val _cards = MutableStateFlow(listOf<GetOrderItem>())
+    val cards: StateFlow<List<GetOrderItem>> get() = _cards
 
     private val _expandedCardIdsList = MutableStateFlow(listOf<Int>())
     val expandedCardIdsList: StateFlow<List<Int>> get() = _expandedCardIdsList
 
-    init {
-        getFakeData()
-    }
 
-    private fun getFakeData() {
-        viewModelScope.launch(Dispatchers.Default) {
-            val testList = arrayListOf<ExpandableCardModel>()
-            repeat(20) { testList += ExpandableCardModel(id = it, title = "Card $it") }
-            _cards.emit(testList)
+    fun getOrders() {
+        scope.launch() {
+            val orders = repository.getOrders()
+            println("BODY ERRO: " + orders)
+            orders.data?.let { _cards.emit(it) }
+            ordersLiveData.postValue(orders)
         }
+
     }
 
-    fun onCardArrowClicked(cardId: Int) {
+    fun onCardArrowClicked(cardId: Int?) {
         _expandedCardIdsList.value = _expandedCardIdsList.value.toMutableList().also { list ->
-            if (list.contains(cardId)) list.remove(cardId) else list.add(cardId)
+            if (list.contains(cardId)) list.remove(cardId) else list.add(cardId!!)
         }
     }
 
-    @Immutable
-    data class ExpandableCardModel(val id: Int, val title: String)
+
     /* End of Jetpack*/
 
 
@@ -133,6 +133,10 @@ class MarketViewModel @Inject constructor(
      return results.await()
  }*/
 
+    fun testDeleteAccess() {
+        myPreference.setAccessToken("CACA")
+    }
+
 
     fun accountPosDetails() {
         scope.launch {
@@ -166,6 +170,7 @@ class MarketViewModel @Inject constructor(
                                 val accPosUpdate = mutableMapOf<Positions, SymbolDetails>()
                                 if (!accPositions.isNullOrEmpty()) {
                                     for (i in accPositions.indices) {
+                                        //after selling a position this crahses due to a index out of bounds
                                         accPosUpdate[posValues.data!!.securitiesAccount.positions[i]] =
                                             posQuotesLiveData.value!![i]
                                     }
@@ -197,7 +202,7 @@ class MarketViewModel @Inject constructor(
     }
 
 
-    suspend fun getAccountDetails() = repository.getAccountDetails()
+    private suspend fun getAccountDetails() = repository.getAccountDetails()
 
 
     fun getAllWatchlist() {
@@ -230,24 +235,16 @@ class MarketViewModel @Inject constructor(
         }
     }
 
-    fun getOrders() {
-        scope.launch {
-            val orders = repository.getOrders()
-            ordersLiveData.postValue(orders)
-        }
-
-    }
-
 
     fun start(symbol: String) {
         _symbol.value = symbol
         //Timber.tag(("Start Symbol = " + _symbol.value))
     }
 
-
-    val futuresPayload = "{\n" +
+    val testi = LevelOneFutures(parameters = Parameters())
+    val levelOneFutures = "{\n" +
             "            \"service\": \"LEVELONE_FUTURES\",\n" +
-            "            \"requestid\": \"2\",\n" +
+            "            \"requestid\": \"1\",\n" +
             "            \"command\": \"SUBS\",\n" +
             "            \"account\": \"149235993\",\n" +
             "            \"source\": \"gerardoiza94\",\n" +
@@ -257,43 +254,158 @@ class MarketViewModel @Inject constructor(
             "            }\n" +
             "        }"
 
-    val optionsPayload = "         {\n" +
-            "            \"service\": \"CHART_EQUITY\",\n" +
+    val stockQoutes = "{\n" +
+            "            \"service\": \"QOUTE\",\n" +
+            "            \"requestid\": \"1\",\n" +
+            "            \"command\": \"SUBS\",\n" +
+            "            \"account\": \"149235993\",\n" +
+            "            \"source\": \"gerardoiza94\",\n" +
+            "            \"parameters\": {\n" +
+            "                \"keys\": \"amd\",\n" +
+            "                \"fields\": \"0,3,19,20,34\"\n" +
+            "            }\n" +
+            "        }"
+
+    val levelOneOptions = "{\n" +
+            "            \"service\": \"OPTIONS_BOOK\",\n" +
+            "            \"requestid\": \"1\",\n" +
+            "            \"command\": \"SUBS\",\n" +
+            "            \"account\": \"149235993\",\n" +
+            "            \"source\": \"gerardoiza94\",\n" +
+            "            \"parameters\": {\n" +
+            "                \"keys\": \"SPY_041822P400\",\n" +
+            "                \"fields\": \"0,3,19,20,34\"\n" +
+            "            }\n" +
+            "        }"
+
+    val futuresCandle = "{\n" +
+            "            \"service\": \"CHART_FUTURES\",\n" +
+            "            \"requestid\": \"1\",\n" +
+            "            \"command\": \"SUBS\",\n" +
+            "            \"account\": \"149235993\",\n" +
+            "            \"source\": \"gerardoiza94\",\n" +
+            "            \"parameters\": {\n" +
+            "                \"keys\": \"/ES\",\n" +
+            "                \"fields\": \"0,1,2,3,4,5,6,7\"\n" +
+            "            }\n" +
+            "        }"
+
+    val futuresHistory = " {\n" +
+            "            \"service\": \"CHART_HISTORY_FUTURES\",\n" +
+            "            \"requestid\": \"2\",\n" +
+            "            \"command\": \"GET\",\n" +
+            "            \"account\": \"149235993\",\n" +
+            "            \"source\": \"gerardoiza94\",\n" +
+            "            \"parameters\": {\n" +
+            "                \"symbol\": \"/ES\",\n" +
+            "                \"frequency\": \"m1\",\n" +
+            "                \"period\": \"d1\"\n" +
+            "            }\n" +
+            "        }"
+
+
+    val accActivity = "{\n" +
+            "            \"service\": \"ACCT_ACTIVITY\", \n" +
+            "            \"requestid\": \"2\", \n" +
+            "            \"command\": \"SUBS\", \n" +
+            "            \"account\": \"149235993\", \n" +
+            "            \"source\": \"gerardoiza94\", \n" +
+            "            \"parameters\": {\n" +
+            "                \"keys\": \"b71f01142692445eca51554fea6789343cf24399dc98b4f638d8611b9a4bcda91a3519298a2d7784c976c7ec555cb02ef\", \n" +
+            "                \"fields\": \"0,1,2,3\"\n" +
+            "            }\n" +
+            "        }"
+
+
+    val newsHeadline = "  {\n" +
+            "            \"service\": \"NEWS_HEADLINE\", \n" +
+            "            \"requestid\": \"2\", \n" +
+            "            \"command\": \"SUBS\", \n" +
+            "            \"account\": \" 149235993 \", \n" +
+            "            \"source\": \"gerardoiza94\", \n" +
+            "            \"parameters\": {\n" +
+            "                \"keys\": \"GOOG\", \n" +
+            "                \"fields\": \"0,1,2,3,4,5,6\"\n" +
+            "            }\n" +
+            "        }"
+
+
+    val listedBook = "  {\n" +
+            "            \"service\": \"NASDAQ_BOOK\", \n" +
+            "            \"requestid\": \"2\", \n" +
+            "            \"command\": \"SUBS\", \n" +
+            "            \"account\": \" 149235993 \", \n" +
+            "            \"source\": \"gerardoiza94\", \n" +
+            "            \"parameters\": {\n" +
+            "                \"keys\": \"SPY\", \n" +
+            "                \"fields\": \"0,1,2,3,4\"\n" +
+            "            }\n" +
+            "        }"
+
+    val levelONeForex = "  {\n" +
+            "            \"service\": \"LEVELONE_FOREX\",\n" +
             "            \"requestid\": \"2\",\n" +
             "            \"command\": \"SUBS\",\n" +
             "            \"account\": \"149235993\",\n" +
             "            \"source\": \"gerardoiza94\",\n" +
             "            \"parameters\": {\n" +
-            "                \"keys\": \"NVDA\",\n" +
-            "                \"fields\": \"0,1,2,3,4\"\n" +
+            "                \"keys\": \"EUR/USD\",\n" +
+            "                \"fields\": \"0,1,2,3,4,5,6,7,8,9,10,11,12,13\"\n" +
             "            }\n" +
             "        }"
 
+    val leveloneFuturesTime =
+            "        {\n" +
+            "            \"service\": \"CHART_HISTORY_FUTURES\",\n" +
+            "            \"requestid\": \"2\",\n" +
+            "            \"command\": \"GET\",\n" +
+            "            \"account\": \"149235993\",\n" +
+            "            \"source\": \"gerardoiza94\",\n" +
+            "            \"parameters\": {\n" +
+            "                \"symbol\": \"/ES\",\n" +
+            "                \"END_TIME\": \"1649104859000\",\n" +
+            "                \"START_TIME\": \"1648840881000\",\n" +
+            "                \"frequency\": \"h2\"\n" +
 
-    //private fun sendFuturesPayload() = interactor.sendSocketRequest(futuresPayload)
+            "            }\n" +
+            "        }\n"
 
-    private fun sendFuturesPayload() = interactor.sendSocketRequest(futuresPayload)
+
+    private fun sendFuturesPayload() = interactor.sendSocketRequest(leveloneFuturesTime)
 
 
-    val moshi = Moshi.Builder().build()
 
-    //WebSocket Please Move somewhere else
 
     @ExperimentalCoroutinesApi
     fun subscribeToSocketEvents() {
         viewModelScope.launch {
             try {
+
+                Timber.d("onmessage right%s", levelOneFutures)
+                Timber.d("onmessage wrong%s", testi.toString())
+
+
                 //we subscribe to many different event
                 interactor.startSocket().consumeEach {
                     if (it.exception == null) {
+                        if (it.text!!.length > 1000) {
+                            println("WEBSOCKET RESPONSE" +it.text.substring(0, 1000));
+                            println("WEBSOCKET RESPONSE" + it.text.substring(2000));
+                        } else
+                            Log.d("", it.text);
+
+                        Timber.d("onmessage This?%s", it.text.toString())
+
+
                         val jsonObject = JSONObject(it.text.toString())
                         //filter response by "data" refactor as a util
-                        if (jsonObject.has("data")) {
+                       if (jsonObject.has("data")) {
                             val jsonAdapter = moshi.adapter(DataResponse::class.java)
-                            val dataResponse = jsonAdapter.fromJson(it.text.toString())
-                            val dataMap = mutableMapOf<String, Content>()
 
-                            println("FUTURES RESPONSE: " + dataResponse)
+                            val dataResponse = jsonAdapter.fromJson(it.text.toString())
+                            println("WEBSOCKET RESPONSE 1" + dataResponse)
+
+                            val dataMap = mutableMapOf<String, Content>()
                             fun <T> MutableLiveData<T>.notifyObserver() {
                                 this.value = this.value
                             }
@@ -308,7 +420,7 @@ class MarketViewModel @Inject constructor(
                                     webSocketLiveData.postValue(dataMap)
                                 } else {
                                     //we use putALl to only update the future symbol that changed and notifyObserver manually (postValue does it auto).
-                                    webSocketLiveData.value!!.putAll(dataMap)
+                                    webSocketLiveData.value!!.putAll (dataMap)
                                     webSocketLiveData.notifyObserver()
                                 }
                             }
@@ -317,11 +429,18 @@ class MarketViewModel @Inject constructor(
                             val data = jsonObject.getJSONArray("response")
                             val content = data.getJSONObject(0)
                             if (content.getString("command") == "LOGIN") {
-
                                 println("Login Command Successful")
                                 //start data subscriptions
                                 sendFuturesPayload()
                             }
+                        }
+                        if (jsonObject.has("snapshot")) {
+                            val jsonAdapter = moshi.adapter(DataResponse::class.java)
+
+                            val dataResponse = jsonAdapter.fromJson(it.text.toString())
+                            println("WEBSOCKET RESPONSE 1" + dataResponse!!.data.lastIndex)
+
+
                         }
                     } else {
                         onSocketError(it.exception)

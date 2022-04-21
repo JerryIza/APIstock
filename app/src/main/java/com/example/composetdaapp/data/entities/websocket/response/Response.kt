@@ -1,10 +1,10 @@
-package com.example.composetdaapp.data.entities.websocket
+package com.example.composetdaapp.data.entities.websocket.response
 
-import com.example.composetdaapp.data.entities.websocket.Content
+import com.example.composetdaapp.data.entities.websocket.response.Content
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Data(
+data class Response(
     val command: String,
     val content: List<Content>,
     val service: String,

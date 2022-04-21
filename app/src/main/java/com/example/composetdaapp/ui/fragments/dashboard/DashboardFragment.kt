@@ -1,46 +1,32 @@
-package com.example.composetdaapp.ui.fragments
+package com.example.composetdaapp.ui.fragments.dashboard
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.composetdaapp.MainActivity
-import com.example.composetdaapp.data.entities.account.Positions
-import com.example.composetdaapp.data.entities.quotes.SymbolDetails
-import com.example.composetdaapp.data.entities.websocket.Content
+import com.example.composetdaapp.data.entities.websocket.response.Content
 import com.example.composetdaapp.ui.adapters.IndicesAdapter
-import com.example.composetdaapp.ui.adapters.PositionsAdapter
-import com.example.composetdaapp.ui.adapters.WatchlistAdapter
 import com.example.composetdaapp.ui.viewmodels.MarketViewModel
 import com.example.composetdaapp.utils.Resource
 import com.example.composetdaapp.R
 import com.example.composetdaapp.databinding.DashboardFragmentBinding
-import com.example.composetdaapp.other.Constants
 import com.example.composetdaapp.ui.adapters.DashPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
-import kotlinx.datetime.*
-import okhttp3.*
-import java.util.*
-import javax.annotation.meta.When
 
 @AndroidEntryPoint
-class DashboardFragment : Fragment() {
+class DashboardFragment : Fragment (
+) {
 
     //fragment needs to be attached to activity first.
     private lateinit var mainActivity: MainActivity
@@ -59,16 +45,6 @@ class DashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DashboardFragmentBinding.inflate(inflater, container, false)
-        /*binding.composeWatchlist.apply {          // Dispose of the Composition when the view's LifecycleOwner
-            // is destroyed
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                // In Compose world
-                ComposeTdaAppTheme {
-                 WatchlistScreen()
-              }
-            }
-        }*/
         return binding.root
     }
 
@@ -87,7 +63,7 @@ class DashboardFragment : Fragment() {
 
         val tabLayout = binding.tabLayout
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            when (position){
+            when (position) {
                 0 -> tab.text = "Watchlist"
                 1 -> tab.text = "Positions"
                 2 -> tab.text = "Orders"
@@ -125,8 +101,6 @@ class DashboardFragment : Fragment() {
     }
 
 
-
-
     private fun setUpObservers() {
         setupRecyclerViews()
 
@@ -157,7 +131,6 @@ class DashboardFragment : Fragment() {
         })
 
 
-
         //Resource status, after parsing object
         viewModel.webSocketLiveData.observe(viewLifecycleOwner, {
             if (it.toString().isNotEmpty()) {
@@ -166,21 +139,7 @@ class DashboardFragment : Fragment() {
             }
         })
     }
-
     //Not advisable to hit server every 1-5 seconds, regardless http request only update every 10 seconds.
-    init {
-        lifecycleScope.launchWhenResumed {
-            while (isActive && this@DashboardFragment.isAdded) {
-                //we need to get watchlist first and use string builder
-
-                    viewModel.accountPosDetails()
-
-                delay(4000)
-            }
-        }
-
-    }
-
 }
 
 

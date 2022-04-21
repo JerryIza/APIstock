@@ -3,10 +3,10 @@ package com.example.composetdaapp.ui.adapters
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.composetdaapp.other.Constants.ARG_OBJECT
-import com.example.composetdaapp.ui.fragments.dashFragments.OrdersFragment
-import com.example.composetdaapp.ui.fragments.dashFragments.PositionsFragment
-import com.example.composetdaapp.ui.fragments.dashFragments.WatchlistFragment
+import com.example.composetdaapp.ui.fragments.dashboard.OrdersFragment
+import com.example.composetdaapp.ui.fragments.dashboard.PositionsFragment
+import com.example.composetdaapp.ui.fragments.dashboard.WatchlistFragment
+import com.example.composetdaapp.utils.ARG_OBJECT
 
 
 class DashPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
@@ -34,8 +34,6 @@ class DashPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
                 2 -> putString(ARG_OBJECT, "Watchlist")
             }
         }
-
-
 
 
         return fragment

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.composetdaapp.MainActivity
 import com.example.composetdaapp.data.entities.quotes.SymbolSearch
 import com.example.composetdaapp.ui.adapters.SearchResultsAdapter
 import com.example.composetdaapp.ui.viewmodels.MarketViewModel
@@ -19,9 +20,14 @@ import com.example.composetdaapp.ui.viewmodels.ChartViewModel
 
 class SearchFragment: Fragment() {
 
+    private lateinit var mainActivity: MainActivity
+
+
     private lateinit var binding: SearchFragmentBinding
 
     private lateinit var adapter: SearchResultsAdapter
+
+
 
     private val viewModel: ChartViewModel by activityViewModels()
 
@@ -36,6 +42,8 @@ class SearchFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mainActivity = activity as MainActivity
+
         setUpRecyclerView()
         setUpObservers()
 
@@ -59,7 +67,7 @@ class SearchFragment: Fragment() {
     private fun setUpRecyclerView(){
         val searchResults = arrayListOf<SymbolSearch>()
         adapter = SearchResultsAdapter(searchResults){
-            viewModel.start(searchResults[it].symbol)
+            mainActivity.tickerSymbol = (searchResults[it].symbol)
             viewModel.getSymbolDetails()
             findNavController().navigate(R.id.action_searchFragment_to_stockDetailsFragment)
         }

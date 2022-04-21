@@ -1,4 +1,4 @@
-package com.example.composetdaapp.data.entities.websocket
+package com.example.composetdaapp.data.entities.websocket.response
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

@@ -1,19 +1,46 @@
 package com.example.composetdaapp.data.api
 
+import com.example.composetdaapp.data.entities.token.TokenAccess
+import com.example.composetdaapp.ui.viewmodels.LoginViewModel
 import com.example.composetdaapp.utils.MyPreference
+import com.example.composetdaapp.utils.Resource
+import kotlinx.coroutines.*
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
 import javax.inject.Inject
+import javax.inject.Provider
 
 
 class RefreshTokenAuthenticator @Inject constructor(
-    private val myPreference: MyPreference
+    private val myPreference: MyPreference,
+    private val lazyRepo: Provider<MainRepository>
 ) : Authenticator {
+    private val notLoggedResponseCode = 401
+
+
 
     override fun authenticate(route: Route?, response: Response): Request {
-        //simply remove the Authorization header, nothing complex
-        return response.request.newBuilder().removeHeader("Authorization").build()
+
+        if (response.code == notLoggedResponseCode) {
+            //Set token to blank so Interceptor removes header.
+            myPreference.setAccessToken("")
+            suspend fun getAccessToken(): Resource<TokenAccess> = withContext(Dispatchers.IO) {
+                lazyRepo.get().postRefreshToken(
+                    refreshToken = myPreference.getRefreshToken(),
+                    accessType = "",
+                    code = ""
+                )
+            }
+            val refreshResponse = runBlocking { getAccessToken() }
+            refreshResponse.data?.accessToken?.let { myPreference.setAccessToken(it) }
+            println("REFRESH RESPONSE" + refreshResponse)
+
+        }
+        //header will be added back by interceptor
+        return response.request.newBuilder().header("Authorization", "Bearer ${myPreference.getAccessToken()}").build()
+
     }
 }
+

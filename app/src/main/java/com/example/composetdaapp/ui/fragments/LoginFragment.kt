@@ -13,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.composetdaapp.ui.viewmodels.LoginViewModel
 import com.example.composetdaapp.R
+import com.example.composetdaapp.data.api.API_KEY
 import com.example.composetdaapp.databinding.LoginFragmentBinding
 
 class LoginFragment  : Fragment() {
@@ -32,7 +33,9 @@ class LoginFragment  : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-         if (viewModel.checkTokenAccess().isNotEmpty()){
+
+
+         if (viewModel.checkRefreshToken().isNotEmpty()){
              viewModel.refreshTokenAccess()
          }
 
@@ -54,7 +57,7 @@ class LoginFragment  : Fragment() {
             webSettings.javaScriptCanOpenWindowsAutomatically = true
             webSettings.databaseEnabled = true
             myWebView.webViewClient = WebViewClient()
-            myWebView.loadUrl("https://auth.tdameritrade.com/auth?response_type=code&redirect_uri=http%3A%2F%2Flocalhost&client_id=LZBWODC3GHH1XMA5IMHFOFU2DNA81W6N%40AMER.OAUTHAP")
+            myWebView.loadUrl("https://auth.tdameritrade.com/auth?response_type=code&redirect_uri=http%3A%2F%2Flocalhost&client_id=$API_KEY%40AMER.OAUTHAP")
 
             myWebView.webViewClient = object : WebViewClient() {
                 override fun onReceivedError(

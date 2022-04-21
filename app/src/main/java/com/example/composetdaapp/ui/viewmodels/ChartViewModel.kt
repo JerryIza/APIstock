@@ -10,8 +10,8 @@ import com.example.composetdaapp.data.entities.orders.get.GetOrderItem
 import com.example.composetdaapp.data.entities.orders.place.PlaceOrder
 import com.example.composetdaapp.data.entities.quotes.SymbolDetails
 import com.example.composetdaapp.data.entities.quotes.SymbolSearch
-import com.example.composetdaapp.data.entities.websocket.Content
-import com.example.composetdaapp.data.entities.websocket.DataResponse
+import com.example.composetdaapp.data.entities.websocket.response.Content
+import com.example.composetdaapp.data.entities.websocket.response.DataResponse
 import com.example.composetdaapp.utils.Resource
 import com.example.composetdaapp.utils.SocketInteractor
 import com.github.mikephil.charting.data.CandleEntry
@@ -34,6 +34,7 @@ import kotlin.coroutines.CoroutineContext
 class ChartViewModel @Inject constructor(
     private val interactor: SocketInteractor,
     private val repository: MainRepository,
+    private val moshi: Moshi
 ) : ViewModel() {
 
     //ADD RESOURCE TO ALL VAR/VAL
@@ -187,14 +188,9 @@ class ChartViewModel @Inject constructor(
                 periodType,
                 period,
                 frequency
-            )/*
-            val historicalData2 = repository.getHistoricalData(
-                _symbol.value.toString(),
-                "year",
-                "2",
-                frequency
-            )*/
+            )
             try {
+                println("crash???")
                 //adding symbols details
                 chartMediatorLiveData.addSource(symbolLiveData) {
                     if (candleEntries.isEmpty()) {
@@ -233,6 +229,8 @@ class ChartViewModel @Inject constructor(
 
     fun getIntraDayChartData(startDate: String, endDate: String) {
         scope.launch {
+            println("crash??? intraday")
+
             val historicalData = repository.getIntraDayHistorical(
                 tickerSymbol.value.toString(),
                 startDate,
@@ -299,7 +297,6 @@ class ChartViewModel @Inject constructor(
     private fun sendFuturesPayload() = interactor.sendSocketRequest(chartRequest)
 
 
-    val moshi: Moshi = Moshi.Builder().build()
 
     //WebSocket Please Move somewhere else
 

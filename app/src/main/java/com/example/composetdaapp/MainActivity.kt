@@ -15,11 +15,13 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    //We are using multiple view models an need at least one symbol variable shared across fragments
+    //We are using multiple view models and need at least one symbol variable shared across fragments
     var tickerSymbol = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         val binding: MainActivityBinding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

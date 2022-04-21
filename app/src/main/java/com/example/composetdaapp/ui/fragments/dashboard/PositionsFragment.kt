@@ -1,4 +1,4 @@
-package com.example.composetdaapp.ui.fragments.dashFragments
+package com.example.composetdaapp.ui.fragments.dashboard
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.composetdaapp.MainActivity
@@ -16,6 +17,8 @@ import com.example.composetdaapp.databinding.PositionsFragmentBinding
 import com.example.composetdaapp.ui.adapters.PositionsAdapter
 import com.example.composetdaapp.ui.viewmodels.MarketViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 
 @AndroidEntryPoint
 class PositionsFragment:Fragment() {
@@ -69,6 +72,19 @@ class PositionsFragment:Fragment() {
                 pAdapter.notifyDataSetChanged()
             }
         })
+    }
+
+    init {
+        lifecycleScope.launchWhenResumed {
+            while (isActive && this@PositionsFragment.isAdded) {
+                //we need to get watchlist first and use string builder
+                viewModel.accountPosDetails()
+
+
+                delay(4000)
+            }
+        }
+
     }
 
 }

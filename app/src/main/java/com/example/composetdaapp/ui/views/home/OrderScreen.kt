@@ -12,13 +12,14 @@ import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.composetdaapp.R
 import com.example.composetdaapp.ui.viewmodels.MarketViewModel
+import java.lang.reflect.Modifier
 
 
 @ExperimentalAnimationApi
 @Composable
 fun OrderScreen() {
     val viewModel = hiltViewModel<MarketViewModel>()
-    val cards = viewModel.cards.collectAsState()
+    val orders = viewModel.cards.collectAsState()
     val expandedCardIds = viewModel.expandedCardIdsList.collectAsState()
     Scaffold(
         backgroundColor = Color(
@@ -29,12 +30,13 @@ fun OrderScreen() {
             )
         )
     ) {
+        viewModel.getOrders()
         LazyColumn {
-            itemsIndexed(cards.value) { _, card ->
+            itemsIndexed(orders.value) { _, order ->
                 ExpandableList(
-                    card = card,
-                    onCardArrowClick = { viewModel.onCardArrowClicked(card.id) },
-                    expanded = expandedCardIds.value.contains(card.id),
+                    order = order,
+                    onCardArrowClick = { viewModel.onCardArrowClicked(order.orderId?.toInt()) },
+                    expanded = expandedCardIds.value.contains(order.orderId?.toInt()),
                 )
             }
         }
