@@ -1,4 +1,4 @@
-package com.example.composetdaapp.ui.compose.orders
+package com.example.composetdaapp.ui.views.home
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,7 +11,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.composetdaapp.R
-import com.example.composetdaapp.viewmodels.MarketViewModel
+import com.example.composetdaapp.ui.viewmodels.MarketViewModel
+import java.lang.reflect.Modifier
 
 
 @ExperimentalAnimationApi
@@ -29,7 +30,6 @@ fun OrderScreen() {
             )
         )
     ) {
-        //TODO loosing expanded state when navigating away from dashboard. Hint: rememberSavable(item)
         viewModel.getOrders()
         LazyColumn {
             itemsIndexed(orders.value) { _, order ->

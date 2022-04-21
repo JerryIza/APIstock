@@ -6,6 +6,7 @@ import com.example.composetdaapp.data.api.API_KEY
 import com.example.composetdaapp.data.api.MainRepository
 import com.example.composetdaapp.data.api.RefreshTokenAuthenticator
 import com.example.composetdaapp.data.api.StockApiService
+import com.example.composetdaapp.ui.viewmodels.LoginViewModel
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -16,7 +17,6 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import timber.log.Timber
 import java.util.*
 import javax.inject.Provider
 import javax.inject.Singleton
@@ -37,14 +37,17 @@ object AppModule {
         return Interceptor { chain ->
             val url = chain.request().url.newBuilder().addQueryParameter("apikey", API_KEY).build()
             val request = chain.request().newBuilder().url(url).build()
-            Timber.v("HTTP Request: ${Calendar.getInstance().time}")
-            Timber.v("""HTTP Request: $url""")
+            println("HTTP Request: "+Calendar.getInstance().time)
+            println("HTTP Request: "+url)
 
             if (myPreference.getAccessToken().isBlank() ) {
-                Timber.i("Unauthenticated%s", myPreference.getAccessToken())
+                println("Before Authentication" + myPreference.getAccessToken())
+                println("Before Authentication Refresh Token: " + myPreference.getRefreshToken())
+
                 chain.proceed(request)
             } else {
-                Timber.i("Authenticated: %s", myPreference.getAccessToken())
+                println("After Authentication Access Token: " + myPreference.getAccessToken())
+                println("After Authentication Refresh Token: " + myPreference.getRefreshToken())
                 chain.proceed(request.providesBearerToken(myPreference.getAccessToken()))
             }
         }

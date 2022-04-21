@@ -1,5 +1,6 @@
-package com.example.composetdaapp.viewmodels
+package com.example.composetdaapp.ui.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.composetdaapp.data.entities.account.Accounts
 import com.example.composetdaapp.data.entities.account.Positions
@@ -11,13 +12,10 @@ import com.example.composetdaapp.indicators.UpperIndicators
 import com.example.composetdaapp.utils.MyPreference
 import com.example.composetdaapp.utils.Resource
 import com.example.composetdaapp.data.api.MainRepository
+import com.example.composetdaapp.data.converters.SubscriberAdapter
 import com.example.composetdaapp.data.entities.orders.get.GetOrderItem
-import com.example.composetdaapp.data.entities.watchlist.patch.PatchWatchlist
-import com.example.composetdaapp.data.entities.websocket.request.DataRequest
-import com.example.composetdaapp.data.entities.websocket.request.Request
-import com.example.composetdaapp.data.entities.websocket.request.FuturesParam
-import com.example.composetdaapp.utils.LEVELONE_FUTURES
-
+import com.example.composetdaapp.data.entities.websocket.request.LevelOneFutures
+import com.example.composetdaapp.data.entities.websocket.request.Parameters
 import com.example.composetdaapp.utils.SocketInteractor
 import com.github.mikephil.charting.data.Entry
 import com.squareup.moshi.Moshi
@@ -28,7 +26,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.json.JSONObject
 import timber.log.Timber
-import javax.annotation.meta.When
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 import kotlin.coroutines.CoroutineContext
@@ -40,8 +37,7 @@ class MarketViewModel @Inject constructor(
     private val interactor: SocketInteractor,
     private val moshi: Moshi,
     private val repository: MainRepository,
-    private val myPreference: MyPreference
-
+    private val myPreference: MyPreference,
 ) :
     ViewModel() {
 
@@ -56,6 +52,7 @@ class MarketViewModel @Inject constructor(
     fun getOrders() {
         scope.launch() {
             val orders = repository.getOrders()
+            println("BODY ERRO: " + orders)
             orders.data?.let { _cards.emit(it) }
             ordersLiveData.postValue(orders)
         }
@@ -72,13 +69,13 @@ class MarketViewModel @Inject constructor(
     /* End of Jetpack*/
 
 
-    //TODO ADD RESOURCE TO ALL VAL/VAR
+    //ADD RESOURCE TO ALL VAL/VAR
 
 
     //create the job, which implements coroutines context.
     var job = Job()
 
-    //create the coroutine context with the job and the dispatcher(identifies the Thread that will be use, need MAIN for mediatorlivedata)
+    //create the coroutine context with the job and the dispatcher(identifies the Thread that will be used)
     private val coroutineContext: CoroutineContext get() = job + Dispatchers.Main
 
     private val scope = CoroutineScope(coroutineContext)
@@ -105,13 +102,9 @@ class MarketViewModel @Inject constructor(
 
     var indicatorLiveData: MutableLiveData<List<Entry>> = MutableLiveData()
 
-    val patchLiveData: MutableLiveData<Resource<List<Watchlist>>> = MutableLiveData()
-
-    val accountNumber = myPreference.getAccountNumber()
-
     val webSocketLiveData = MutableLiveData<MutableMap<String, Content>>()
 
-//TODO add indicators once we fix intra-day graphs
+
     /*private suspend fun getIndicatorData(historicalData: Resource<HistoricalData>): List<Entry> {
        val results = CompletableDeferred<List<Entry>>()
        withContext(Dispatchers.IO) {
@@ -140,28 +133,36 @@ class MarketViewModel @Inject constructor(
      return results.await()
  }*/
 
+    fun testDeleteAccess() {
+        myPreference.setAccessToken("CACA")
+    }
 
-    //Positions and Quotes together
+
     fun accountPosDetails() {
         scope.launch {
+            //unnessesary call
             val accDetails = getAccountDetails()
             accountDetailsLiveData.postValue(accDetails)
             val accPositions = (accDetails.data?.securitiesAccount?.positions)
             val stringBuilder = StringBuilder()
             if (!accPositions.isNullOrEmpty()) {
                 accPositions.removeIf { it.instrument.symbol == "MMDA1" }
+
                 for (i in accPositions.indices) {
                     stringBuilder.append(accPositions[i].instrument.symbol + ",")
                 }
+                println("account quotes 1: " + accPositions)
             }
             //HTTP request for Positions Quotes
+            println("account quotes 2: " + stringBuilder)
             val posQuotes = repository.getSymbolDetails(stringBuilder.toString())
             if (!posQuotes.data.isNullOrEmpty()) {
                 posQuotesLiveData.postValue(posQuotes.data.values.toMutableList())
+                println("account quotes 2.5: " + posQuotesLiveData.value)
             }
 
             try {
-                //observe positions update
+                //observe pos http update
                 posMediatorLiveData.addSource(accountDetailsLiveData) { posValues ->
                     if (!posQuotesLiveData.value.isNullOrEmpty()) {
                         when (posValues.status) {
@@ -175,13 +176,14 @@ class MarketViewModel @Inject constructor(
                                     }
                                 }
                                 posMediatorLiveData.postValue(accPosUpdate)
+                                println("account quotes 3 " + posMediatorLiveData.value)
                             }
-                            Resource.Status.ERROR -> Timber.e(posValues.message)
-                            Resource.Status.LOADING -> Timber.v("Loading")
+                            Resource.Status.ERROR -> println(posValues.message)
+                            Resource.Status.LOADING -> println("Loading")
                         }
                     }
                 }
-                //observer quote
+                //observer quote http update
                 posMediatorLiveData.addSource(posQuotesLiveData) { quoteValues ->
                     val accQuotesUpdate = mutableMapOf<Positions, SymbolDetails>()
                     for (i in accPositions!!.indices) {
@@ -189,6 +191,7 @@ class MarketViewModel @Inject constructor(
                             quoteValues[i]
                     }
                     posMediatorLiveData.postValue(accQuotesUpdate)
+                    println("account quotes 4 " + posMediatorLiveData.value)
 
                 }
             } catch (e: IllegalArgumentException) {
@@ -199,79 +202,46 @@ class MarketViewModel @Inject constructor(
     }
 
 
-    private suspend fun getAccountDetails() =
-        repository.getAccountDetails(myPreference.getAccountNumber())
+    private suspend fun getAccountDetails() = repository.getAccountDetails()
 
 
     fun getAllWatchlist() {
         scope.launch {
-            val allWatchlist = repository.getAllWatchlist(myPreference.getAccountNumber())
+            val allWatchlist = repository.getAllWatchlist()
             if (!allWatchlist.data.isNullOrEmpty()) {
                 watchlistNames.clear()
                 for (i in allWatchlist.data.indices) {
                     watchlistNames.add(i, allWatchlist.data[i].name)
+                    println("delete " + allWatchlist.data[i])
+
                 }
             }
             watchlistLiveData.postValue(allWatchlist)
         }
     }
-    /*
-    Body to delete first symbol.
-    {
-    "name": "string",
-    "watchlistId": "1923285313",
-    "watchlistItems": [
-    {
 
-        "sequenceId": 1
-    }
-    ]
-    }*/
-
-
-    fun start(symbol: String) {
-        _symbol.value = symbol
-    }
-
-    fun getSpinnerPosition() = myPreference.getSpinnerPos()
-
-    fun setSpinnerPosition(pos: Int) = myPreference.setSpinnerPos(pos)
-
-
-    fun patchWatchlist(watchlistId: String, symbolUpdate: PatchWatchlist) {
+    fun patchWatchlist(watchlistId: String, symbolUpdate: String) {
         scope.launch {
-            val watchlistResponse =
-                repository.patchWatchlist(accountNumber, watchlistId, symbolUpdate)
-
-            patchLiveData.postValue(watchlistResponse)
-            if (watchlistResponse.message == "204 No Content") {
-                getAllWatchlist()
-            }
-
+            val patchedWatchlists =
+                repository.patchWatchlist("149235993", watchlistId, symbolUpdate)
         }
     }
 
     fun getMultiSymbolDetails(string: String) {
         scope.launch {
             val multiSymbolDetails = repository.getSymbolDetails(string)
+            println("getMultiSymbolDetails: $multiSymbolDetails")
             watchlistQuotes.postValue(multiSymbolDetails)
         }
     }
 
 
-    private val levelOneFuturesDC = DataRequest(
-        request = listOf(
-            Request(
-                futuresParam = FuturesParam(),
-                service = LEVELONE_FUTURES,
-                account = accountNumber,
-                source = myPreference.getDevUserId()
-            )
-        )
-    )
+    fun start(symbol: String) {
+        _symbol.value = symbol
+        //Timber.tag(("Start Symbol = " + _symbol.value))
+    }
 
-    /*TODO Create data classes for requests
-    Request used for testing websocket*/
+    val testi = LevelOneFutures(parameters = Parameters())
     val levelOneFutures = "{\n" +
             "            \"service\": \"LEVELONE_FUTURES\",\n" +
             "            \"requestid\": \"1\",\n" +
@@ -279,18 +249,17 @@ class MarketViewModel @Inject constructor(
             "            \"account\": \"149235993\",\n" +
             "            \"source\": \"gerardoiza94\",\n" +
             "            \"parameters\": {\n" +
-            "                \"keys\": \"/BTC\",\n" +
+            "                \"keys\": \"/ES,/NQ,/YM\",\n" +
             "                \"fields\": \"0,3,19,20,34\"\n" +
             "            }\n" +
             "        }"
 
-
     val stockQoutes = "{\n" +
-            "            \"service\": \"QUOTE\",\n" +
+            "            \"service\": \"QOUTE\",\n" +
             "            \"requestid\": \"1\",\n" +
             "            \"command\": \"SUBS\",\n" +
-            "            \"account\": \"Account\",\n" +
-            "            \"source\": \"DevLoginID\",\n" +
+            "            \"account\": \"149235993\",\n" +
+            "            \"source\": \"gerardoiza94\",\n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"amd\",\n" +
             "                \"fields\": \"0,3,19,20,34\"\n" +
@@ -301,8 +270,8 @@ class MarketViewModel @Inject constructor(
             "            \"service\": \"OPTIONS_BOOK\",\n" +
             "            \"requestid\": \"1\",\n" +
             "            \"command\": \"SUBS\",\n" +
-            "            \"account\": \"Account\",\n" +
-            "            \"source\": \"DevLoginID\",\n" +
+            "            \"account\": \"149235993\",\n" +
+            "            \"source\": \"gerardoiza94\",\n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"SPY_041822P400\",\n" +
             "                \"fields\": \"0,3,19,20,34\"\n" +
@@ -313,8 +282,8 @@ class MarketViewModel @Inject constructor(
             "            \"service\": \"CHART_FUTURES\",\n" +
             "            \"requestid\": \"1\",\n" +
             "            \"command\": \"SUBS\",\n" +
-            "            \"account\": \"Account\",\n" +
-            "            \"source\": \"DevLoginID\",\n" +
+            "            \"account\": \"149235993\",\n" +
+            "            \"source\": \"gerardoiza94\",\n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"/ES\",\n" +
             "                \"fields\": \"0,1,2,3,4,5,6,7\"\n" +
@@ -339,8 +308,8 @@ class MarketViewModel @Inject constructor(
             "            \"service\": \"ACCT_ACTIVITY\", \n" +
             "            \"requestid\": \"2\", \n" +
             "            \"command\": \"SUBS\", \n" +
-            "            \"account\": \"Account\", \n" +
-            "            \"source\": \"DevLoginID\", \n" +
+            "            \"account\": \"149235993\", \n" +
+            "            \"source\": \"gerardoiza94\", \n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"b71f01142692445eca51554fea6789343cf24399dc98b4f638d8611b9a4bcda91a3519298a2d7784c976c7ec555cb02ef\", \n" +
             "                \"fields\": \"0,1,2,3\"\n" +
@@ -352,8 +321,8 @@ class MarketViewModel @Inject constructor(
             "            \"service\": \"NEWS_HEADLINE\", \n" +
             "            \"requestid\": \"2\", \n" +
             "            \"command\": \"SUBS\", \n" +
-            "            \"account\": \" Account \", \n" +
-            "            \"source\": \"DevLoginID\", \n" +
+            "            \"account\": \" 149235993 \", \n" +
+            "            \"source\": \"gerardoiza94\", \n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"GOOG\", \n" +
             "                \"fields\": \"0,1,2,3,4,5,6\"\n" +
@@ -365,8 +334,8 @@ class MarketViewModel @Inject constructor(
             "            \"service\": \"NASDAQ_BOOK\", \n" +
             "            \"requestid\": \"2\", \n" +
             "            \"command\": \"SUBS\", \n" +
-            "            \"account\": \" Account \", \n" +
-            "            \"source\": \"DevLoginID\", \n" +
+            "            \"account\": \" 149235993 \", \n" +
+            "            \"source\": \"gerardoiza94\", \n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"SPY\", \n" +
             "                \"fields\": \"0,1,2,3,4\"\n" +
@@ -377,8 +346,8 @@ class MarketViewModel @Inject constructor(
             "            \"service\": \"LEVELONE_FOREX\",\n" +
             "            \"requestid\": \"2\",\n" +
             "            \"command\": \"SUBS\",\n" +
-            "            \"account\": \"Account\",\n" +
-            "            \"source\": \"DevLoginID\",\n" +
+            "            \"account\": \"149235993\",\n" +
+            "            \"source\": \"gerardoiza94\",\n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"EUR/USD\",\n" +
             "                \"fields\": \"0,1,2,3,4,5,6,7,8,9,10,11,12,13\"\n" +
@@ -386,64 +355,62 @@ class MarketViewModel @Inject constructor(
             "        }"
 
     val leveloneFuturesTime =
-        "        {\n" +
-                "            \"service\": \"CHART_HISTORY_FUTURES\",\n" +
-                "            \"requestid\": \"2\",\n" +
-                "            \"command\": \"GET\",\n" +
-                "            \"account\": \"Account\",\n" +
-                "            \"source\": \"DevLoginID\",\n" +
-                "            \"parameters\": {\n" +
-                "                \"symbol\": \"/ES\",\n" +
-                "                \"END_TIME\": \"1649104859000\",\n" +
-                "                \"START_TIME\": \"1648840881000\",\n" +
-                "                \"frequency\": \"h2\"\n" +
-
-                "            }\n" +
-                "        }\n"
-
-    val chartEquity = " {\n" +
-            "            \"service\": \"CHART_EQUITY\",\n" +
+            "        {\n" +
+            "            \"service\": \"CHART_HISTORY_FUTURES\",\n" +
             "            \"requestid\": \"2\",\n" +
-            "            \"command\": \"SUBS\",\n" +
+            "            \"command\": \"GET\",\n" +
             "            \"account\": \"149235993\",\n" +
             "            \"source\": \"gerardoiza94\",\n" +
             "            \"parameters\": {\n" +
-            "                \"keys\": \"AAPL,MSFT,SPY\",\n" +
-            "                \"fields\": \"0,1,2,3,4,5,6,7,8\"\n" +
+            "                \"symbol\": \"/ES\",\n" +
+            "                \"END_TIME\": \"1649104859000\",\n" +
+            "                \"START_TIME\": \"1648840881000\",\n" +
+            "                \"frequency\": \"h2\"\n" +
+
             "            }\n" +
-            "        }"
+            "        }\n"
+
+
+    private fun sendFuturesPayload() = interactor.sendSocketRequest(leveloneFuturesTime)
+
+
 
 
     @ExperimentalCoroutinesApi
     fun subscribeToSocketEvents() {
         viewModelScope.launch {
-            val jsonAdapterRequest = moshi.adapter(Request::class.java)
-            val json: String = jsonAdapterRequest.toJson(levelOneFuturesDC.request[0])
-            fun sendFuturesPayload() = interactor.sendSocketRequest(json)
-            fun sendFuturesHistorical() = interactor.sendSocketRequest(futuresHistory)
-
-
-            //fun sendFuturesPayload() = interactor.sendSocketRequest(chartEquity)
             try {
-                val jsonAdapter = moshi.adapter(DataResponse::class.java)
 
-                //TODO Create a data class and custom deserializer and clean this interactor thingy
+                Timber.d("onmessage right%s", levelOneFutures)
+                Timber.d("onmessage wrong%s", testi.toString())
+
+
+                //we subscribe to many different event
                 interactor.startSocket().consumeEach {
                     if (it.exception == null) {
-                        Timber.i("raw data %s", it.text)
+                        if (it.text!!.length > 1000) {
+                            println("WEBSOCKET RESPONSE" +it.text.substring(0, 1000));
+                            println("WEBSOCKET RESPONSE" + it.text.substring(2000));
+                        } else
+                            Log.d("", it.text);
+
+                        Timber.d("onmessage This?%s", it.text.toString())
+
+
                         val jsonObject = JSONObject(it.text.toString())
                         //filter response by "data" refactor as a util
-                        println("onMassage : " + jsonObject)
-                        if (jsonObject.has("data")) {
+                       if (jsonObject.has("data")) {
+                            val jsonAdapter = moshi.adapter(DataResponse::class.java)
+
                             val dataResponse = jsonAdapter.fromJson(it.text.toString())
+                            println("WEBSOCKET RESPONSE 1" + dataResponse)
+
                             val dataMap = mutableMapOf<String, Content>()
                             fun <T> MutableLiveData<T>.notifyObserver() {
                                 this.value = this.value
                             }
                             //Make Dictionary.
                             if (dataResponse != null) {
-                                println("onMassage : LEVEL ONE BABY")
-
                                 for (i in dataResponse.data[0].content.indices) {
                                     dataMap[dataResponse.data[0].content[i].key] =
                                         dataResponse.data[0].content[i]
@@ -453,26 +420,29 @@ class MarketViewModel @Inject constructor(
                                     webSocketLiveData.postValue(dataMap)
                                 } else {
                                     //we use putALl to only update the future symbol that changed and notifyObserver manually (postValue does it auto).
-                                    webSocketLiveData.value!!.putAll(dataMap)
+                                    webSocketLiveData.value!!.putAll (dataMap)
                                     webSocketLiveData.notifyObserver()
                                 }
                             }
-                        } else if (jsonObject.has("snapshot")) {
-                            println("onMassage : YESSSSSSSSSSS")
                         }
                         if (jsonObject.has("response")) {
                             val data = jsonObject.getJSONArray("response")
                             val content = data.getJSONObject(0)
                             if (content.getString("command") == "LOGIN") {
-                                Timber.i("Login Command Successful")
+                                println("Login Command Successful")
                                 //start data subscriptions
                                 sendFuturesPayload()
-                                sendFuturesHistorical()
                             }
                         }
-                    } else {
-                        println("onMassage : ERROR YESSSSSSSSSSS")
+                        if (jsonObject.has("snapshot")) {
+                            val jsonAdapter = moshi.adapter(DataResponse::class.java)
 
+                            val dataResponse = jsonAdapter.fromJson(it.text.toString())
+                            println("WEBSOCKET RESPONSE 1" + dataResponse!!.data.lastIndex)
+
+
+                        }
+                    } else {
                         onSocketError(it.exception)
                     }
                 }
@@ -494,8 +464,6 @@ class MarketViewModel @Inject constructor(
 
 
 }
-
-
 
 
 

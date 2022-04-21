@@ -1,23 +1,21 @@
-package com.example.composetdaapp.viewmodels
+package com.example.composetdaapp.ui.viewmodels
 
 import android.annotation.SuppressLint
+import android.view.View
+import android.widget.Toast
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.composetdaapp.data.api.MainRepository
 import com.example.composetdaapp.data.entities.user.UserPrincipals
-import com.example.composetdaapp.data.entities.websocket.login.Credentials
-import com.example.composetdaapp.data.entities.websocket.login.LoginRequest
-import com.example.composetdaapp.data.entities.websocket.login.Parameters
 import com.example.composetdaapp.utils.MyPreference
 import com.example.composetdaapp.utils.Resource
-import com.squareup.moshi.Moshi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import java.net.URLEncoder.encode
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -26,8 +24,7 @@ import kotlin.coroutines.CoroutineContext
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val repository: MainRepository,
-    private val myPreference: MyPreference,
-    private val moshi: Moshi
+    private val myPreference: MyPreference
 ) : ViewModel() {
     //create the job, which implements coroutines context.
     private var job = Job()
@@ -46,6 +43,7 @@ class LoginViewModel @Inject constructor(
     fun refreshTokenAccess() {
         scope.launch {
             myPreference.setAccessToken("")
+            println("POSTED Malone #  " + myPreference.getAccessToken())
             val accessToken = repository.postRefreshToken(
                 refreshToken = myPreference.getRefreshToken(),
                 accessType = "",
@@ -57,11 +55,12 @@ class LoginViewModel @Inject constructor(
                     tokenLiveData.postValue(accessToken.toString())
                     if (!accessToken.data?.accessToken.isNullOrEmpty()) {
                         myPreference.setAccessToken(accessToken.data?.accessToken!!)
-
+                        println("POSTED Malone " + accessToken.data.refreshToken)
+                        println("POSTED Malone  " + myPreference.getAccessToken())
                     }
                 }
                 Resource.Status.ERROR -> {
-                    Timber.e("Error getting refresh Token")
+                    println("Error getting refresh Token")
                 }
                 else -> {//TODO}
                 }
@@ -84,7 +83,7 @@ class LoginViewModel @Inject constructor(
                     code
                 )
             tokenLiveData.postValue(tokenDetails.toString())
-            Timber.v("Viewmodel Token: %s", tokenDetails.data)
+            println("Viewmodel tehe: " + tokenDetails.data)
             if (tokenDetails.data?.accessToken != null) {
                 myPreference.setAccessToken(tokenDetails.data.accessToken)
                 tokenDetails.data.let { myPreference.setRefreshToken(it.refreshToken!!) }
@@ -96,47 +95,52 @@ class LoginViewModel @Inject constructor(
     fun tempUserPrincipals() {
         scope.launch {
             val userPrincipalsDetail = repository.getUserPrincipals()
-            userPrincipalsLiveData.postValue(userPrincipalsDetail.data!!)
-            val tokenTimestamp = userPrincipalsDetail.data.streamerInfo.tokenTimestamp
+            userPrincipalsLiveData.postValue(userPrincipalsDetail.data)
+
+            val tokenTimestamp = userPrincipalsDetail.data!!.streamerInfo.tokenTimestamp
             val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+SSSS")
             val date: Date = sdf.parse(tokenTimestamp)
             val tokenTimestampAsMs: Long = date.toInstant().toEpochMilli()
             val tokenTimestampAsMsOffset: Long = (tokenTimestampAsMs - 18000000)
 
-            Timber.i("Milli with offset: %s", tokenTimestampAsMsOffset)
+            println("With offset: " + tokenTimestampAsMsOffset)
 
-            //encoder producing unwanted values with adapter, used replace()
-            val credential = Credentials(
-                userid = userPrincipalsDetail.data.accounts[0].accountId,
-                token = userPrincipalsDetail.data.streamerInfo.token,
-                company = userPrincipalsDetail.data.accounts[0].company,
-                segment = userPrincipalsDetail.data.accounts[0].segment,
-                cddomain = userPrincipalsDetail.data.accounts[0].accountCdDomainId,
-                usergroup = userPrincipalsDetail.data.streamerInfo.userGroup,
-                accesslevel = userPrincipalsDetail.data.streamerInfo.accessLevel,
-                timestamp = tokenTimestampAsMsOffset,
-                appid = userPrincipalsDetail.data.streamerInfo.appId,
-                acl = userPrincipalsDetail.data.streamerInfo.acl
-            ).toString()
-                .replace("Credentials(", "")
-                .replace(",", "&")
-                .replace(" ", "")
-                .replace(")", "")
+            val credentials = (
+                    "userid" + "=" + userPrincipalsDetail.data.accounts[0].accountId + "&" +
+                            "token" + "=" + userPrincipalsDetail.data.streamerInfo.token + "&" +
+                            "company" + "=" + userPrincipalsDetail.data.accounts[0].company + "&" +
+                            "segment" + "=" + userPrincipalsDetail.data.accounts[0].segment + "&" +
+                            "cddomain" + "=" + userPrincipalsDetail.data.accounts[0].accountCdDomainId + "&" +
+                            "usergroup" + "=" + userPrincipalsDetail.data.streamerInfo.userGroup + "&" +
+                            "accesslevel" + "=" + userPrincipalsDetail.data.streamerInfo.accessLevel + "&" +
+                            "authorized" + "=" + "Y" + "&" +
+                            "timestamp" + "=" + tokenTimestampAsMsOffset + "&" +
+                            "appid" + "=" + userPrincipalsDetail.data.streamerInfo.appId + "&" +
+                            "acl" + "=" + userPrincipalsDetail.data.streamerInfo.acl
+                    )
 
-            val loginRequests = LoginRequest(
-                account = userPrincipalsDetail.data.accounts[0].accountId,
-                source = userPrincipalsDetail.data.streamerInfo.appId,
-                parameters = Parameters(
-                    credentials = encode(credential, "UTF-8"),
-                    token = userPrincipalsDetail.data.streamerInfo.token
+            val encodedCredentials = java.net.URLEncoder.encode(credentials, "utf-8")
+
+
+            val loginRequest = hashMapOf<Any, Any>(
+                "service" to "ADMIN",
+                "requestid" to "0",
+                "command" to "LOGIN",
+                "account" to userPrincipalsDetail.data.accounts[0].accountId,
+                "source" to userPrincipalsDetail.data.streamerInfo.appId,
+                "parameters" to hashMapOf(
+                    "credential" to encodedCredentials,
+                    "token" to userPrincipalsDetail.data.streamerInfo.token,
+                    "version" to "1.0"
                 )
             )
-            val jsonAdapterRequest = moshi.adapter(LoginRequest::class.java)
-            val json: String = jsonAdapterRequest.toJson(loginRequests)
+            println("onMessage LoginP: " + loginRequest)
 
-            myPreference.setAccountNumber(userPrincipalsDetail.data.primaryAccountId)
-            myPreference.setDevUserId(userPrincipalsDetail.data.streamerInfo.appId)
-            myPreference.setSocketCredentials(json)
+            val payload = JSONObject(loginRequest as Map<*, *>?)
+
+
+
+            myPreference.setSocketCredentials(payload.toString())
         }
     }
 

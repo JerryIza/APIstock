@@ -10,11 +10,13 @@ import com.example.composetdaapp.data.entities.token.TokenAccess
 import com.example.composetdaapp.data.entities.user.UserPrincipals
 import com.example.composetdaapp.data.entities.watchlist.Watchlist
 import com.example.composetdaapp.data.entities.quotes.SymbolSearch
-import com.example.composetdaapp.data.entities.watchlist.patch.PatchWatchlist
 import retrofit2.Response
 import retrofit2.http.*
 
+
 const val API_KEY = "PRO5GOZ1PGUKSEUUNUCK5PVABMAASMDQ"
+
+//account number
 
 
 interface StockApiService {
@@ -34,11 +36,11 @@ interface StockApiService {
     ): Response<HistoricalData>
 
 
-    //https://developer.tdameritrade.com/price-history/apis/get/marketdata/%7Bsymbol%7D/pricehistory#
+       //https://developer.tdameritrade.com/price-history/apis/get/marketdata/%7Bsymbol%7D/pricehistory#
     @GET("/v1/marketdata/{Symbol}/pricehistory")
     suspend fun fetchIntraDayHistoricalAsync(
-        @Path("Symbol") Symbol: String?,
-        @Query("startDate") startDate: String?,
+           @Path("Symbol") Symbol: String?,
+           @Query("startDate") startDate: String?,
         @Query("endDate") endDate: String?,
         @Query("needExtendedHoursData") needExtendedHoursData: String?,
     ): Response<HistoricalData>
@@ -65,7 +67,7 @@ interface StockApiService {
         @Query("fromEnteredTime") fromEnteredTime: String?,
         @Query("toEnteredTime") toEnteredTime: String?,
         @Query("status") status: String,
-    ): Response<List<GetOrderItem>>
+    ) : Response<List<GetOrderItem>>
 
 
     @FormUrlEncoded
@@ -85,25 +87,25 @@ interface StockApiService {
     suspend fun patchWatchlistAsync(
         @Path("AccountNumber") accountNumber: String?,
         @Path("watchlistId") watchlistId: String?,
-        @Body body: PatchWatchlist
+        @Body body: String
     ): Response<List<Watchlist>>
 
+    //1568912277
     @GET("v1/accounts/{AccountNumber}/watchlists/{watchlistId}")
     suspend fun fetchWatchlistAsync(
         @Path("AccountNumber") accountNumber: String?,
         @Path("watchlistId") watchlistId: String?,
     ): Response<List<Watchlist>>
 
-    //account numbers
+
     @GET("/v1/userprincipals")
     suspend fun fetchUserPrincipalsAsync(
         @Query("fields") Fields: String
     ): Response<UserPrincipals>
 
-    //balances and positions
-    @GET("/v1/accounts/{AccountNumber}")
+
+    @GET("/v1/accounts/149235993")
     suspend fun fetchAccountDetailsAsync(
-        @Path("AccountNumber") accountNumber: String?,
         @Query("fields") Fields: String
     ): Response<Accounts>
 
