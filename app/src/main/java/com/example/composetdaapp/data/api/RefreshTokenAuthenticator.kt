@@ -9,6 +9,7 @@ import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -18,12 +19,18 @@ class RefreshTokenAuthenticator @Inject constructor(
     private val lazyRepo: Provider<MainRepository>
 ) : Authenticator {
     private val notLoggedResponseCode = 401
+    private val Response.responseCount: Int
+        get() = generateSequence(this) { it.priorResponse }.count()
 
 
 
     override fun authenticate(route: Route?, response: Response): Request {
 
-        if (response.code == notLoggedResponseCode) {
+
+
+
+
+        if (response.code == notLoggedResponseCode && response.responseCount <= 3) {
             //Set token to blank so Interceptor removes header.
             myPreference.setAccessToken("")
             suspend fun getAccessToken(): Resource<TokenAccess> = withContext(Dispatchers.IO) {
@@ -33,9 +40,10 @@ class RefreshTokenAuthenticator @Inject constructor(
                     code = ""
                 )
             }
+
             val refreshResponse = runBlocking { getAccessToken() }
             refreshResponse.data?.accessToken?.let { myPreference.setAccessToken(it) }
-            println("REFRESH RESPONSE" + refreshResponse)
+            Timber.v("Refresh auth response%s", refreshResponse)
 
         }
         //header will be added back by interceptor

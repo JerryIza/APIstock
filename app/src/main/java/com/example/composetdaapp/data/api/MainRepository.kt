@@ -1,17 +1,15 @@
 package com.example.composetdaapp.data.api
 
 import com.example.composetdaapp.data.entities.orders.place.PlaceOrder
-import com.example.composetdaapp.data.entities.watchlist.patch.PatchWatchlist
 import javax.inject.Inject
 
 
 class MainRepository @Inject constructor(private val stockMarketService: StockApiService) :
     BaseDataSource() {
     //TODO High priority, get account number from user principals and store in shared pref. Clear after every cold start
-    suspend fun getAllWatchlist(accNumber: String) = getResults {
+    suspend fun getAllWatchlist() = getResults {
         stockMarketService.fetchWatchlistAsync(
-            accountNumber = accNumber,
-            watchlistId = ""
+            "Account #", ""
         )
     }
 
@@ -19,7 +17,7 @@ class MainRepository @Inject constructor(private val stockMarketService: StockAp
         stockMarketService.placeOrderAsync(accNumber, order)
     }
 
-    suspend fun getOrders() = getResults {
+    suspend fun getOrders()= getResults {
         stockMarketService.fetchOrdersAsync(
             accountId = "",
             maxResults = "",
@@ -28,8 +26,8 @@ class MainRepository @Inject constructor(private val stockMarketService: StockAp
             status = ""
         )
     }
-    //Create data class
-    suspend fun patchWatchlist(accNumber: String, watchlistId: String, body: PatchWatchlist) = getResults {
+
+    suspend fun patchWatchlist(accNumber: String, watchlistId: String, body: String) = getResults {
         stockMarketService.patchWatchlistAsync(
             accountNumber = accNumber,
             watchlistId = watchlistId,
@@ -37,11 +35,8 @@ class MainRepository @Inject constructor(private val stockMarketService: StockAp
         )
     }
 
-    suspend fun getAccountDetails(accNumber: String) = getResults {
-        stockMarketService.fetchAccountDetailsAsync(
-            accountNumber = accNumber,
-            Fields = "positions"
-        )
+    suspend fun getAccountDetails() = getResults {
+        stockMarketService.fetchAccountDetailsAsync("positions")
     }
 
 

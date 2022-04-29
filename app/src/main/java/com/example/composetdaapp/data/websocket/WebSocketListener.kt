@@ -1,5 +1,6 @@
 package com.example.composetdaapp.data.websocket
 
+import android.util.Log.i
 import com.example.composetdaapp.data.websocket.WebServicesProvider.Companion.NORMAL_CLOSURE_STATUS
 import com.example.composetdaapp.utils.MyPreference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -11,6 +12,7 @@ import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 import okio.ByteString
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -21,8 +23,7 @@ class StockSocketListener @Inject constructor(private val myPreference: MyPrefer
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
         webSocket.send(myPreference.getSocketCredentials())
-
-        println("OPENED WEB SOCKET " + myPreference.getSocketCredentials())
+        Timber.i("onOpen %s", myPreference.getSocketCredentials())
     }
 
 
@@ -30,7 +31,7 @@ class StockSocketListener @Inject constructor(private val myPreference: MyPrefer
     override fun onMessage(webSocket: WebSocket, text: String) {
         GlobalScope.launch {
             socketEventChannel.send(SocketUpdate(text))
-            println("onMessage: " + text)
+            Timber.i("onMessage: %s", text)
 
         }
     }
@@ -41,7 +42,7 @@ class StockSocketListener @Inject constructor(private val myPreference: MyPrefer
 
 
         }
-        println("onClosing: ")
+        Timber.i("onClosing: ")
 
         webSocket.close(NORMAL_CLOSURE_STATUS, null)
 

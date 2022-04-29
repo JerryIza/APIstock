@@ -16,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -55,12 +56,11 @@ class LoginViewModel @Inject constructor(
                     tokenLiveData.postValue(accessToken.toString())
                     if (!accessToken.data?.accessToken.isNullOrEmpty()) {
                         myPreference.setAccessToken(accessToken.data?.accessToken!!)
-                        println("POSTED Malone " + accessToken.data.refreshToken)
-                        println("POSTED Malone  " + myPreference.getAccessToken())
+
                     }
                 }
                 Resource.Status.ERROR -> {
-                    println("Error getting refresh Token")
+                    Timber.e("Error getting refresh Token")
                 }
                 else -> {//TODO}
                 }
@@ -83,7 +83,7 @@ class LoginViewModel @Inject constructor(
                     code
                 )
             tokenLiveData.postValue(tokenDetails.toString())
-            println("Viewmodel tehe: " + tokenDetails.data)
+            Timber.v("Viewmodel Token: %s", tokenDetails.data)
             if (tokenDetails.data?.accessToken != null) {
                 myPreference.setAccessToken(tokenDetails.data.accessToken)
                 tokenDetails.data.let { myPreference.setRefreshToken(it.refreshToken!!) }
@@ -95,16 +95,16 @@ class LoginViewModel @Inject constructor(
     fun tempUserPrincipals() {
         scope.launch {
             val userPrincipalsDetail = repository.getUserPrincipals()
-            userPrincipalsLiveData.postValue(userPrincipalsDetail.data)
-
-            val tokenTimestamp = userPrincipalsDetail.data!!.streamerInfo.tokenTimestamp
+            userPrincipalsLiveData.postValue(userPrincipalsDetail.data!!)
+            val tokenTimestamp = userPrincipalsDetail.data.streamerInfo.tokenTimestamp
             val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+SSSS")
             val date: Date = sdf.parse(tokenTimestamp)
             val tokenTimestampAsMs: Long = date.toInstant().toEpochMilli()
             val tokenTimestampAsMsOffset: Long = (tokenTimestampAsMs - 18000000)
 
-            println("With offset: " + tokenTimestampAsMsOffset)
+            Timber.v("Milli with offset: %s", tokenTimestampAsMsOffset)
 
+            /*Create data class instead*/
             val credentials = (
                     "userid" + "=" + userPrincipalsDetail.data.accounts[0].accountId + "&" +
                             "token" + "=" + userPrincipalsDetail.data.streamerInfo.token + "&" +

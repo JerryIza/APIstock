@@ -13,7 +13,7 @@ import com.example.composetdaapp.databinding.OrdersFragmentBinding
 import com.example.composetdaapp.ui.adapters.OrdersAdapter
 import com.example.composetdaapp.ui.theme.ComposeTdaAppTheme
 import com.example.composetdaapp.ui.viewmodels.MarketViewModel
-import com.example.composetdaapp.ui.views.home.OrderScreen
+import com.example.composetdaapp.ui.compose.orders.OrderScreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
