@@ -232,7 +232,7 @@ class MarketViewModel @Inject constructor(
             "            \"requestid\": \"1\",\n" +
             "            \"command\": \"SUBS\",\n" +
             "            \"account\": \"Account #\",\n" +
-            "            \"source\": \"gerardoiza94\",\n" +
+            "            \"source\": \"UserId\",\n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"/ES,/NQ,/YM\",\n" +
             "                \"fields\": \"0,3,19,20,34\"\n" +
