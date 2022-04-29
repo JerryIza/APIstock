@@ -1,4 +1,4 @@
-package com.example.composetdaapp.ui.views.home
+package com.example.composetdaapp.ui.compose.orders
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColor
@@ -17,7 +17,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.Modifier.Companion.then
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext

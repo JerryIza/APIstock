@@ -11,7 +11,6 @@ import com.example.composetdaapp.utils.ARG_OBJECT
 
 class DashPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
-    //find a backspace fix
 
     override fun getItemCount(): Int = 3
 
@@ -24,8 +23,6 @@ class DashPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
             1 -> fragment = PositionsFragment()
             2 -> fragment = OrdersFragment()
         }
-
-
         fragment.arguments = Bundle().apply {
             // Our object is just an integer :-P
             when (position){

@@ -1,5 +1,5 @@
-package com.example.composetdaapp.ui.views.login
-/*
+package com.example.composetdaapp.ui.compose.login
+/*TODO Will reference once compose matures a little more
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

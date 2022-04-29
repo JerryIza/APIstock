@@ -3,6 +3,7 @@ package com.example.composetdaapp.indicators
 import com.example.composetdaapp.data.entities.quotes.HistoricalData
 import com.example.composetdaapp.utils.Resource
 import com.github.mikephil.charting.data.Entry
+import timber.log.Timber
 
 class UpperIndicators {
 
@@ -32,11 +33,11 @@ class UpperIndicators {
                     )
                 }
             }catch (e: IllegalArgumentException) {
-                println("LOG Error here")
+                Timber.e("LOG Error here")
             }
             }
-            Resource.Status.ERROR -> println(historicalData.message)
-            Resource.Status.LOADING -> println("TEHEHE")
+            Resource.Status.ERROR -> Timber.e(historicalData.message)
+            Resource.Status.LOADING -> Timber.v("Loading")
         }
         return results
     }

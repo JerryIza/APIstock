@@ -1,4 +1,4 @@
-package com.example.composetdaapp.ui.views.home
+package com.example.composetdaapp.ui.compose.orders
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.FastOutLinearInEasing

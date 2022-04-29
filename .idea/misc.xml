@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Jerry/AndroidStudioProjects/ComposeTdaApp/app/src/main/res/layout/activity_main.xml" value="0.2477355072463768" />
+        <entry key="..\:/Users/Jerry/AndroidStudioProjects/ComposeTdaApp/app/src/main/res/layout/chart_fragment.xml" value="0.47112462006079026" />
+        <entry key="..\:/Users/Jerry/AndroidStudioProjects/ComposeTdaApp/app/src/main/res/layout/chart_settings_fragment.xml" value="0.2015625" />
+        <entry key="..\:/Users/Jerry/AndroidStudioProjects/ComposeTdaApp/app/src/main/res/layout/content_main.xml" value="0.2477355072463768" />
+        <entry key="..\:/Users/Jerry/AndroidStudioProjects/ComposeTdaApp/app/src/main/res/layout/dashboard_fragment.xml" value="0.2857142857142857" />
+        <entry key="..\:/Users/Jerry/AndroidStudioProjects/ComposeTdaApp/app/src/main/res/layout/indices_list.xml" value="0.2046875" />
+        <entry key="..\:/Users/Jerry/AndroidStudioProjects/ComposeTdaApp/app/src/main/res/layout/login_fragment.xml" value="0.22083333333333333" />
+        <entry key="..\:/Users/Jerry/AndroidStudioProjects/ComposeTdaApp/app/src/main/res/layout/main_activity.xml" value="0.3828571428571429" />
+        <entry key="..\:/Users/Jerry/AndroidStudioProjects/ComposeTdaApp/app/src/main/res/layout/market_movers_fragment.xml" value="0.20104166666666667" />
+        <entry key="..\:/Users/Jerry/AndroidStudioProjects/ComposeTdaApp/app/src/main/res/layout/movers_list.xml" value="0.2046875" />
+        <entry key="..\:/Users/Jerry/AndroidStudioProjects/ComposeTdaApp/app/src/main/res/layout/order_fragment.xml" value="0.3537037037037037" />
+        <entry key="..\:/Users/Jerry/AndroidStudioProjects/ComposeTdaApp/app/src/main/res/layout/orders_fragment.xml" value="0.20104166666666667" />
+        <entry key="..\:/Users/Jerry/AndroidStudioProjects/ComposeTdaApp/app/src/main/res/layout/orders_list.xml" value="0.2857142857142857" />
+        <entry key="..\:/Users/Jerry/AndroidStudioProjects/ComposeTdaApp/app/src/main/res/layout/positions_fragment.xml" value="0.22083333333333333" />
+        <entry key="..\:/Users/Jerry/AndroidStudioProjects/ComposeTdaApp/app/src/main/res/layout/positions_list.xml" value="0.38796296296296295" />
+        <entry key="..\:/Users/Jerry/AndroidStudioProjects/ComposeTdaApp/app/src/main/res/layout/search_fragment.xml" value="0.2671875" />
+        <entry key="..\:/Users/Jerry/AndroidStudioProjects/ComposeTdaApp/app/src/main/res/layout/search_list.xml" value="0.25462962962962965" />
+        <entry key="..\:/Users/Jerry/AndroidStudioProjects/ComposeTdaApp/app/src/main/res/layout/stock_activity.xml" value="0.20208333333333334" />
+        <entry key="..\:/Users/Jerry/AndroidStudioProjects/ComposeTdaApp/app/src/main/res/layout/watchlist_fragment.xml" value="0.2824074074074074" />
+        <entry key="..\:/Users/Jerry/AndroidStudioProjects/ComposeTdaApp/app/src/main/res/layout/watchlist_list.xml" value="0.25462962962962965" />
+        <entry key="..\:/Users/Jerry/AndroidStudioProjects/ComposeTdaApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

@@ -1,7 +1,9 @@
 package com.example.composetdaapp.data.api
 
+import androidx.compose.ui.input.key.Key.Companion.I
 import com.example.composetdaapp.utils.Resource
 import retrofit2.Response
+import timber.log.Timber
 
 //abstract means we must have at least one method that is overwritten, this will be overwritten in our repo
 abstract class BaseDataSource {
@@ -12,7 +14,7 @@ abstract class BaseDataSource {
             val response = call()
             if (response.isSuccessful) {
                 val body = response.body()
-                println("BODY : $body")
+                Timber.i("Response Body: $body")
                 if (body != null) return Resource.success(body)
 
             }

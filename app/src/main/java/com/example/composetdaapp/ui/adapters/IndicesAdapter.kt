@@ -38,11 +38,9 @@ class IndicesViewHolder(private val itemBinding: IndicesListBinding) : RecyclerV
     itemBinding.root
 ) {
     fun bind(result: Pair<String, Content>, pos: Int, listener: (Int) -> Unit) {
-        println("RESULTS null" + result)
 
 
         if (result != null) {
-            println("RESULTS " + result)
             val futPercent = result.second.futPcChange?.times(100)
             val regex = Regex(pattern = "-")
             itemBinding.iSymbol.text = result.first.toString()
@@ -51,26 +49,30 @@ class IndicesViewHolder(private val itemBinding: IndicesListBinding) : RecyclerV
                 ("%,.2f".format(result.second.futNetChange) + " (" + "%,.2f".format(futPercent) + "%)")
 
 
-            if (regex.containsMatchIn(result.second.futNetChange.toString())) {
-                itemBinding.iChg.setTextColor(
-                    ContextCompat.getColor(
-                        this.itemView.context,
-                        R.color.colorDown
+            when {
+                regex.containsMatchIn(result.second.futNetChange.toString()) -> {
+                    itemBinding.iChg.setTextColor(
+                        ContextCompat.getColor(
+                            this.itemView.context,
+                            R.color.colorDown
+                        )
                     )
-                )
-                ("%,.2f".format(result.second.futNetChange) + " (" + "%,.2f".format(result.second.futPcChange)) + "%)"
-            } else if (result.second.futNetChange != 0.0) {
-                itemBinding.iChg.setTextColor(
-                    ContextCompat.getColor(
-                        this.itemView.context,
-                        R.color.colorUp
+                    ("%,.2f".format(result.second.futNetChange) + " (" + "%,.2f".format(result.second.futPcChange)) + "%)"
+                }
+                result.second.futNetChange != 0.0 -> {
+                    itemBinding.iChg.setTextColor(
+                        ContextCompat.getColor(
+                            this.itemView.context,
+                            R.color.colorUp
+                        )
                     )
-                )
-                itemBinding.iChg.text =
-                    ("%,.2f".format(result.second.futNetChange) + " (" + "%,.2f".format(futPercent)) + "%)"
-            } else {
-                itemBinding.iChg.text =
-                    ("%,.2f".format(result.second.futNetChange) + " (" + "%,.2f".format(futPercent)) + "%)"
+                    itemBinding.iChg.text =
+                        ("%,.2f".format(result.second.futNetChange) + " (" + "%,.2f".format(futPercent)) + "%)"
+                }
+                else -> {
+                    itemBinding.iChg.text =
+                        ("%,.2f".format(result.second.futNetChange) + " (" + "%,.2f".format(futPercent)) + "%)"
+                }
             }
 
 

@@ -21,6 +21,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.consumeEach
 import org.json.JSONObject
+import timber.log.Timber
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.ZoneId
@@ -32,13 +33,10 @@ import kotlin.coroutines.CoroutineContext
 
 @HiltViewModel
 class ChartViewModel @Inject constructor(
-    private val interactor: SocketInteractor,
     private val repository: MainRepository,
-    private val moshi: Moshi
 ) : ViewModel() {
 
     //ADD RESOURCE TO ALL VAR/VAL
-
 
     private var job = Job()
 
@@ -164,11 +162,8 @@ class ChartViewModel @Inject constructor(
 
 
     fun placeOrder(order: PlaceOrder) {
-
-
         scope.launch {
-            val a = repository.placeOrder("149235993", order)
-            println("placing order " + a)
+            val a = repository.placeOrder("Account #", order)
         }
     }
 
@@ -190,11 +185,10 @@ class ChartViewModel @Inject constructor(
                 frequency
             )
             try {
-                println("crash???")
                 //adding symbols details
                 chartMediatorLiveData.addSource(symbolLiveData) {
                     if (candleEntries.isEmpty()) {
-                        println("CANDLE ENTRY EMPTY BOY")
+                        Timber.v("CANDLE ENTRY EMPTY BOY")
                         scope.launch {
                             candleEntries = ToCandleEntries.toCandleEntry(historicalData)
                             historicalLiveData.postValue((candleEntries))
@@ -205,20 +199,18 @@ class ChartViewModel @Inject constructor(
                         Resource.Status.SUCCESS -> {
 
 
-                            println("HISTO BITCH$historicalData")
                             val historicalDataSize = (historicalData.data!!.candles.lastIndex + 1)
                             //remove and update today's candle.
-                            println("Update Day Chart" + it.data)
-                            println("Update Day Chart" + it.data?.values!!.last())
+
                             chartMediatorLiveData.value = ToCandleEntries.lastCandleUpdate(
                                 candleEntries = candleEntries,
-                                symbolDetails = it.data.values.last(),
+                                symbolDetails = it.data!!.values.last(),
                                 historicalDataSize = historicalDataSize
                             )
 
                         }
-                        Resource.Status.ERROR -> println(historicalData.message)
-                        Resource.Status.LOADING -> println("Loading Chart Data")
+                        Resource.Status.ERROR -> Timber.e(historicalData.message)
+                        Resource.Status.LOADING -> Timber.v("Loading Chart Data")
                     }
                 }
             } catch (e: IllegalArgumentException) {
@@ -226,10 +218,9 @@ class ChartViewModel @Inject constructor(
             }
         }
     }
-
+   //TODO solve intra-day updates and implement SMA indicator
     fun getIntraDayChartData(startDate: String, endDate: String) {
         scope.launch {
-            println("crash??? intraday")
 
             val historicalData = repository.getIntraDayHistorical(
                 tickerSymbol.value.toString(),
@@ -246,7 +237,7 @@ class ChartViewModel @Inject constructor(
             try {
                 chartMediatorLiveData.addSource(symbolLiveData) {
                     if (candleEntries.isEmpty()) {
-                        println("Chart Empty, Set up chart")
+                        Timber.v("Chart Empty, Set up chart")
                         scope.launch {
                             candleEntries = ToCandleEntries.toCandleEntry(historicalData)
                             historicalLiveData.postValue((candleEntries))
@@ -255,20 +246,18 @@ class ChartViewModel @Inject constructor(
 
                     when (historicalData.status) {
                         Resource.Status.SUCCESS -> {
-                            println("HISTO BITCH$historicalData")
                             val historicalDataSize = (historicalData.data!!.candles.lastIndex + 1)
                             //remove and update today's candle.
-                            println("Update Intraday" + it.data)
-                            println("Update Intraday" + it.data?.values!!.last())
+
                             chartMediatorLiveData.value = ToCandleEntries.lastCandleUpdate(
                                 candleEntries = candleEntries,
-                                symbolDetails = it.data.values.last(),
+                                symbolDetails = it.data!!.values.last(),
                                 historicalDataSize = historicalDataSize
                             )
 
                         }
-                        Resource.Status.ERROR -> println(historicalData.message)
-                        Resource.Status.LOADING -> println("Loading Chart Data")
+                        Resource.Status.ERROR -> Timber.e(historicalData.message)
+                        Resource.Status.LOADING -> Timber.v("Loading Chart Data")
                     }
                 }
             } catch (e: IllegalArgumentException) {
@@ -277,94 +266,6 @@ class ChartViewModel @Inject constructor(
         }
     }
 
-    val chartRequest = "{\n" +
-            "    \"requests\": [\n" +
-            "        {\n" +
-            "            \"service\": \"CHART_EQUITY\",\n" +
-            "            \"requestid\": \"2\",\n" +
-            "            \"command\": \"SUBS\",\n" +
-            "            \"account\": \"149235993\",\n" +
-            "            \"source\": \"gerardoiza94\",\n" +
-            "            \"parameters\": {\n" +
-            "                \"keys\": \"AMD\",\n" +
-            "                \"fields\": \"0,1,2,3,4,5,6,7,8\"\n" +
-            "            }\n" +
-            "        }\n" +
-            "    ]\n" +
-            "}"
-
-
-    private fun sendFuturesPayload() = interactor.sendSocketRequest(chartRequest)
-
-
-
-    //WebSocket Please Move somewhere else
-
-    @ExperimentalCoroutinesApi
-    fun subscribeToSocketEvents() {
-        scope.launch {
-            try {
-                //we subscribe to many different event
-                interactor.startSocket().consumeEach {
-                    if (it.exception == null) {
-                        val jsonObject = JSONObject(it.text.toString())
-                        //filter response by "data" refactor as a util
-                        if (jsonObject.has("data")) {
-                            val jsonAdapter = moshi.adapter(DataResponse::class.java)
-                            val dataResponse = jsonAdapter.fromJson(it.text.toString())
-                            println("CHART RESPONSE: " + dataResponse)
-                            val dataMap = mutableMapOf<String, Content>()
-                            fun <T> MutableLiveData<T>.notifyObserver() {
-                                this.value = this.value
-                            }
-                            //Make Dictionary.
-                            if (dataResponse != null) {
-                                for (i in dataResponse.data[0].content.indices) {
-                                    dataMap[dataResponse.data[0].content[i].key] =
-                                        dataResponse.data[0].content[i]
-                                }
-
-                                if (webSocketLiveDataTest.value.isNullOrEmpty()) {
-                                    //websockets only updates symbols changed, post value would replace all 3 symbols with the new data.
-                                    webSocketLiveDataTest.postValue(dataMap)
-                                } else {
-                                    //we use putALl to only update the future symbol that changed and notifyObserver manually (postValue does it auto).
-                                    webSocketLiveDataTest.value!!.putAll(dataMap)
-                                    webSocketLiveDataTest.notifyObserver()
-                                }
-                            }
-
-
-                        }
-                        if (jsonObject.has("response")) {
-                            val data = jsonObject.getJSONArray("response")
-                            val content = data.getJSONObject(0)
-                            if (content.getString("command") == "LOGIN") {
-
-                                println("Login Command Successful")
-                                //start data subscriptions
-                                sendFuturesPayload()
-                            }
-                        }
-                    } else {
-                        onSocketError(it.exception)
-                    }
-                }
-            } catch (ex: java.lang.Exception) {
-                onSocketError(ex)
-            }
-        }
-    }
-
-    private fun onSocketError(ex: Throwable) {
-        println("Error occurred : ${ex.message}")
-    }
-
-    /*@ExperimentalCoroutinesApi
-    override fun onCleared() {
-        interactor.stopSocket()
-        super.onCleared()
-    }*/
 }
 
 

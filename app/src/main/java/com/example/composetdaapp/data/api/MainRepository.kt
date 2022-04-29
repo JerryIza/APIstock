@@ -6,11 +6,10 @@ import javax.inject.Inject
 
 class MainRepository @Inject constructor(private val stockMarketService: StockApiService) :
     BaseDataSource() {
-    //get from user principals. Don't hard code account
+    //TODO High priority, get account number from user principals and store in shared pref. Clear after every cold start
     suspend fun getAllWatchlist() = getResults {
         stockMarketService.fetchWatchlistAsync(
-            "149235993", ""
-
+            "Account #", ""
         )
     }
 

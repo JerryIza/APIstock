@@ -17,6 +17,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import timber.log.Timber
 import java.util.*
 import javax.inject.Provider
 import javax.inject.Singleton
@@ -37,17 +38,14 @@ object AppModule {
         return Interceptor { chain ->
             val url = chain.request().url.newBuilder().addQueryParameter("apikey", API_KEY).build()
             val request = chain.request().newBuilder().url(url).build()
-            println("HTTP Request: "+Calendar.getInstance().time)
-            println("HTTP Request: "+url)
+            Timber.v("HTTP Request: ${Calendar.getInstance().time}")
+            Timber.v("""HTTP Request: $url""")
 
             if (myPreference.getAccessToken().isBlank() ) {
-                println("Before Authentication" + myPreference.getAccessToken())
-                println("Before Authentication Refresh Token: " + myPreference.getRefreshToken())
-
+                Timber.i("Unauthenticated%s", myPreference.getAccessToken())
                 chain.proceed(request)
             } else {
-                println("After Authentication Access Token: " + myPreference.getAccessToken())
-                println("After Authentication Refresh Token: " + myPreference.getRefreshToken())
+                Timber.i("Authenticated: %s", myPreference.getAccessToken())
                 chain.proceed(request.providesBearerToken(myPreference.getAccessToken()))
             }
         }

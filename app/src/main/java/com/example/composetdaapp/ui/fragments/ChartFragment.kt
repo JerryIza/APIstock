@@ -32,6 +32,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
+import timber.log.Timber
 
 import java.util.*
 
@@ -84,7 +85,6 @@ class ChartFragment : Fragment() {
         val marketOpenInMilli = viewModel.marketOpenToMilli()
         val marketCloseInMilli = viewModel.marketCloseToMilli()
 
-        viewModel.subscribeToSocketEvents()
         binding.toggleButton.check(R.id.intraDayBtn)
 
         //avoid if statements
@@ -419,32 +419,7 @@ class ChartFragment : Fragment() {
             }
         })
 
-        viewModel.ordersLiveData.observe(viewLifecycleOwner, {
 
-            when (it.status) {
-                Resource.Status.SUCCESS -> {
-
-
-                    binding.loadingBarDetail.visibility = GONE
-                    if (it.data != null) {
-                        /*Snackbar.make(binding, it.data[0], Snackbar.LENGTH_SHORT)
-                            .show()*/
-                        Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_LONG)
-                            .show()
-                    }
-
-                }
-                Resource.Status.ERROR -> {
-                    println("ERROR OrdersLiveData: " + it.message)
-
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
-                }
-
-                Resource.Status.LOADING ->
-                    binding.loadingBarDetail.visibility = View.VISIBLE
-            }
-
-        })
 
         viewModel.chartMediatorLiveData.observe(viewLifecycleOwner, {
             //throw exception

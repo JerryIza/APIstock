@@ -1,4 +1,4 @@
-package com.example.composetdaapp.ui.views.login
+package com.example.composetdaapp.ui.compose.login
 /*
 import android.annotation.SuppressLint
 import android.net.UrlQuerySanitizer
@@ -54,7 +54,6 @@ fun WebView(
 
                     if (errorCode == 401) {
                         println("Error Code 401")
-                        Toast.makeText(context, "tehe", LENGTH_LONG).show()
                         // show alert to enter username and password
                         // then when those are entered in the alert,
                         //     set it through the setHttpAuthUsernamePassword(...) shown below
