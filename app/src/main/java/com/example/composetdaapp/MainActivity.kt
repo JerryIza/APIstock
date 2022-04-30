@@ -10,6 +10,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.composetdaapp.databinding.MainActivityBinding
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -20,24 +21,23 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        Timber.v("Activity Lifecycle onCreate")
 
         val binding: MainActivityBinding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
-        val navController = navHostFragment.navController
+        supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
 
-       // show toolbar when these fragments are selected
-
-       /* navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.chartFragment, R.id.searchFragment, R.id.chartSettingsFragment ->
-                    binding.myToolbar.visibility = View.VISIBLE
-                else -> binding.myToolbar.visibility = View.GONE
-            }
-        }*/
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.v("Activity Lifecycle onDestroy")
+
+
+
+    }
+
 }
 
 

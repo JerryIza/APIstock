@@ -35,6 +35,7 @@ class MarketViewModel @Inject constructor(
     private val interactor: SocketInteractor,
     private val moshi: Moshi,
     private val repository: MainRepository,
+    private val myPreference: MyPreference
 
 ) :
     ViewModel() {
@@ -191,12 +192,12 @@ class MarketViewModel @Inject constructor(
     }
 
 
-    private suspend fun getAccountDetails() = repository.getAccountDetails()
+    private suspend fun getAccountDetails() = repository.getAccountDetails(myPreference.getAccountNumber())
 
 
     fun getAllWatchlist() {
         scope.launch {
-            val allWatchlist = repository.getAllWatchlist()
+            val allWatchlist = repository.getAllWatchlist(myPreference.getAccountNumber())
             if (!allWatchlist.data.isNullOrEmpty()) {
                 watchlistNames.clear()
                 for (i in allWatchlist.data.indices) {

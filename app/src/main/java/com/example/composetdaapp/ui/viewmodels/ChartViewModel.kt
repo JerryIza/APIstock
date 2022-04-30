@@ -12,6 +12,7 @@ import com.example.composetdaapp.data.entities.quotes.SymbolDetails
 import com.example.composetdaapp.data.entities.quotes.SymbolSearch
 import com.example.composetdaapp.data.entities.websocket.response.Content
 import com.example.composetdaapp.data.entities.websocket.response.DataResponse
+import com.example.composetdaapp.utils.MyPreference
 import com.example.composetdaapp.utils.Resource
 import com.example.composetdaapp.utils.SocketInteractor
 import com.github.mikephil.charting.data.CandleEntry
@@ -34,6 +35,7 @@ import kotlin.coroutines.CoroutineContext
 @HiltViewModel
 class ChartViewModel @Inject constructor(
     private val repository: MainRepository,
+    private val myPreference: MyPreference
 ) : ViewModel() {
 
     //ADD RESOURCE TO ALL VAR/VAL
@@ -139,7 +141,7 @@ class ChartViewModel @Inject constructor(
 
     fun getAccountDetails(symbol: String) {
         scope.launch {
-            val accDetails = repository.getAccountDetails()
+            val accDetails = repository.getAccountDetails(myPreference.getAccountNumber())
             accountDetailsLiveData.postValue(accDetails)
             val accPositions = (accDetails.data?.securitiesAccount?.positions)
             for (i in accPositions!!.indices) {

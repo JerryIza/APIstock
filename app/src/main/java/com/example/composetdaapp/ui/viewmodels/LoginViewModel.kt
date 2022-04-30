@@ -104,7 +104,7 @@ class LoginViewModel @Inject constructor(
 
             Timber.v("Milli with offset: %s", tokenTimestampAsMsOffset)
 
-            /*Create data class instead*/
+            /*TODO Create data class instead*/
             val credentials = (
                     "userid" + "=" + userPrincipalsDetail.data.accounts[0].accountId + "&" +
                             "token" + "=" + userPrincipalsDetail.data.streamerInfo.token + "&" +
@@ -138,8 +138,8 @@ class LoginViewModel @Inject constructor(
 
             val payload = JSONObject(loginRequest as Map<*, *>?)
 
-
-
+            myPreference.setAccountNumber(userPrincipalsDetail.data.primaryAccountId)
+            myPreference.setUserId(userPrincipalsDetail.data.userId)
             myPreference.setSocketCredentials(payload.toString())
         }
     }

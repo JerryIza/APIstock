@@ -93,15 +93,16 @@ interface StockApiService {
         @Path("watchlistId") watchlistId: String?,
     ): Response<List<Watchlist>>
 
-
+    //account numbers
     @GET("/v1/userprincipals")
     suspend fun fetchUserPrincipalsAsync(
         @Query("fields") Fields: String
     ): Response<UserPrincipals>
 
-
-    @GET("/v1/accounts/Account #")
+    //balances and positions
+    @GET("/v1/accounts/{AccountNumber}")
     suspend fun fetchAccountDetailsAsync(
+        @Path("AccountNumber") accountNumber: String?,
         @Query("fields") Fields: String
     ): Response<Accounts>
 

@@ -6,10 +6,12 @@ import android.preference.PreferenceManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
-
+//The values are only known on the compile-time though, as a result, no values may be assigned at runtime to const variables
 const val SESSION_TOKEN : String = "SESSION_TOKEN"
 const val REFRESH_TOKEN : String = "REFRESH_TOKEN"
 const val SOCKET_CREDENTIALS : String = "SOCKET_CREDENTIALS"
+const val ACCOUNT_NUMBER : String = "ACCOUNT_VALUE"
+const val USER_ID : String = "USER_ID"
 @Singleton
 class MyPreference @Inject constructor(@ApplicationContext context : Context){
     private val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
@@ -28,10 +30,6 @@ class MyPreference @Inject constructor(@ApplicationContext context : Context){
         prefs.edit().putString(REFRESH_TOKEN, query).apply()
     }
 
-    fun clearStoredTag() {
-        prefs.edit().clear().apply()
-    }
-
     fun getSocketCredentials(): String {
         return prefs.getString(SOCKET_CREDENTIALS, "")!!
     }
@@ -39,5 +37,24 @@ class MyPreference @Inject constructor(@ApplicationContext context : Context){
     fun setSocketCredentials(query: String) {
         prefs.edit().putString(SOCKET_CREDENTIALS, query).apply()
     }
+    fun getAccountNumber(): String {
+        return prefs.getString(ACCOUNT_NUMBER, "")!!
+    }
+    fun setAccountNumber(query: String) {
+        prefs.edit().putString(ACCOUNT_NUMBER, query).apply()
+    }
+
+    fun getUserId(): String {
+        return prefs.getString(USER_ID, "")!!
+    }
+
+    fun setUserId(query: String) {
+        prefs.edit().putString(USER_ID, query).apply()
+    }
+
+    fun clearStoredTag() {
+        prefs.edit().clear().apply()
+    }
+
 
 }

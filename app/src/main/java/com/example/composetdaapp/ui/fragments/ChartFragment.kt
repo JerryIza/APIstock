@@ -409,7 +409,6 @@ class ChartFragment : Fragment() {
                     binding.loadingBarDetail.visibility = GONE
                     if (!it.data.isNullOrEmpty())
                         bindSymbolDetails(it.data.values.last())
-                    println("HERE "+ it.data!!.values.last())
                 }
                 Resource.Status.ERROR ->
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
