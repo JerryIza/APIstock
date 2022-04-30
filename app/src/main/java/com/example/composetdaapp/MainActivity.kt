@@ -30,6 +30,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onPause() {
+        super.onPause()
+        Timber.v("Activity Lifecycle onPause")
+
+    }
     override fun onDestroy() {
         super.onDestroy()
         Timber.v("Activity Lifecycle onDestroy")

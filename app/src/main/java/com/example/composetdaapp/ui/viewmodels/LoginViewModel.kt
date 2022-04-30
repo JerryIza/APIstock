@@ -134,7 +134,7 @@ class LoginViewModel @Inject constructor(
                     "version" to "1.0"
                 )
             )
-            println("onMessage LoginP: " + loginRequest)
+            Timber.v("onMessage LoginP: %s", loginRequest)
 
             val payload = JSONObject(loginRequest as Map<*, *>?)
 

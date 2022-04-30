@@ -105,7 +105,8 @@ dependencies {
 
 
 
-
+    //encrypted sharedpref
+    implementation "androidx.security:security-crypto:1.0.0-alpha02"
 
 
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
