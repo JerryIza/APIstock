@@ -241,6 +241,7 @@ class ChartFragment : Fragment() {
             orderPayload.orderLegCollection[0].instrument.symbol =
                 viewModel.tickerSymbol.value.toString()
             viewModel.placeOrder(order = orderPayload)
+            Timber.i("Place Order: $orderPayload")
 
 
             viewModel.getAllOrders()
@@ -418,7 +419,28 @@ class ChartFragment : Fragment() {
             }
         })
 
+        viewModel.ordersLiveData.observe(viewLifecycleOwner, {
 
+            when (it.status) {
+                Resource.Status.SUCCESS -> {
+
+                    binding.loadingBarDetail.visibility = GONE
+                    if (it.data != null) {
+
+                    }
+
+                }
+                Resource.Status.ERROR -> {
+                    Timber.e("OrdersLiveData: %s", it.message)
+
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+
+                Resource.Status.LOADING ->
+                    binding.loadingBarDetail.visibility = View.VISIBLE
+            }
+
+        })
 
         viewModel.chartMediatorLiveData.observe(viewLifecycleOwner, {
             //throw exception

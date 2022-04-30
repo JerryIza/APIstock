@@ -5,10 +5,7 @@ import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -29,8 +26,9 @@ fun ExpandableContent(
     initialVisibility: Boolean = false,
     orders: GetOrderItem
 ) {
+
     val orderInfo =
-        " at a " + orders.orderType + " of $" + orders.price + " (" + orders.status + ")"
+        "@ a " + orders.orderType + " of $" + orders.price + " (" + orders.status + ")"
 
     val enterFadeIn = remember {
         fadeIn(
@@ -61,11 +59,12 @@ fun ExpandableContent(
         exit = exitCollapse + exitFadeOut
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
-            Spacer(modifier = Modifier.heightIn(100.dp))
             Text(
                 text = orderInfo,
-                textAlign = TextAlign.Center,
-
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                textAlign = TextAlign.Center
                 )
         }
 

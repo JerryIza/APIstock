@@ -14,7 +14,7 @@ abstract class BaseDataSource {
             val response = call()
             if (response.isSuccessful) {
                 val body = response.body()
-                Timber.i("Response Body: $body")
+                Timber.i("Response Body: $response")
                 if (body != null) return Resource.success(body)
 
             }

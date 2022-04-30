@@ -38,8 +38,6 @@ fun ExpandableList(
     onCardArrowClick: () -> Unit,
     expanded: Boolean,
 ) {
-    val viewModel = hiltViewModel<MarketViewModel>()
-    val orders = viewModel.cards.collectAsState()
 
 
     val transitionState = remember {
@@ -57,7 +55,7 @@ fun ExpandableList(
     val cardPaddingHorizontal by transition.animateDp({
         tween(durationMillis = EXPAND_ANIMATION_DURATION)
     }, label = "") {
-        if (expanded == it) 48.dp else 24.dp
+        if (expanded == it) 24.dp else 48.dp
     }
     val cardElevation by transition.animateDp({
         tween(durationMillis = EXPAND_ANIMATION_DURATION)
@@ -75,7 +73,7 @@ fun ExpandableList(
     val arrowRotationDegree by transition.animateFloat({
         tween(durationMillis = EXPAND_ANIMATION_DURATION)
     }, label = "") {
-        if (expanded == it) 0f else 180f
+        if (expanded == it) 180f else 0f
     }
 
     Card(
@@ -134,7 +132,7 @@ fun CardArrow(
         onClick = onClick,
         content = {
             Icon(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                painter = painterResource(id = R.drawable.ic_baseline_expand_more_24),
                 contentDescription = "Expandable Arrow",
                 modifier = Modifier.rotate(degrees),
             )

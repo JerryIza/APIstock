@@ -232,7 +232,7 @@ class MarketViewModel @Inject constructor(
             "            \"service\": \"LEVELONE_FUTURES\",\n" +
             "            \"requestid\": \"1\",\n" +
             "            \"command\": \"SUBS\",\n" +
-            "            \"account\": \"Account #\",\n" +
+            "            \"account\": \"149235993\",\n" +
             "            \"source\": \"gerardoiza94\",\n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"/ES,/NQ,/YM\",\n" +

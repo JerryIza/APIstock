@@ -6,6 +6,8 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
@@ -29,6 +31,7 @@ fun OrderScreen() {
             )
         )
     ) {
+        //TODO loosing expanded state when navigating away from dashboard. Hint: rememberSaveable(item)
         viewModel.getOrders()
         LazyColumn {
             itemsIndexed(orders.value) { _, order ->

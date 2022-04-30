@@ -19,9 +19,9 @@ const val USER_ID: String = "USER_ID"
 @Singleton
 class MyPreference @Inject constructor(@ApplicationContext context: Context) {
 
-    val masterKey = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
+    private val masterKey = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
 
-    val prefs = EncryptedSharedPreferences.create(
+    private val prefs = EncryptedSharedPreferences.create(
         "MySharedPreferences",
         masterKey,
         context,

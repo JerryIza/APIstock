@@ -140,6 +140,7 @@ class LoginViewModel @Inject constructor(
 
             myPreference.setAccountNumber(userPrincipalsDetail.data.primaryAccountId)
             myPreference.setUserId(userPrincipalsDetail.data.userId)
+           Timber.v("websocket Payload %s " ,  payload.toString())
             myPreference.setSocketCredentials(payload.toString())
         }
     }

@@ -162,10 +162,11 @@ class ChartViewModel @Inject constructor(
         }
     }
 
-
+    //TODO Not working when placing orders over the weekend, check request body
     fun placeOrder(order: PlaceOrder) {
         scope.launch {
-            val a = repository.placeOrder("Account #", order)
+            val a = repository.placeOrder(myPreference.getAccountNumber(), order)
+            println("placing order " + a)
         }
     }
 
@@ -176,7 +177,6 @@ class ChartViewModel @Inject constructor(
             symbolLiveData.postValue(symbolDetails)
         }
     }
-
 
     fun getChartData(periodType: String, period: String, frequency: String) {
         scope.launch {
