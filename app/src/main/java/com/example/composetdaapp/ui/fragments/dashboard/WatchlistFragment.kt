@@ -17,7 +17,7 @@ import com.example.composetdaapp.R
 import com.example.composetdaapp.data.entities.quotes.SymbolDetails
 import com.example.composetdaapp.databinding.WatchlistFragmentBinding
 import com.example.composetdaapp.ui.adapters.WatchlistAdapter
-import com.example.composetdaapp.ui.viewmodels.MarketViewModel
+import com.example.composetdaapp.viewmodels.MarketViewModel
 import com.example.composetdaapp.utils.ARG_OBJECT
 import com.example.composetdaapp.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint

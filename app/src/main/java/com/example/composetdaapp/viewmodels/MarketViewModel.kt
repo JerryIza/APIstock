@@ -1,6 +1,5 @@
-package com.example.composetdaapp.ui.viewmodels
+package com.example.composetdaapp.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.composetdaapp.data.entities.account.Accounts
 import com.example.composetdaapp.data.entities.account.Positions
@@ -13,6 +12,10 @@ import com.example.composetdaapp.utils.MyPreference
 import com.example.composetdaapp.utils.Resource
 import com.example.composetdaapp.data.api.MainRepository
 import com.example.composetdaapp.data.entities.orders.get.GetOrderItem
+import com.example.composetdaapp.data.entities.websocket.request.DataRequest
+import com.example.composetdaapp.data.entities.websocket.request.Request
+import com.example.composetdaapp.data.entities.websocket.request.FuturesParam
+import com.example.composetdaapp.utils.LEVELONE_FUTURES
 
 import com.example.composetdaapp.utils.SocketInteractor
 import com.github.mikephil.charting.data.Entry
@@ -133,7 +136,6 @@ class MarketViewModel @Inject constructor(
  }*/
 
 
-
     //Positions and Quotes together
     fun accountPosDetails() {
         scope.launch {
@@ -192,7 +194,8 @@ class MarketViewModel @Inject constructor(
     }
 
 
-    private suspend fun getAccountDetails() = repository.getAccountDetails(myPreference.getAccountNumber())
+    private suspend fun getAccountDetails() =
+        repository.getAccountDetails(myPreference.getAccountNumber())
 
 
     fun getAllWatchlist() {
@@ -227,25 +230,39 @@ class MarketViewModel @Inject constructor(
         _symbol.value = symbol
     }
 
-    //TODO Create data classes for requests
+
+    private val levelOneFuturesDC = DataRequest(
+        request = listOf(
+            Request(
+                futuresParam = FuturesParam(),
+                service = LEVELONE_FUTURES,
+                account = myPreference.getAccountNumber(),
+                source = myPreference.getDevUserId()
+            )
+        )
+    )
+
+    /*TODO Create data classes for requests
+    Request used for testing websocket*/
     val levelOneFutures = "{\n" +
             "            \"service\": \"LEVELONE_FUTURES\",\n" +
             "            \"requestid\": \"1\",\n" +
             "            \"command\": \"SUBS\",\n" +
-            "            \"account\": \"149235993\",\n" +
-            "            \"source\": \"gerardoiza94\",\n" +
+            "            \"account\": \"ACCOUNT\",\n" +
+            "            \"source\": \"DevLoginID\",\n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"/ES,/NQ,/YM\",\n" +
             "                \"fields\": \"0,3,19,20,34\"\n" +
             "            }\n" +
             "        }"
 
+
     val stockQoutes = "{\n" +
             "            \"service\": \"QOUTE\",\n" +
             "            \"requestid\": \"1\",\n" +
             "            \"command\": \"SUBS\",\n" +
             "            \"account\": \"Account\",\n" +
-            "            \"source\": \"UserId\",\n" +
+            "            \"source\": \"DevLoginID\",\n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"amd\",\n" +
             "                \"fields\": \"0,3,19,20,34\"\n" +
@@ -257,7 +274,7 @@ class MarketViewModel @Inject constructor(
             "            \"requestid\": \"1\",\n" +
             "            \"command\": \"SUBS\",\n" +
             "            \"account\": \"Account\",\n" +
-            "            \"source\": \"UserId\",\n" +
+            "            \"source\": \"DevLoginID\",\n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"SPY_041822P400\",\n" +
             "                \"fields\": \"0,3,19,20,34\"\n" +
@@ -269,7 +286,7 @@ class MarketViewModel @Inject constructor(
             "            \"requestid\": \"1\",\n" +
             "            \"command\": \"SUBS\",\n" +
             "            \"account\": \"Account\",\n" +
-            "            \"source\": \"UserId\",\n" +
+            "            \"source\": \"DevLoginID\",\n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"/ES\",\n" +
             "                \"fields\": \"0,1,2,3,4,5,6,7\"\n" +
@@ -281,7 +298,7 @@ class MarketViewModel @Inject constructor(
             "            \"requestid\": \"2\",\n" +
             "            \"command\": \"GET\",\n" +
             "            \"account\": \"Account\",\n" +
-            "            \"source\": \"UserId\",\n" +
+            "            \"source\": \"DevLoginID\",\n" +
             "            \"parameters\": {\n" +
             "                \"symbol\": \"/ES\",\n" +
             "                \"frequency\": \"m1\",\n" +
@@ -295,7 +312,7 @@ class MarketViewModel @Inject constructor(
             "            \"requestid\": \"2\", \n" +
             "            \"command\": \"SUBS\", \n" +
             "            \"account\": \"Account\", \n" +
-            "            \"source\": \"UserId\", \n" +
+            "            \"source\": \"DevLoginID\", \n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"b71f01142692445eca51554fea6789343cf24399dc98b4f638d8611b9a4bcda91a3519298a2d7784c976c7ec555cb02ef\", \n" +
             "                \"fields\": \"0,1,2,3\"\n" +
@@ -308,7 +325,7 @@ class MarketViewModel @Inject constructor(
             "            \"requestid\": \"2\", \n" +
             "            \"command\": \"SUBS\", \n" +
             "            \"account\": \" Account \", \n" +
-            "            \"source\": \"UserId\", \n" +
+            "            \"source\": \"DevLoginID\", \n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"GOOG\", \n" +
             "                \"fields\": \"0,1,2,3,4,5,6\"\n" +
@@ -321,7 +338,7 @@ class MarketViewModel @Inject constructor(
             "            \"requestid\": \"2\", \n" +
             "            \"command\": \"SUBS\", \n" +
             "            \"account\": \" Account \", \n" +
-            "            \"source\": \"UserId\", \n" +
+            "            \"source\": \"DevLoginID\", \n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"SPY\", \n" +
             "                \"fields\": \"0,1,2,3,4\"\n" +
@@ -333,7 +350,7 @@ class MarketViewModel @Inject constructor(
             "            \"requestid\": \"2\",\n" +
             "            \"command\": \"SUBS\",\n" +
             "            \"account\": \"Account\",\n" +
-            "            \"source\": \"UserId\",\n" +
+            "            \"source\": \"DevLoginID\",\n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"EUR/USD\",\n" +
             "                \"fields\": \"0,1,2,3,4,5,6,7,8,9,10,11,12,13\"\n" +
@@ -341,39 +358,38 @@ class MarketViewModel @Inject constructor(
             "        }"
 
     val leveloneFuturesTime =
-            "        {\n" +
-            "            \"service\": \"CHART_HISTORY_FUTURES\",\n" +
-            "            \"requestid\": \"2\",\n" +
-            "            \"command\": \"GET\",\n" +
-            "            \"account\": \"Account\",\n" +
-            "            \"source\": \"UserId\",\n" +
-            "            \"parameters\": {\n" +
-            "                \"symbol\": \"/ES\",\n" +
-            "                \"END_TIME\": \"1649104859000\",\n" +
-            "                \"START_TIME\": \"1648840881000\",\n" +
-            "                \"frequency\": \"h2\"\n" +
+        "        {\n" +
+                "            \"service\": \"CHART_HISTORY_FUTURES\",\n" +
+                "            \"requestid\": \"2\",\n" +
+                "            \"command\": \"GET\",\n" +
+                "            \"account\": \"Account\",\n" +
+                "            \"source\": \"DevLoginID\",\n" +
+                "            \"parameters\": {\n" +
+                "                \"symbol\": \"/ES\",\n" +
+                "                \"END_TIME\": \"1649104859000\",\n" +
+                "                \"START_TIME\": \"1648840881000\",\n" +
+                "                \"frequency\": \"h2\"\n" +
 
-            "            }\n" +
-            "        }\n"
-
-
-    private fun sendFuturesPayload() = interactor.sendSocketRequest(levelOneFutures)
-
-
+                "            }\n" +
+                "        }\n"
 
 
     @ExperimentalCoroutinesApi
     fun subscribeToSocketEvents() {
         viewModelScope.launch {
+            val jsonAdapterRequest = moshi.adapter(Request::class.java)
+            val json: String = jsonAdapterRequest.toJson(levelOneFuturesDC.request[0])
+            fun sendFuturesPayload() = interactor.sendSocketRequest(json)
+
             try {
+                val jsonAdapter = moshi.adapter(DataResponse::class.java)
+
                 //TODO Create a data class and custom deserializer
                 interactor.startSocket().consumeEach {
                     if (it.exception == null) {
                         val jsonObject = JSONObject(it.text.toString())
                         //filter response by "data" refactor as a util
                         if (jsonObject.has("data")) {
-                            val jsonAdapter = moshi.adapter(DataResponse::class.java)
-
                             val dataResponse = jsonAdapter.fromJson(it.text.toString())
                             val dataMap = mutableMapOf<String, Content>()
                             fun <T> MutableLiveData<T>.notifyObserver() {
@@ -434,6 +450,8 @@ class MarketViewModel @Inject constructor(
 
 
 }
+
+
 
 
 

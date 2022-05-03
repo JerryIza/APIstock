@@ -13,10 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.composetdaapp.MainActivity
 import com.example.composetdaapp.data.entities.quotes.SymbolSearch
 import com.example.composetdaapp.ui.adapters.SearchResultsAdapter
-import com.example.composetdaapp.ui.viewmodels.MarketViewModel
 import com.example.composetdaapp.R
 import com.example.composetdaapp.databinding.SearchFragmentBinding
-import com.example.composetdaapp.ui.viewmodels.ChartViewModel
+import com.example.composetdaapp.viewmodels.ChartViewModel
 
 class SearchFragment: Fragment() {
 

@@ -6,7 +6,6 @@ import com.example.composetdaapp.data.api.API_KEY
 import com.example.composetdaapp.data.api.MainRepository
 import com.example.composetdaapp.data.api.RefreshTokenAuthenticator
 import com.example.composetdaapp.data.api.StockApiService
-import com.example.composetdaapp.ui.viewmodels.LoginViewModel
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides

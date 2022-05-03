@@ -13,7 +13,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -24,10 +23,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.composetdaapp.R
 import com.example.composetdaapp.data.entities.orders.get.GetOrderItem
-import com.example.composetdaapp.ui.viewmodels.MarketViewModel
 import com.example.composetdaapp.utils.EXPAND_ANIMATION_DURATION
 
 @ExperimentalAnimationApi

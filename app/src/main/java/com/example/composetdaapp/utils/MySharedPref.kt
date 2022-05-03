@@ -62,11 +62,11 @@ class MyPreference @Inject constructor(@ApplicationContext context: Context) {
         prefs.edit().putString(ACCOUNT_NUMBER, query).apply()
     }
 
-    fun getUserId(): String {
+    fun getDevUserId(): String {
         return prefs.getString(USER_ID, "")!!
     }
 
-    fun setUserId(query: String) {
+    fun setDevUserId(query: String) {
         prefs.edit().putString(USER_ID, query).apply()
     }
 

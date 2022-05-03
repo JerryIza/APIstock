@@ -1,6 +1,5 @@
 package com.example.composetdaapp.ui.fragments
 
-import android.app.Activity
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.graphics.Color
 import android.graphics.Paint
@@ -25,10 +24,9 @@ import com.example.composetdaapp.data.entities.orders.place.Instrument
 import com.example.composetdaapp.data.entities.orders.place.OrderLegCollection
 import com.example.composetdaapp.data.entities.orders.place.PlaceOrder
 import com.example.composetdaapp.databinding.ChartFragmentBinding
-import com.example.composetdaapp.ui.viewmodels.ChartViewModel
+import com.example.composetdaapp.viewmodels.ChartViewModel
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -48,7 +46,7 @@ class ChartFragment : Fragment() {
 
     private var isMarketDay: Boolean = false
 
-
+    //TODO create string constants for hard coded strings
     var orderPayload = PlaceOrder(
         orderLegCollection = listOf(
             OrderLegCollection(
@@ -320,10 +318,11 @@ class ChartFragment : Fragment() {
         binding.askTv.text = ("Ask: $${"%,.2f".format(symbolDetails.askPrice)}")
 
         if (viewModel.accountDetailsLiveData.value != null) {
+            //TODO move to ViewModel, Fix PL open (doesn't work sometimes)
             val posDetails =
                 viewModel.accountDetailsLiveData.value?.data?.securitiesAccount!!.positions[viewModel.positionIndex!!]
             val plOpen =
-                ("%,.2f".format(((symbolDetails.mark!! - posDetails.averagePrice) * posDetails.longQuantity)))
+                ("$${"%,.2f".format(((symbolDetails.mark!! - posDetails.averagePrice) * posDetails.longQuantity))}")
             binding.plTv.text = plOpen
             when {
                 regex.containsMatchIn(plOpen) -> {
@@ -334,6 +333,7 @@ class ChartFragment : Fragment() {
                     binding.plTv.setTextColor(resources.getColor(R.color.colorUp))
                 }
                 else -> {
+                    //Do nothing
                 }
             }
         }
@@ -341,21 +341,15 @@ class ChartFragment : Fragment() {
 
         binding.changeTv.text =
             ("%,.2f".format(symbolDetails.markChangeInDouble) + " (" + "%,.2f".format(symbolDetails.markPercentChangeInDouble) + "%)")
-
-
-
         when {
             regex.containsMatchIn(symbolDetails.regularMarketNetChange.toString()) -> {
-                println("first")
                 binding.changeTv.setTextColor(resources.getColor(R.color.colorDown))
             }
             symbolDetails.regularMarketNetChange != 0.0 -> {
-                println("second")
 
                 binding.changeTv.setTextColor(resources.getColor(R.color.colorUp))
             }
             else -> {
-                println("last")
                 binding.changeTv.text =
                     ("%,.2f".format(symbolDetails.markChangeInDouble) + " (" + "%,.2f".format(
                         symbolDetails.markPercentChangeInDouble
@@ -368,7 +362,6 @@ class ChartFragment : Fragment() {
 
     private fun setUpObservers() {
         viewModel.chartHasPositionLiveData.observe(viewLifecycleOwner, {
-
             if (it == true) {
                 binding.posLayout.visibility = VISIBLE
             } else {
@@ -383,8 +376,7 @@ class ChartFragment : Fragment() {
                     var posQty =
                         it.data!!.securitiesAccount.positions[viewModel.positionIndex!!].longQuantity
                     binding.qtyTv.text = posQty.toString()
-                    binding.avgPriceTv.text =
-                        it.data.securitiesAccount.positions[viewModel.positionIndex!!].averagePrice.toString()
+                    binding.avgPriceTv.text = ("$${it.data.securitiesAccount.positions[viewModel.positionIndex!!].averagePrice}")
                     if (binding.qtyTv.text.isNotBlank()) {
                         binding.qtyTv.setTextColor(resources.getColor(R.color.colorUp))
                     }

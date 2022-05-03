@@ -1,4 +1,4 @@
-package com.example.composetdaapp.ui.viewmodels
+package com.example.composetdaapp.viewmodels
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,17 +11,12 @@ import com.example.composetdaapp.data.entities.orders.place.PlaceOrder
 import com.example.composetdaapp.data.entities.quotes.SymbolDetails
 import com.example.composetdaapp.data.entities.quotes.SymbolSearch
 import com.example.composetdaapp.data.entities.websocket.response.Content
-import com.example.composetdaapp.data.entities.websocket.response.DataResponse
 import com.example.composetdaapp.utils.MyPreference
 import com.example.composetdaapp.utils.Resource
-import com.example.composetdaapp.utils.SocketInteractor
 import com.github.mikephil.charting.data.CandleEntry
 import com.github.mikephil.charting.data.Entry
-import com.squareup.moshi.Moshi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.consumeEach
-import org.json.JSONObject
 import timber.log.Timber
 import java.time.DayOfWeek
 import java.time.LocalDate
