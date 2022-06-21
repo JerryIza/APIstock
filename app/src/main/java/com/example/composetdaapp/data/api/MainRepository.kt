@@ -1,15 +1,17 @@
 package com.example.composetdaapp.data.api
 
 import com.example.composetdaapp.data.entities.orders.place.PlaceOrder
+import com.example.composetdaapp.data.entities.watchlist.patch.PatchWatchlist
 import javax.inject.Inject
 
 
 class MainRepository @Inject constructor(private val stockMarketService: StockApiService) :
     BaseDataSource() {
     //TODO High priority, get account number from user principals and store in shared pref. Clear after every cold start
-    suspend fun getAllWatchlist() = getResults {
+    suspend fun getAllWatchlist(accNumber: String) = getResults {
         stockMarketService.fetchWatchlistAsync(
-            "Account #", ""
+            accountNumber = accNumber,
+            watchlistId = ""
         )
     }
 
@@ -17,7 +19,7 @@ class MainRepository @Inject constructor(private val stockMarketService: StockAp
         stockMarketService.placeOrderAsync(accNumber, order)
     }
 
-    suspend fun getOrders()= getResults {
+    suspend fun getOrders() = getResults {
         stockMarketService.fetchOrdersAsync(
             accountId = "",
             maxResults = "",
@@ -26,8 +28,8 @@ class MainRepository @Inject constructor(private val stockMarketService: StockAp
             status = ""
         )
     }
-
-    suspend fun patchWatchlist(accNumber: String, watchlistId: String, body: String) = getResults {
+    //Create data class
+    suspend fun patchWatchlist(accNumber: String, watchlistId: String, body: PatchWatchlist) = getResults {
         stockMarketService.patchWatchlistAsync(
             accountNumber = accNumber,
             watchlistId = watchlistId,
@@ -35,8 +37,11 @@ class MainRepository @Inject constructor(private val stockMarketService: StockAp
         )
     }
 
-    suspend fun getAccountDetails() = getResults {
-        stockMarketService.fetchAccountDetailsAsync("positions")
+    suspend fun getAccountDetails(accNumber: String) = getResults {
+        stockMarketService.fetchAccountDetailsAsync(
+            accountNumber = accNumber,
+            Fields = "positions"
+        )
     }
 
 

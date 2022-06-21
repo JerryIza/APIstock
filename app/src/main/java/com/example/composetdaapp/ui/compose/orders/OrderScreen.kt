@@ -11,7 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.composetdaapp.R
-import com.example.composetdaapp.ui.viewmodels.MarketViewModel
+import com.example.composetdaapp.viewmodels.MarketViewModel
 
 
 @ExperimentalAnimationApi
@@ -29,6 +29,7 @@ fun OrderScreen() {
             )
         )
     ) {
+        //TODO loosing expanded state when navigating away from dashboard. Hint: rememberSavable(item)
         viewModel.getOrders()
         LazyColumn {
             itemsIndexed(orders.value) { _, order ->

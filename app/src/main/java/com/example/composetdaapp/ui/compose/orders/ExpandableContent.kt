@@ -5,13 +5,11 @@ import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -29,8 +27,8 @@ fun ExpandableContent(
     initialVisibility: Boolean = false,
     orders: GetOrderItem
 ) {
-    val orderInfo =
-        " at a " + orders.orderType + " of $" + orders.price + " (" + orders.status + ")"
+
+    val orderInfo = "@ a " + orders.orderType + " of $" + orders.price
 
     val enterFadeIn = remember {
         fadeIn(
@@ -60,14 +58,30 @@ fun ExpandableContent(
         enter = enterExpand + enterFadeIn,
         exit = exitCollapse + exitFadeOut
     ) {
-        Column(modifier = Modifier.padding(8.dp)) {
-            Spacer(modifier = Modifier.heightIn(100.dp))
+        Column(
+            /* modifier = Modifier
+                 .background(color = Color.Red),*/
+            horizontalAlignment = Alignment.CenterHorizontally
+
+        ) {
             Text(
                 text = orderInfo,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
                 textAlign = TextAlign.Center,
 
                 )
+            Row(
+                modifier = Modifier
+                    .padding(bottom = 16.dp),
+            )
+            {
+                OrderBtn(text = "Edit")
+                OrderBtn(text = "Delete")
+            }
         }
+
 
     }
 }

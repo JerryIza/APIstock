@@ -1,6 +1,5 @@
 package com.example.composetdaapp.ui.fragments
 
-import android.app.Activity
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.graphics.Color
 import android.graphics.Paint
@@ -25,10 +24,9 @@ import com.example.composetdaapp.data.entities.orders.place.Instrument
 import com.example.composetdaapp.data.entities.orders.place.OrderLegCollection
 import com.example.composetdaapp.data.entities.orders.place.PlaceOrder
 import com.example.composetdaapp.databinding.ChartFragmentBinding
-import com.example.composetdaapp.ui.viewmodels.ChartViewModel
+import com.example.composetdaapp.viewmodels.ChartViewModel
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -48,7 +46,7 @@ class ChartFragment : Fragment() {
 
     private var isMarketDay: Boolean = false
 
-
+    //TODO create string constants for hard coded strings
     var orderPayload = PlaceOrder(
         orderLegCollection = listOf(
             OrderLegCollection(
@@ -72,16 +70,18 @@ class ChartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainActivity = activity as MainActivity
-        viewModel.start(mainActivity.tickerSymbol)
         setUpObservers()
         viewModel.accountDetailsLiveData
+        //TODO forgot what this does
         binding.posLayout.visibility = VISIBLE
 
-        viewModel.getAccountDetails(mainActivity.tickerSymbol)
-        viewModel.getSymbolDetails()
+        if(mainActivity.tickerSymbol.startsWith("/")){
+            //TODO
+        }else {
 
+            startSymbolData()
+        }
         isMarketDay = viewModel.isMarketOpen()
-        //we need open and close in millis to be able to pull today's intra day candle data(API shenanigans).
         val marketOpenInMilli = viewModel.marketOpenToMilli()
         val marketCloseInMilli = viewModel.marketCloseToMilli()
 
@@ -101,7 +101,6 @@ class ChartFragment : Fragment() {
 
             binding.motionLayout.startState
         }
-
         binding.intraDayBtn.setOnClickListener {
 
             viewModel.chartMediatorLiveData.removeSource(viewModel.symbolLiveData)
@@ -116,8 +115,6 @@ class ChartFragment : Fragment() {
             }
 
         }
-
-
 
         binding.monthBtn.setOnClickListener {
             viewModel.chartMediatorLiveData.removeSource(viewModel.symbolLiveData)
@@ -241,6 +238,7 @@ class ChartFragment : Fragment() {
             orderPayload.orderLegCollection[0].instrument.symbol =
                 viewModel.tickerSymbol.value.toString()
             viewModel.placeOrder(order = orderPayload)
+            Timber.i("Place Order: $orderPayload")
 
 
             viewModel.getAllOrders()
@@ -319,10 +317,11 @@ class ChartFragment : Fragment() {
         binding.askTv.text = ("Ask: $${"%,.2f".format(symbolDetails.askPrice)}")
 
         if (viewModel.accountDetailsLiveData.value != null) {
+            //TODO move to ViewModel, Fix PL open (doesn't work sometimes)
             val posDetails =
                 viewModel.accountDetailsLiveData.value?.data?.securitiesAccount!!.positions[viewModel.positionIndex!!]
             val plOpen =
-                ("%,.2f".format(((symbolDetails.mark!! - posDetails.averagePrice) * posDetails.longQuantity)))
+                ("$${"%,.2f".format(((symbolDetails.mark!! - posDetails.averagePrice) * posDetails.longQuantity))}")
             binding.plTv.text = plOpen
             when {
                 regex.containsMatchIn(plOpen) -> {
@@ -333,6 +332,7 @@ class ChartFragment : Fragment() {
                     binding.plTv.setTextColor(resources.getColor(R.color.colorUp))
                 }
                 else -> {
+                    //Do nothing
                 }
             }
         }
@@ -340,21 +340,15 @@ class ChartFragment : Fragment() {
 
         binding.changeTv.text =
             ("%,.2f".format(symbolDetails.markChangeInDouble) + " (" + "%,.2f".format(symbolDetails.markPercentChangeInDouble) + "%)")
-
-
-
         when {
             regex.containsMatchIn(symbolDetails.regularMarketNetChange.toString()) -> {
-                println("first")
                 binding.changeTv.setTextColor(resources.getColor(R.color.colorDown))
             }
             symbolDetails.regularMarketNetChange != 0.0 -> {
-                println("second")
 
                 binding.changeTv.setTextColor(resources.getColor(R.color.colorUp))
             }
             else -> {
-                println("last")
                 binding.changeTv.text =
                     ("%,.2f".format(symbolDetails.markChangeInDouble) + " (" + "%,.2f".format(
                         symbolDetails.markPercentChangeInDouble
@@ -365,9 +359,16 @@ class ChartFragment : Fragment() {
 
     }
 
-    private fun setUpObservers() {
-        viewModel.chartHasPositionLiveData.observe(viewLifecycleOwner, {
+    private fun startSymbolData() {
+        viewModel.start(mainActivity.tickerSymbol)
+        viewModel.getAccountDetails(mainActivity.tickerSymbol)
+        viewModel.getSymbolDetails()
+    }
 
+    private fun setUpObservers() {
+
+
+        viewModel.chartHasPositionLiveData.observe(viewLifecycleOwner, {
             if (it == true) {
                 binding.posLayout.visibility = VISIBLE
             } else {
@@ -383,7 +384,7 @@ class ChartFragment : Fragment() {
                         it.data!!.securitiesAccount.positions[viewModel.positionIndex!!].longQuantity
                     binding.qtyTv.text = posQty.toString()
                     binding.avgPriceTv.text =
-                        it.data.securitiesAccount.positions[viewModel.positionIndex!!].averagePrice.toString()
+                        ("$${it.data.securitiesAccount.positions[viewModel.positionIndex!!].averagePrice}")
                     if (binding.qtyTv.text.isNotBlank()) {
                         binding.qtyTv.setTextColor(resources.getColor(R.color.colorUp))
                     }
@@ -409,7 +410,6 @@ class ChartFragment : Fragment() {
                     binding.loadingBarDetail.visibility = GONE
                     if (!it.data.isNullOrEmpty())
                         bindSymbolDetails(it.data.values.last())
-                    println("HERE "+ it.data!!.values.last())
                 }
                 Resource.Status.ERROR ->
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
@@ -419,7 +419,28 @@ class ChartFragment : Fragment() {
             }
         })
 
+        viewModel.ordersLiveData.observe(viewLifecycleOwner, {
 
+            when (it.status) {
+                Resource.Status.SUCCESS -> {
+
+                    binding.loadingBarDetail.visibility = GONE
+                    if (it.data != null) {
+
+                    }
+
+                }
+                Resource.Status.ERROR -> {
+                    Timber.e("OrdersLiveData: %s", it.message)
+
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+
+                Resource.Status.LOADING ->
+                    binding.loadingBarDetail.visibility = View.VISIBLE
+            }
+
+        })
 
         viewModel.chartMediatorLiveData.observe(viewLifecycleOwner, {
             //throw exception
