@@ -15,7 +15,7 @@ class WatchlistAdapter(
 ) : RecyclerView.Adapter<WatchlistViewHolder>() {
 
 
-
+    //TODO Before passing data to adaptor, sort using Comparator
     fun setItems(inputs: MutableCollection<SymbolDetails>) {
         this.inputs.clear()
         this.inputs.addAll(inputs)

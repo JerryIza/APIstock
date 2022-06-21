@@ -11,11 +11,11 @@ data class InitialBalances(
     @Json(name = "accruedInterest")
     val accruedInterest: Double,
     @Json(name = "availableFundsNonMarginableTrade")
-    val availableFundsNonMarginableTrade: Double,
+    val availableFundsNonMarginableTrade: Double?,
     @Json(name = "bondValue")
     val bondValue: Int,
     @Json(name = "buyingPower")
-    val buyingPower: Double,
+    val buyingPower: Double?,
     @Json(name = "cashAvailableForTrading")
     val cashAvailableForTrading: Double,
     @Json(name = "cashBalance")
@@ -23,51 +23,51 @@ data class InitialBalances(
     @Json(name = "cashReceipts")
     val cashReceipts: Int,
     @Json(name = "dayTradingBuyingPower")
-    val dayTradingBuyingPower: Double,
+    val dayTradingBuyingPower: Double?,
     @Json(name = "dayTradingBuyingPowerCall")
-    val dayTradingBuyingPowerCall: Double,
+    val dayTradingBuyingPowerCall: Double?,
     @Json(name = "dayTradingEquityCall")
-    val dayTradingEquityCall: Double,
+    val dayTradingEquityCall: Double?,
     @Json(name = "equity")
-    val equity: Double,
+    val equity: Double?,
     @Json(name = "equityPercentage")
-    val equityPercentage: Int,
+    val equityPercentage: Int?,
     @Json(name = "isInCall")
     val isInCall: Boolean,
     @Json(name = "liquidationValue")
     val liquidationValue: Double,
     @Json(name = "longMarginValue")
-    val longMarginValue: Double,
+    val longMarginValue: Double?,
     @Json(name = "longOptionMarketValue")
     val longOptionMarketValue: Double,
     @Json(name = "longStockValue")
     val longStockValue: Double,
     @Json(name = "maintenanceCall")
-    val maintenanceCall: Double,
+    val maintenanceCall: Double?,
     @Json(name = "maintenanceRequirement")
-    val maintenanceRequirement: Double,
+    val maintenanceRequirement: Double?,
     @Json(name = "margin")
-    val margin: Double,
+    val margin: Double?,
     @Json(name = "marginBalance")
-    val marginBalance: Double,
+    val marginBalance: Double?,
     @Json(name = "marginEquity")
-    val marginEquity: Double,
+    val marginEquity: Double?,
     @Json(name = "moneyMarketFund")
-    val moneyMarketFund: Double,
+    val moneyMarketFund: Double?,
     @Json(name = "mutualFundValue")
-    val mutualFundValue: Int,
+    val mutualFundValue: Int?,
     @Json(name = "pendingDeposits")
-    val pendingDeposits: Int,
+    val pendingDeposits: Int?,
     @Json(name = "regTCall")
-    val regTCall: Double,
+    val regTCall: Double?,
     @Json(name = "shortBalance")
-    val shortBalance: Double,
+    val shortBalance: Double?,
     @Json(name = "shortMarginValue")
-    val shortMarginValue: Double,
+    val shortMarginValue: Double?,
     @Json(name = "shortOptionMarketValue")
-    val shortOptionMarketValue: Double,
+    val shortOptionMarketValue: Double?,
     @Json(name = "shortStockValue")
-    val shortStockValue: Double,
+    val shortStockValue: Double?,
     @Json(name = "totalCash")
-    val totalCash: Double
+    val totalCash: Double?
 )
