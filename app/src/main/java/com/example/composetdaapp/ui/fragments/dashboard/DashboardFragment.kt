@@ -75,7 +75,6 @@ class DashboardFragment : Fragment (
         binding.autoCompleteTextView.setOnClickListener {
             findNavController().navigate(R.id.action_dashboardFragment_to_searchFragment)
             findNavController().addOnDestinationChangedListener { controller, destination, arguments ->
-                findNavController().currentDestination?.label = "tehehe"
 
             }
         }
