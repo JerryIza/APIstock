@@ -68,6 +68,9 @@ dependencies {
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 
 
+    implementation 'androidx.preference:preference-ktx:1.2.0'
+
+
     /*injecting work manager with hilt
     implementation("androidx.hilt:hilt-work:1.0.0")
     kapt("androidx.hilt:hilt-compiler:1.0.0")*/
@@ -105,7 +108,8 @@ dependencies {
 
 
 
-
+    //encrypted sharedpref
+    implementation "androidx.security:security-crypto:1.0.0-alpha02"
 
 
     implementation "com.squareup.retrofit2:retrofit:2.9.0"

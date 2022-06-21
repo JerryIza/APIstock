@@ -15,20 +15,25 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.composetdaapp.MainActivity
 import com.example.composetdaapp.data.entities.websocket.response.Content
 import com.example.composetdaapp.ui.adapters.IndicesAdapter
-import com.example.composetdaapp.ui.viewmodels.MarketViewModel
+import com.example.composetdaapp.viewmodels.MarketViewModel
 import com.example.composetdaapp.utils.Resource
 import com.example.composetdaapp.R
+import com.example.composetdaapp.data.entities.watchlist.patch.PatchWatchlist
+import com.example.composetdaapp.data.entities.watchlist.patch.WatchlistItems
 import com.example.composetdaapp.databinding.DashboardFragmentBinding
 import com.example.composetdaapp.ui.adapters.DashPagerAdapter
+import com.example.composetdaapp.utils.MyPreference
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DashboardFragment : Fragment (
-) {
 
+) {
     //fragment needs to be attached to activity first.
+    //TODO move to app module?
     private lateinit var mainActivity: MainActivity
     private lateinit var binding: DashboardFragmentBinding
     private lateinit var iAdapter: IndicesAdapter
@@ -56,7 +61,6 @@ class DashboardFragment : Fragment (
         setUpObservers()
         viewModel.subscribeToSocketEvents()
 
-
         dashPagerAdapter = DashPagerAdapter(this)
         viewPager = binding.pager
         viewPager.adapter = dashPagerAdapter
@@ -75,7 +79,7 @@ class DashboardFragment : Fragment (
         binding.autoCompleteTextView.setOnClickListener {
             findNavController().navigate(R.id.action_dashboardFragment_to_searchFragment)
             findNavController().addOnDestinationChangedListener { controller, destination, arguments ->
-
+                //TODO
             }
         }
     }
@@ -90,20 +94,21 @@ class DashboardFragment : Fragment (
 
         val indicesList = arrayListOf<Pair<String, Content>>()
         iAdapter = IndicesAdapter(indicesList) {
-            indicesList[it].let { it1 -> viewModel.start(it1.first) }
+            indicesList[it].let { it1 -> mainActivity.tickerSymbol = it1.first
+                findNavController().navigate(R.id.action_dashboardFragment_to_stockDetailsFragment)
+            Toast.makeText(context, it1.first,Toast.LENGTH_SHORT).show()
+
+            }
         }
         binding.indicesRv.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.indicesRv.adapter = iAdapter
-
 
     }
 
 
     private fun setUpObservers() {
         setupRecyclerViews()
-
-
 
 
         viewModel.accountDetailsLiveData.observe(viewLifecycleOwner, {
@@ -113,11 +118,11 @@ class DashboardFragment : Fragment (
                     binding.loadingBar.visibility = View.GONE
 
                     binding.availFundsTv.text =
-                        ("Option BP: $" + it.data!!.securitiesAccount.currentBalances.buyingPowerNonMarginableTrade.toString())
+                        ("Cash: $" + it.data!!.securitiesAccount.currentBalances.cashBalance.toString())
                     binding.accountValue.text =
                         ("$%,.2f".format(it.data.securitiesAccount.currentBalances.liquidationValue))
                     binding.stockBpTv.text =
-                        ("Stock BP: $" + it.data.securitiesAccount.currentBalances.buyingPower.toString())
+                        ("MM: $" + it.data.securitiesAccount.currentBalances.moneyMarketFund.toString())
 
 
                 }

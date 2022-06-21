@@ -23,7 +23,7 @@ class StockSocketListener @Inject constructor(private val myPreference: MyPrefer
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
         webSocket.send(myPreference.getSocketCredentials())
-        Timber.i("onOpen %s", myPreference.getSocketCredentials())
+        Timber.i("WebSocket onOpen %s", myPreference.getSocketCredentials())
     }
 
 
@@ -31,7 +31,7 @@ class StockSocketListener @Inject constructor(private val myPreference: MyPrefer
     override fun onMessage(webSocket: WebSocket, text: String) {
         GlobalScope.launch {
             socketEventChannel.send(SocketUpdate(text))
-            Timber.i("onMessage: %s", text)
+            Timber.i("WebSocket onMessage: %s", text)
 
         }
     }
@@ -42,7 +42,7 @@ class StockSocketListener @Inject constructor(private val myPreference: MyPrefer
 
 
         }
-        Timber.i("onClosing: ")
+        Timber.i("WebSocket onClosing: ")
 
         webSocket.close(NORMAL_CLOSURE_STATUS, null)
 
@@ -52,12 +52,9 @@ class StockSocketListener @Inject constructor(private val myPreference: MyPrefer
     override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
         GlobalScope.launch {
             socketEventChannel.send(SocketUpdate(exception = t))
+            Timber.i("WebSocket onException: ")
         }
     }
-
-
-
-
 }
 
 class SocketAbortedException : Exception()

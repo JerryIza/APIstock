@@ -1,6 +1,5 @@
-package com.example.composetdaapp.ui.viewmodels
+package com.example.composetdaapp.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.composetdaapp.data.entities.account.Accounts
 import com.example.composetdaapp.data.entities.account.Positions
@@ -13,6 +12,11 @@ import com.example.composetdaapp.utils.MyPreference
 import com.example.composetdaapp.utils.Resource
 import com.example.composetdaapp.data.api.MainRepository
 import com.example.composetdaapp.data.entities.orders.get.GetOrderItem
+import com.example.composetdaapp.data.entities.watchlist.patch.PatchWatchlist
+import com.example.composetdaapp.data.entities.websocket.request.DataRequest
+import com.example.composetdaapp.data.entities.websocket.request.Request
+import com.example.composetdaapp.data.entities.websocket.request.FuturesParam
+import com.example.composetdaapp.utils.LEVELONE_FUTURES
 
 import com.example.composetdaapp.utils.SocketInteractor
 import com.github.mikephil.charting.data.Entry
@@ -24,6 +28,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.json.JSONObject
 import timber.log.Timber
+import javax.annotation.meta.When
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 import kotlin.coroutines.CoroutineContext
@@ -35,6 +40,7 @@ class MarketViewModel @Inject constructor(
     private val interactor: SocketInteractor,
     private val moshi: Moshi,
     private val repository: MainRepository,
+    private val myPreference: MyPreference
 
 ) :
     ViewModel() {
@@ -50,7 +56,6 @@ class MarketViewModel @Inject constructor(
     fun getOrders() {
         scope.launch() {
             val orders = repository.getOrders()
-            println("BODY ERRO: " + orders)
             orders.data?.let { _cards.emit(it) }
             ordersLiveData.postValue(orders)
         }
@@ -67,7 +72,7 @@ class MarketViewModel @Inject constructor(
     /* End of Jetpack*/
 
 
-    //ADD RESOURCE TO ALL VAL/VAR
+    //TODO ADD RESOURCE TO ALL VAL/VAR
 
 
     //create the job, which implements coroutines context.
@@ -100,6 +105,10 @@ class MarketViewModel @Inject constructor(
 
     var indicatorLiveData: MutableLiveData<List<Entry>> = MutableLiveData()
 
+    val patchLiveData: MutableLiveData<Resource<List<Watchlist>>> = MutableLiveData()
+
+    val accountNumber = myPreference.getAccountNumber()
+
     val webSocketLiveData = MutableLiveData<MutableMap<String, Content>>()
 
 //TODO add indicators once we fix intra-day graphs
@@ -130,7 +139,6 @@ class MarketViewModel @Inject constructor(
      }
      return results.await()
  }*/
-
 
 
     //Positions and Quotes together
@@ -191,12 +199,13 @@ class MarketViewModel @Inject constructor(
     }
 
 
-    private suspend fun getAccountDetails() = repository.getAccountDetails()
+    private suspend fun getAccountDetails() =
+        repository.getAccountDetails(myPreference.getAccountNumber())
 
 
     fun getAllWatchlist() {
         scope.launch {
-            val allWatchlist = repository.getAllWatchlist()
+            val allWatchlist = repository.getAllWatchlist(myPreference.getAccountNumber())
             if (!allWatchlist.data.isNullOrEmpty()) {
                 watchlistNames.clear()
                 for (i in allWatchlist.data.indices) {
@@ -206,11 +215,39 @@ class MarketViewModel @Inject constructor(
             watchlistLiveData.postValue(allWatchlist)
         }
     }
+    /*
+    Body to delete first symbol.
+    {
+    "name": "string",
+    "watchlistId": "1923285313",
+    "watchlistItems": [
+    {
 
-    fun patchWatchlist(watchlistId: String, symbolUpdate: String) {
+        "sequenceId": 1
+    }
+    ]
+    }*/
+
+
+    fun start(symbol: String) {
+        _symbol.value = symbol
+    }
+
+    fun getSpinnerPosition() = myPreference.getSpinnerPos()
+
+    fun setSpinnerPosition(pos: Int) = myPreference.setSpinnerPos(pos)
+
+
+    fun patchWatchlist(watchlistId: String, symbolUpdate: PatchWatchlist) {
         scope.launch {
-            val patchedWatchlists =
-                repository.patchWatchlist("Account Number", watchlistId, symbolUpdate)
+            val watchlistResponse =
+                repository.patchWatchlist(accountNumber, watchlistId, symbolUpdate)
+
+            patchLiveData.postValue(watchlistResponse)
+            if (watchlistResponse.message == "204 No Content") {
+                getAllWatchlist()
+            }
+
         }
     }
 
@@ -222,29 +259,38 @@ class MarketViewModel @Inject constructor(
     }
 
 
-    fun start(symbol: String) {
-        _symbol.value = symbol
-    }
+    private val levelOneFuturesDC = DataRequest(
+        request = listOf(
+            Request(
+                futuresParam = FuturesParam(),
+                service = LEVELONE_FUTURES,
+                account = accountNumber,
+                source = myPreference.getDevUserId()
+            )
+        )
+    )
 
-    //TODO Create data classes for requests
+    /*TODO Create data classes for requests
+    Request used for testing websocket*/
     val levelOneFutures = "{\n" +
             "            \"service\": \"LEVELONE_FUTURES\",\n" +
             "            \"requestid\": \"1\",\n" +
             "            \"command\": \"SUBS\",\n" +
-            "            \"account\": \"Account #\",\n" +
-            "            \"source\": \"UserId\",\n" +
+            "            \"account\": \"149235993\",\n" +
+            "            \"source\": \"gerardoiza94\",\n" +
             "            \"parameters\": {\n" +
-            "                \"keys\": \"/ES,/NQ,/YM\",\n" +
+            "                \"keys\": \"/BTC\",\n" +
             "                \"fields\": \"0,3,19,20,34\"\n" +
             "            }\n" +
             "        }"
 
+
     val stockQoutes = "{\n" +
-            "            \"service\": \"QOUTE\",\n" +
+            "            \"service\": \"QUOTE\",\n" +
             "            \"requestid\": \"1\",\n" +
             "            \"command\": \"SUBS\",\n" +
             "            \"account\": \"Account\",\n" +
-            "            \"source\": \"UserId\",\n" +
+            "            \"source\": \"DevLoginID\",\n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"amd\",\n" +
             "                \"fields\": \"0,3,19,20,34\"\n" +
@@ -256,7 +302,7 @@ class MarketViewModel @Inject constructor(
             "            \"requestid\": \"1\",\n" +
             "            \"command\": \"SUBS\",\n" +
             "            \"account\": \"Account\",\n" +
-            "            \"source\": \"UserId\",\n" +
+            "            \"source\": \"DevLoginID\",\n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"SPY_041822P400\",\n" +
             "                \"fields\": \"0,3,19,20,34\"\n" +
@@ -268,7 +314,7 @@ class MarketViewModel @Inject constructor(
             "            \"requestid\": \"1\",\n" +
             "            \"command\": \"SUBS\",\n" +
             "            \"account\": \"Account\",\n" +
-            "            \"source\": \"UserId\",\n" +
+            "            \"source\": \"DevLoginID\",\n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"/ES\",\n" +
             "                \"fields\": \"0,1,2,3,4,5,6,7\"\n" +
@@ -279,8 +325,8 @@ class MarketViewModel @Inject constructor(
             "            \"service\": \"CHART_HISTORY_FUTURES\",\n" +
             "            \"requestid\": \"2\",\n" +
             "            \"command\": \"GET\",\n" +
-            "            \"account\": \"Account\",\n" +
-            "            \"source\": \"UserId\",\n" +
+            "            \"account\": \"149235993\",\n" +
+            "            \"source\": \"gerardoiza94\",\n" +
             "            \"parameters\": {\n" +
             "                \"symbol\": \"/ES\",\n" +
             "                \"frequency\": \"m1\",\n" +
@@ -294,7 +340,7 @@ class MarketViewModel @Inject constructor(
             "            \"requestid\": \"2\", \n" +
             "            \"command\": \"SUBS\", \n" +
             "            \"account\": \"Account\", \n" +
-            "            \"source\": \"UserId\", \n" +
+            "            \"source\": \"DevLoginID\", \n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"b71f01142692445eca51554fea6789343cf24399dc98b4f638d8611b9a4bcda91a3519298a2d7784c976c7ec555cb02ef\", \n" +
             "                \"fields\": \"0,1,2,3\"\n" +
@@ -307,7 +353,7 @@ class MarketViewModel @Inject constructor(
             "            \"requestid\": \"2\", \n" +
             "            \"command\": \"SUBS\", \n" +
             "            \"account\": \" Account \", \n" +
-            "            \"source\": \"UserId\", \n" +
+            "            \"source\": \"DevLoginID\", \n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"GOOG\", \n" +
             "                \"fields\": \"0,1,2,3,4,5,6\"\n" +
@@ -320,7 +366,7 @@ class MarketViewModel @Inject constructor(
             "            \"requestid\": \"2\", \n" +
             "            \"command\": \"SUBS\", \n" +
             "            \"account\": \" Account \", \n" +
-            "            \"source\": \"UserId\", \n" +
+            "            \"source\": \"DevLoginID\", \n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"SPY\", \n" +
             "                \"fields\": \"0,1,2,3,4\"\n" +
@@ -332,7 +378,7 @@ class MarketViewModel @Inject constructor(
             "            \"requestid\": \"2\",\n" +
             "            \"command\": \"SUBS\",\n" +
             "            \"account\": \"Account\",\n" +
-            "            \"source\": \"UserId\",\n" +
+            "            \"source\": \"DevLoginID\",\n" +
             "            \"parameters\": {\n" +
             "                \"keys\": \"EUR/USD\",\n" +
             "                \"fields\": \"0,1,2,3,4,5,6,7,8,9,10,11,12,13\"\n" +
@@ -340,39 +386,55 @@ class MarketViewModel @Inject constructor(
             "        }"
 
     val leveloneFuturesTime =
-            "        {\n" +
-            "            \"service\": \"CHART_HISTORY_FUTURES\",\n" +
+        "        {\n" +
+                "            \"service\": \"CHART_HISTORY_FUTURES\",\n" +
+                "            \"requestid\": \"2\",\n" +
+                "            \"command\": \"GET\",\n" +
+                "            \"account\": \"Account\",\n" +
+                "            \"source\": \"DevLoginID\",\n" +
+                "            \"parameters\": {\n" +
+                "                \"symbol\": \"/ES\",\n" +
+                "                \"END_TIME\": \"1649104859000\",\n" +
+                "                \"START_TIME\": \"1648840881000\",\n" +
+                "                \"frequency\": \"h2\"\n" +
+
+                "            }\n" +
+                "        }\n"
+
+    val chartEquity = " {\n" +
+            "            \"service\": \"CHART_EQUITY\",\n" +
             "            \"requestid\": \"2\",\n" +
-            "            \"command\": \"GET\",\n" +
-            "            \"account\": \"Account\",\n" +
-            "            \"source\": \"UserId\",\n" +
+            "            \"command\": \"SUBS\",\n" +
+            "            \"account\": \"149235993\",\n" +
+            "            \"source\": \"gerardoiza94\",\n" +
             "            \"parameters\": {\n" +
-            "                \"symbol\": \"/ES\",\n" +
-            "                \"END_TIME\": \"1649104859000\",\n" +
-            "                \"START_TIME\": \"1648840881000\",\n" +
-            "                \"frequency\": \"h2\"\n" +
-
+            "                \"keys\": \"AAPL,MSFT,SPY\",\n" +
+            "                \"fields\": \"0,1,2,3,4,5,6,7,8\"\n" +
             "            }\n" +
-            "        }\n"
-
-
-    private fun sendFuturesPayload() = interactor.sendSocketRequest(levelOneFutures)
-
-
+            "        }"
 
 
     @ExperimentalCoroutinesApi
     fun subscribeToSocketEvents() {
         viewModelScope.launch {
+            val jsonAdapterRequest = moshi.adapter(Request::class.java)
+            val json: String = jsonAdapterRequest.toJson(levelOneFuturesDC.request[0])
+            fun sendFuturesPayload() = interactor.sendSocketRequest(json)
+            fun sendFuturesHistorical() = interactor.sendSocketRequest(futuresHistory)
+
+
+            //fun sendFuturesPayload() = interactor.sendSocketRequest(chartEquity)
             try {
-                //TODO Create a data class and custom deserializer
+                val jsonAdapter = moshi.adapter(DataResponse::class.java)
+
+                //TODO Create a data class and custom deserializer and clean this interactor thingy
                 interactor.startSocket().consumeEach {
                     if (it.exception == null) {
+                        Timber.i("raw data %s", it.text)
                         val jsonObject = JSONObject(it.text.toString())
                         //filter response by "data" refactor as a util
+                        println("onMassage : " + jsonObject)
                         if (jsonObject.has("data")) {
-                            val jsonAdapter = moshi.adapter(DataResponse::class.java)
-
                             val dataResponse = jsonAdapter.fromJson(it.text.toString())
                             val dataMap = mutableMapOf<String, Content>()
                             fun <T> MutableLiveData<T>.notifyObserver() {
@@ -380,6 +442,8 @@ class MarketViewModel @Inject constructor(
                             }
                             //Make Dictionary.
                             if (dataResponse != null) {
+                                println("onMassage : LEVEL ONE BABY")
+
                                 for (i in dataResponse.data[0].content.indices) {
                                     dataMap[dataResponse.data[0].content[i].key] =
                                         dataResponse.data[0].content[i]
@@ -393,25 +457,22 @@ class MarketViewModel @Inject constructor(
                                     webSocketLiveData.notifyObserver()
                                 }
                             }
+                        } else if (jsonObject.has("snapshot")) {
+                            println("onMassage : YESSSSSSSSSSS")
                         }
                         if (jsonObject.has("response")) {
                             val data = jsonObject.getJSONArray("response")
                             val content = data.getJSONObject(0)
                             if (content.getString("command") == "LOGIN") {
-                                println("Login Command Successful")
+                                Timber.i("Login Command Successful")
                                 //start data subscriptions
                                 sendFuturesPayload()
+                                sendFuturesHistorical()
                             }
                         }
-                        if (jsonObject.has("snapshot")) {
-                            val jsonAdapter = moshi.adapter(DataResponse::class.java)
-
-                            val dataResponse = jsonAdapter.fromJson(it.text.toString())
-                            println("WEBSOCKET RESPONSE 1" + dataResponse!!.data.lastIndex)
-
-
-                        }
                     } else {
+                        println("onMassage : ERROR YESSSSSSSSSSS")
+
                         onSocketError(it.exception)
                     }
                 }
@@ -433,6 +494,8 @@ class MarketViewModel @Inject constructor(
 
 
 }
+
+
 
 
 

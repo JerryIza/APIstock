@@ -1,5 +1,6 @@
 package com.example.composetdaapp.ui.fragments.dashboard
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,31 +16,36 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.composetdaapp.MainActivity
 import com.example.composetdaapp.R
 import com.example.composetdaapp.data.entities.quotes.SymbolDetails
+import com.example.composetdaapp.data.entities.watchlist.patch.PatchWatchlist
+import com.example.composetdaapp.data.entities.watchlist.patch.WatchlistItems
 import com.example.composetdaapp.databinding.WatchlistFragmentBinding
 import com.example.composetdaapp.ui.adapters.WatchlistAdapter
-import com.example.composetdaapp.ui.viewmodels.MarketViewModel
+import com.example.composetdaapp.viewmodels.MarketViewModel
 import com.example.composetdaapp.utils.ARG_OBJECT
+import com.example.composetdaapp.utils.MyPreference
 import com.example.composetdaapp.utils.Resource
+import com.example.composetdaapp.utils.Resource.Status.*
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
+import okhttp3.internal.notify
 import java.util.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class WatchlistFragment : Fragment() {
 
     private lateinit var mainActivity: MainActivity
-
-
     private lateinit var binding: WatchlistFragmentBinding
-
     private lateinit var wlAdapter: WatchlistAdapter
-
+    private lateinit var deletedSymbol: String
+    private var spinPos: Int = 0
     private val viewModel: MarketViewModel by activityViewModels()
 
-    private lateinit var deletedSymbol: String
-
+    val watchlist = arrayListOf<SymbolDetails>()
     var symbols: String = ""
 
     override fun onCreateView(
@@ -54,9 +60,16 @@ class WatchlistFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         arguments?.takeIf { it.containsKey(ARG_OBJECT) }?.apply {
             mainActivity = activity as MainActivity
+            spinPos = viewModel.getSpinnerPosition()
             setUpObservers()
             viewModel.getAllWatchlist()
+
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.setSpinnerPosition(spinPos)
     }
 
     override fun onDestroy() {
@@ -65,18 +78,13 @@ class WatchlistFragment : Fragment() {
     }
 
 
-
     private fun setupRecyclerViews() {
-
-        val watchlist = arrayListOf<SymbolDetails>()
         wlAdapter = WatchlistAdapter(watchlist) {
             mainActivity.tickerSymbol = watchlist[it].symbol
             findNavController().navigate(R.id.action_dashboardFragment_to_stockDetailsFragment)
         }
         binding.watchlistRv.layoutManager = LinearLayoutManager(requireContext())
         binding.watchlistRv.adapter = wlAdapter
-
-
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
         itemTouchHelper.attachToRecyclerView(binding.watchlistRv)
     }
@@ -85,32 +93,43 @@ class WatchlistFragment : Fragment() {
         ItemTouchHelper.UP.or(ItemTouchHelper.DOWN),
         ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)
     ) {
-        var watchList = mutableListOf<String?>()
+        var watchListOnSwipe = mutableListOf<String?>()
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder
         ): Boolean {
-            var startPosition = viewHolder.adapterPosition
-            var endPositions = target.adapterPosition
+            val startPosition = viewHolder.adapterPosition
+            val endPositions = target.adapterPosition
 
-            Collections.swap(watchList, startPosition, endPositions)
+            Collections.swap(watchListOnSwipe, startPosition, endPositions)
             recyclerView.adapter?.notifyItemMoved(startPosition, endPositions)
             return true
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            var position = viewHolder.adapterPosition
-
+            val position = viewHolder.adapterPosition
             when (direction) {
                 ItemTouchHelper.LEFT -> {
-                    deletedSymbol = watchList.get(position)!!
-                    println("DELETED SYMBOl  : " + deletedSymbol)
-                    watchList.removeAt(position)
+                    deletedSymbol = watchListOnSwipe[position]!!
+                    watchListOnSwipe.removeAt(position)
                     wlAdapter.notifyItemRemoved(position)
 
-                }
 
+                    viewModel.patchWatchlist(
+                        symbolUpdate = PatchWatchlist(
+                            name = "updated",
+                            watchlistId = "1923285313",
+                            listOf(
+                                WatchlistItems(
+                                    instrument = null,
+                                    sequenceId = position + 1
+                                )
+                            )
+                        ),
+                        watchlistId = "1923285313"
+                    )
+                }
             }
         }
     }
@@ -135,20 +154,23 @@ class WatchlistFragment : Fragment() {
         viewModel.watchlistLiveData.observe(viewLifecycleOwner, {
             val stringBuilder = StringBuilder()
             when (it.status) {
-                Resource.Status.SUCCESS -> {
+                SUCCESS -> {
                     binding.loadingBar.visibility = View.GONE
                     if (!it.data.isNullOrEmpty()) {
                         //piggy backing off watchlist update
                         viewModel.accountPosDetails()
                         setUpSpinner()
+                        binding.watchlistSp.setSelection(spinPos)
                         binding.watchlistSp.onItemSelectedListener =
                             object : AdapterView.OnItemSelectedListener {
+
                                 override fun onNothingSelected(parent: AdapterView<*>?) {
                                 }
 
                                 override fun onItemSelected(
                                     parent: AdapterView<*>?, view: View?, position: Int, id: Long
                                 ) {
+                                    spinPos = position
 
                                     for (i in it.data[position].watchlistItems.indices) {
                                         stringBuilder.append(it.data[position].watchlistItems[i].instrument.symbol + ",")
@@ -161,32 +183,45 @@ class WatchlistFragment : Fragment() {
                             }
                     }
                 }
-                Resource.Status.ERROR -> {
+                ERROR -> {
                     println(it.message)
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                 }
 
-                Resource.Status.LOADING ->
+                LOADING ->
                     binding.loadingBar.visibility = View.VISIBLE
             }
         })
 
-        viewModel.watchlistQuotes.observe(viewLifecycleOwner, {
+        viewModel.patchLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
-                Resource.Status.SUCCESS -> {
+
+                SUCCESS -> {
+
+                    viewModel.getAllWatchlist()
+                }
+                ERROR -> TODO()
+                LOADING -> TODO()
+            }
+        })
+
+        viewModel.watchlistQuotes.observe(viewLifecycleOwner, { it ->
+            when (it.status) {
+                SUCCESS -> {
                     binding.loadingBar.visibility = View.GONE
 
                     if (!it.data.isNullOrEmpty()) {
-
-                        it.data.keys.toCollection(simpleCallback.watchList)
-                        wlAdapter.setItems((it.data.values))
+                        it.data.keys.toCollection(simpleCallback.watchListOnSwipe)
+                        val mutableList = it.data.values
+                        mutableList.removeIf { it.symbol == "" }
+                        wlAdapter.setItems((mutableList))
                     }
 
                 }
-                Resource.Status.ERROR ->
+                ERROR ->
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
 
-                Resource.Status.LOADING ->
+                LOADING ->
                     binding.loadingBar.visibility = View.VISIBLE
             }
         })

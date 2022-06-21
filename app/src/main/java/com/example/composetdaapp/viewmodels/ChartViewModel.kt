@@ -1,4 +1,4 @@
-package com.example.composetdaapp.ui.viewmodels
+package com.example.composetdaapp.viewmodels
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,16 +11,12 @@ import com.example.composetdaapp.data.entities.orders.place.PlaceOrder
 import com.example.composetdaapp.data.entities.quotes.SymbolDetails
 import com.example.composetdaapp.data.entities.quotes.SymbolSearch
 import com.example.composetdaapp.data.entities.websocket.response.Content
-import com.example.composetdaapp.data.entities.websocket.response.DataResponse
+import com.example.composetdaapp.utils.MyPreference
 import com.example.composetdaapp.utils.Resource
-import com.example.composetdaapp.utils.SocketInteractor
 import com.github.mikephil.charting.data.CandleEntry
 import com.github.mikephil.charting.data.Entry
-import com.squareup.moshi.Moshi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.consumeEach
-import org.json.JSONObject
 import timber.log.Timber
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -34,6 +30,7 @@ import kotlin.coroutines.CoroutineContext
 @HiltViewModel
 class ChartViewModel @Inject constructor(
     private val repository: MainRepository,
+    private val myPreference: MyPreference
 ) : ViewModel() {
 
     //ADD RESOURCE TO ALL VAR/VAL
@@ -101,7 +98,7 @@ class ChartViewModel @Inject constructor(
         val zone = ZoneId.of("America/Chicago")
         val today: LocalDate = LocalDate.now(zone)
         val dayOfWeek = today.dayOfWeek
-        println("CHECK WEEEKEND " + weekend.contains(dayOfWeek))
+        Timber.i("Is Weekend: " + weekend.contains(dayOfWeek))
         return !weekend.contains(dayOfWeek)
 
     }
@@ -139,7 +136,7 @@ class ChartViewModel @Inject constructor(
 
     fun getAccountDetails(symbol: String) {
         scope.launch {
-            val accDetails = repository.getAccountDetails()
+            val accDetails = repository.getAccountDetails(myPreference.getAccountNumber())
             accountDetailsLiveData.postValue(accDetails)
             val accPositions = (accDetails.data?.securitiesAccount?.positions)
             for (i in accPositions!!.indices) {
@@ -160,10 +157,11 @@ class ChartViewModel @Inject constructor(
         }
     }
 
-
+    //TODO Not working when placing orders over the weekend, check request body
     fun placeOrder(order: PlaceOrder) {
         scope.launch {
-            val a = repository.placeOrder("Account #", order)
+            val a = repository.placeOrder(myPreference.getAccountNumber(), order)
+            println("placing order " + a)
         }
     }
 
@@ -174,7 +172,6 @@ class ChartViewModel @Inject constructor(
             symbolLiveData.postValue(symbolDetails)
         }
     }
-
 
     fun getChartData(periodType: String, period: String, frequency: String) {
         scope.launch {
@@ -188,7 +185,7 @@ class ChartViewModel @Inject constructor(
                 //adding symbols details
                 chartMediatorLiveData.addSource(symbolLiveData) {
                     if (candleEntries.isEmpty()) {
-                        Timber.v("CANDLE ENTRY EMPTY BOY")
+                        Timber.v("CANDLE ENTRY EMPTY")
                         scope.launch {
                             candleEntries = ToCandleEntries.toCandleEntry(historicalData)
                             historicalLiveData.postValue((candleEntries))
