@@ -1,5 +1,6 @@
 package com.example.composetdaapp
 
+import com.example.apistock.utils.ToCandleEntries
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -14,4 +15,6 @@ class ExampleUnitTest {
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
     }
+
+
 }

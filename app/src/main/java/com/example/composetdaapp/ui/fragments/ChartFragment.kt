@@ -70,16 +70,18 @@ class ChartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainActivity = activity as MainActivity
-        viewModel.start(mainActivity.tickerSymbol)
         setUpObservers()
         viewModel.accountDetailsLiveData
+        //TODO forgot what this does
         binding.posLayout.visibility = VISIBLE
 
-        viewModel.getAccountDetails(mainActivity.tickerSymbol)
-        viewModel.getSymbolDetails()
+        if(mainActivity.tickerSymbol.startsWith("/")){
+            //TODO
+        }else {
 
+            startSymbolData()
+        }
         isMarketDay = viewModel.isMarketOpen()
-        //we need open and close in millis to be able to pull today's intra day candle data(API shenanigans).
         val marketOpenInMilli = viewModel.marketOpenToMilli()
         val marketCloseInMilli = viewModel.marketCloseToMilli()
 
@@ -99,7 +101,6 @@ class ChartFragment : Fragment() {
 
             binding.motionLayout.startState
         }
-
         binding.intraDayBtn.setOnClickListener {
 
             viewModel.chartMediatorLiveData.removeSource(viewModel.symbolLiveData)
@@ -114,8 +115,6 @@ class ChartFragment : Fragment() {
             }
 
         }
-
-
 
         binding.monthBtn.setOnClickListener {
             viewModel.chartMediatorLiveData.removeSource(viewModel.symbolLiveData)
@@ -360,7 +359,15 @@ class ChartFragment : Fragment() {
 
     }
 
+    private fun startSymbolData() {
+        viewModel.start(mainActivity.tickerSymbol)
+        viewModel.getAccountDetails(mainActivity.tickerSymbol)
+        viewModel.getSymbolDetails()
+    }
+
     private fun setUpObservers() {
+
+
         viewModel.chartHasPositionLiveData.observe(viewLifecycleOwner, {
             if (it == true) {
                 binding.posLayout.visibility = VISIBLE
@@ -376,7 +383,8 @@ class ChartFragment : Fragment() {
                     var posQty =
                         it.data!!.securitiesAccount.positions[viewModel.positionIndex!!].longQuantity
                     binding.qtyTv.text = posQty.toString()
-                    binding.avgPriceTv.text = ("$${it.data.securitiesAccount.positions[viewModel.positionIndex!!].averagePrice}")
+                    binding.avgPriceTv.text =
+                        ("$${it.data.securitiesAccount.positions[viewModel.positionIndex!!].averagePrice}")
                     if (binding.qtyTv.text.isNotBlank()) {
                         binding.qtyTv.setTextColor(resources.getColor(R.color.colorUp))
                     }

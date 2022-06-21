@@ -98,7 +98,7 @@ class ChartViewModel @Inject constructor(
         val zone = ZoneId.of("America/Chicago")
         val today: LocalDate = LocalDate.now(zone)
         val dayOfWeek = today.dayOfWeek
-        println("CHECK WEEEKEND " + weekend.contains(dayOfWeek))
+        Timber.i("Is Weekend: " + weekend.contains(dayOfWeek))
         return !weekend.contains(dayOfWeek)
 
     }
@@ -185,7 +185,7 @@ class ChartViewModel @Inject constructor(
                 //adding symbols details
                 chartMediatorLiveData.addSource(symbolLiveData) {
                     if (candleEntries.isEmpty()) {
-                        Timber.v("CANDLE ENTRY EMPTY BOY")
+                        Timber.v("CANDLE ENTRY EMPTY")
                         scope.launch {
                             candleEntries = ToCandleEntries.toCandleEntry(historicalData)
                             historicalLiveData.postValue((candleEntries))

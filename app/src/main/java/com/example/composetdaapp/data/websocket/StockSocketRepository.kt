@@ -1,4 +1,4 @@
-package com.example.apistock.data.api
+package com.example.composetdaapp.data.websocket
 
 import com.example.composetdaapp.data.websocket.SocketUpdate
 import com.example.composetdaapp.data.websocket.WebServicesProvider
@@ -16,7 +16,6 @@ class SocketRepository @Inject constructor(private val webServicesProvider: WebS
     fun closeSocket() {
         webServicesProvider.stopSocket()
     }
-
 
     @ExperimentalCoroutinesApi
     fun sendSocketRequest(payLoad : String) {

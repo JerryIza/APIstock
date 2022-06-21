@@ -10,6 +10,7 @@ import com.example.composetdaapp.data.entities.token.TokenAccess
 import com.example.composetdaapp.data.entities.user.UserPrincipals
 import com.example.composetdaapp.data.entities.watchlist.Watchlist
 import com.example.composetdaapp.data.entities.quotes.SymbolSearch
+import com.example.composetdaapp.data.entities.watchlist.patch.PatchWatchlist
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -84,7 +85,7 @@ interface StockApiService {
     suspend fun patchWatchlistAsync(
         @Path("AccountNumber") accountNumber: String?,
         @Path("watchlistId") watchlistId: String?,
-        @Body body: String
+        @Body body: PatchWatchlist
     ): Response<List<Watchlist>>
 
     @GET("v1/accounts/{AccountNumber}/watchlists/{watchlistId}")

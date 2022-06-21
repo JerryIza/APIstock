@@ -35,13 +35,12 @@ class WebServicesProvider @Inject constructor(private val myPreference: MyPrefer
     @ExperimentalCoroutinesApi
     fun startSocket(webSocketListener: StockSocketListener) {
         _webSocketListener = webSocketListener
-
         _webSocket = socketOkHttpClient.newWebSocket(
             Request.Builder().url("ws://streamer-ws.tdameritrade.com/ws").build(),
             webSocketListener
         )
-       /* try{_webSocket}
-        catch (ex: Exception) {}*/
+        try{_webSocket}
+        catch (ex: Exception) {}
         socketOkHttpClient.dispatcher.executorService.shutdown()
     }
 
@@ -49,6 +48,8 @@ class WebServicesProvider @Inject constructor(private val myPreference: MyPrefer
     fun sendSocketRequest(payLoad: String){
         _webSocket?.send(payLoad)
     }
+
+
 
 
 

@@ -29,7 +29,7 @@ fun OrderScreen() {
             )
         )
     ) {
-        //TODO loosing expanded state when navigating away from dashboard. Hint: rememberSaveable(item)
+        //TODO loosing expanded state when navigating away from dashboard. Hint: rememberSavable(item)
         viewModel.getOrders()
         LazyColumn {
             itemsIndexed(orders.value) { _, order ->

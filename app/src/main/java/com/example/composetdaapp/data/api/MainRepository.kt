@@ -1,7 +1,7 @@
 package com.example.composetdaapp.data.api
 
-import android.accounts.Account
 import com.example.composetdaapp.data.entities.orders.place.PlaceOrder
+import com.example.composetdaapp.data.entities.watchlist.patch.PatchWatchlist
 import javax.inject.Inject
 
 
@@ -28,8 +28,8 @@ class MainRepository @Inject constructor(private val stockMarketService: StockAp
             status = ""
         )
     }
-
-    suspend fun patchWatchlist(accNumber: String, watchlistId: String, body: String) = getResults {
+    //Create data class
+    suspend fun patchWatchlist(accNumber: String, watchlistId: String, body: PatchWatchlist) = getResults {
         stockMarketService.patchWatchlistAsync(
             accountNumber = accNumber,
             watchlistId = watchlistId,
