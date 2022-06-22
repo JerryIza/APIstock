@@ -41,11 +41,14 @@ object AppModule {
             Timber.v("""HTTP Request: $url""")
 
             if (myPreference.getAccessToken().isBlank() ) {
-                Timber.i("Unauthenticated%s", myPreference.getAccessToken())
+                Timber.i("Unauthenticated")
                 chain.proceed(request)
             } else {
-                Timber.i("Authenticated: %s", myPreference.getAccessToken())
+                Timber.i("Authenticated")
+                Timber.i("Request Body: %s", request)
+
                 chain.proceed(request.providesBearerToken(myPreference.getAccessToken()))
+
             }
         }
     }

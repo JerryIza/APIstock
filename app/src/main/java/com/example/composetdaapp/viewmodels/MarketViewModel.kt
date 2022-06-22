@@ -420,7 +420,7 @@ class MarketViewModel @Inject constructor(
             val jsonAdapterRequest = moshi.adapter(Request::class.java)
             val json: String = jsonAdapterRequest.toJson(levelOneFuturesDC.request[0])
             fun sendFuturesPayload() = interactor.sendSocketRequest(json)
-            fun sendFuturesHistorical() = interactor.sendSocketRequest(futuresHistory)
+            //fun sendFuturesHistorical() = interactor.sendSocketRequest(futuresHistory)
 
 
             //fun sendFuturesPayload() = interactor.sendSocketRequest(chartEquity)
@@ -467,7 +467,6 @@ class MarketViewModel @Inject constructor(
                                 Timber.i("Login Command Successful")
                                 //start data subscriptions
                                 sendFuturesPayload()
-                                sendFuturesHistorical()
                             }
                         }
                     } else {

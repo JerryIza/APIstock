@@ -56,6 +56,7 @@ class ChartFragment : Fragment() {
         orderStrategyType = "SINGLE"
     )
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -71,31 +72,35 @@ class ChartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         mainActivity = activity as MainActivity
         setUpObservers()
+
         viewModel.accountDetailsLiveData
         //TODO forgot what this does
         binding.posLayout.visibility = VISIBLE
 
-        if(mainActivity.tickerSymbol.startsWith("/")){
-            //TODO
-        }else {
-
-            startSymbolData()
-        }
-        isMarketDay = viewModel.isMarketOpen()
         val marketOpenInMilli = viewModel.marketOpenToMilli()
         val marketCloseInMilli = viewModel.marketCloseToMilli()
 
+        if (mainActivity.tickerSymbol.startsWith("/")) {
+            viewModel.subscribeToSocketEvents()
+
+        } else {
+            startSymbolData()
+            //TODO avoid if statements
+            if (isMarketDay) {
+                viewModel.getIntraDayChartData(
+                    marketOpenInMilli.toString(),
+                    marketCloseInMilli.toString()
+                )
+            } else {
+                viewModel.getChartData("day", "1", "minute")
+            }
+        }
+        isMarketDay = viewModel.isMarketOpen()
+
+
         binding.toggleButton.check(R.id.intraDayBtn)
 
-        //avoid if statements
-        if (isMarketDay) {
-            viewModel.getIntraDayChartData(
-                marketOpenInMilli.toString(),
-                marketCloseInMilli.toString()
-            )
-        } else {
-            viewModel.getChartData("day", "1", "minute")
-        }
+
 
         binding.cancelBtn.setOnClickListener {
 
