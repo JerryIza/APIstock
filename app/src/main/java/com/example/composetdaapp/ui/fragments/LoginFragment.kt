@@ -17,7 +17,7 @@ import com.example.composetdaapp.data.api.API_KEY
 import com.example.composetdaapp.databinding.LoginFragmentBinding
 
 
-//TEST 2
+
 class LoginFragment  : Fragment() {
 
     private val viewModel: LoginViewModel by activityViewModels()
