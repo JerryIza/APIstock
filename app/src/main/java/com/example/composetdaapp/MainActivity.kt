@@ -12,7 +12,7 @@ import com.example.composetdaapp.databinding.MainActivityBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
-
+//MASTER COMMENT TEST
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
