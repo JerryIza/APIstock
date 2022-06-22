@@ -195,9 +195,7 @@ class WatchlistFragment : Fragment() {
 
         viewModel.patchLiveData.observe(viewLifecycleOwner, {
             when (it.status) {
-
                 SUCCESS -> {
-
                     viewModel.getAllWatchlist()
                 }
                 ERROR -> TODO()
@@ -209,7 +207,6 @@ class WatchlistFragment : Fragment() {
             when (it.status) {
                 SUCCESS -> {
                     binding.loadingBar.visibility = View.GONE
-
                     if (!it.data.isNullOrEmpty()) {
                         it.data.keys.toCollection(simpleCallback.watchListOnSwipe)
                         val mutableList = it.data.values

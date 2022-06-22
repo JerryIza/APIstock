@@ -3,6 +3,7 @@ package com.example.composetdaapp.viewmodels
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.apistock.utils.ToCandleEntries
 import com.example.composetdaapp.data.api.MainRepository
 import com.example.composetdaapp.data.entities.account.Accounts
@@ -10,13 +11,22 @@ import com.example.composetdaapp.data.entities.orders.get.GetOrderItem
 import com.example.composetdaapp.data.entities.orders.place.PlaceOrder
 import com.example.composetdaapp.data.entities.quotes.SymbolDetails
 import com.example.composetdaapp.data.entities.quotes.SymbolSearch
+import com.example.composetdaapp.data.entities.websocket.request.DataRequest
+import com.example.composetdaapp.data.entities.websocket.request.FuturesParam
+import com.example.composetdaapp.data.entities.websocket.request.Request
 import com.example.composetdaapp.data.entities.websocket.response.Content
+import com.example.composetdaapp.data.entities.websocket.response.DataResponse
+import com.example.composetdaapp.utils.LEVELONE_FUTURES
 import com.example.composetdaapp.utils.MyPreference
 import com.example.composetdaapp.utils.Resource
+import com.example.composetdaapp.utils.SocketInteractor
 import com.github.mikephil.charting.data.CandleEntry
 import com.github.mikephil.charting.data.Entry
+import com.squareup.moshi.Moshi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.consumeEach
+import org.json.JSONObject
 import timber.log.Timber
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -29,6 +39,8 @@ import kotlin.coroutines.CoroutineContext
 
 @HiltViewModel
 class ChartViewModel @Inject constructor(
+    private val interactor: SocketInteractor,
+    private val moshi: Moshi,
     private val repository: MainRepository,
     private val myPreference: MyPreference
 ) : ViewModel() {
@@ -69,6 +81,11 @@ class ChartViewModel @Inject constructor(
 
     var ordersLiveData = MutableLiveData<Resource<List<GetOrderItem>>>()
 
+    val webSocketLiveData = MutableLiveData<MutableMap<String, Content>>()
+
+    val accountNumber = myPreference.getAccountNumber()
+
+
     fun start(symbol: String) {
         tickerSymbol.value = symbol
         //Timber.tag(("Start Symbol = " + _symbol.value))
@@ -98,7 +115,7 @@ class ChartViewModel @Inject constructor(
         val zone = ZoneId.of("America/Chicago")
         val today: LocalDate = LocalDate.now(zone)
         val dayOfWeek = today.dayOfWeek
-        Timber.i("Is Weekend: " + weekend.contains(dayOfWeek))
+        Timber.i("Is Weekend: %s", weekend.contains(dayOfWeek))
         return !weekend.contains(dayOfWeek)
 
     }
@@ -161,7 +178,6 @@ class ChartViewModel @Inject constructor(
     fun placeOrder(order: PlaceOrder) {
         scope.launch {
             val a = repository.placeOrder(myPreference.getAccountNumber(), order)
-            println("placing order " + a)
         }
     }
 
@@ -215,7 +231,8 @@ class ChartViewModel @Inject constructor(
             }
         }
     }
-   //TODO solve intra-day updates and implement SMA indicator
+
+    //TODO solve intra-day updates and implement SMA indicator
     fun getIntraDayChartData(startDate: String, endDate: String) {
         scope.launch {
 
@@ -262,6 +279,109 @@ class ChartViewModel @Inject constructor(
             }
         }
     }
+
+    private val levelOneFuturesDC = DataRequest(
+        request = listOf(
+            Request(
+                futuresParam = FuturesParam(),
+                service = LEVELONE_FUTURES,
+                account = accountNumber,
+                source = myPreference.getDevUserId()
+            )
+        )
+    )
+
+    val futuresHistory = " {\n" +
+            "            \"service\": \"CHART_HISTORY_FUTURES\",\n" +
+            "            \"requestid\": \"2\",\n" +
+            "            \"command\": \"GET\",\n" +
+            "            \"account\": \"149235993\",\n" +
+            "            \"source\": \"gerardoiza94\",\n" +
+            "            \"parameters\": {\n" +
+            "                \"symbol\": \"/ES\",\n" +
+            "                \"frequency\": \"m1\",\n" +
+            "                \"period\": \"d1\"\n" +
+            "            }\n" +
+            "        }"
+
+    @ExperimentalCoroutinesApi
+    fun subscribeToSocketEvents() {
+        viewModelScope.launch {
+            val jsonAdapterRequest = moshi.adapter(Request::class.java)
+            val json: String = jsonAdapterRequest.toJson(levelOneFuturesDC.request[0])
+            //fun sendFuturesPayload() = interactor.sendSocketRequest(json)
+            fun sendFuturesHistorical() = interactor.sendSocketRequest(futuresHistory)
+
+
+            //fun sendFuturesPayload() = interactor.sendSocketRequest(chartEquity)
+            try {
+                val jsonAdapter = moshi.adapter(DataResponse::class.java)
+
+                //TODO Create a data class and custom deserializer and clean this interactor thingy
+                interactor.startSocket().consumeEach {
+                    if (it.exception == null) {
+                        Timber.i("raw data %s", it.text)
+                        val jsonObject = JSONObject(it.text.toString())
+                        //filter response by "data" refactor as a util
+                        println("onMassage : " + jsonObject)
+                        if (jsonObject.has("data")) {
+                            val dataResponse = jsonAdapter.fromJson(it.text.toString())
+                            val dataMap = mutableMapOf<String, Content>()
+                            fun <T> MutableLiveData<T>.notifyObserver() {
+                                this.value = this.value
+                            }
+                            //Make Dictionary.
+                            if (dataResponse != null) {
+                                println("onMassage : LEVEL ONE BABY")
+
+                                for (i in dataResponse.data[0].content.indices) {
+                                    dataMap[dataResponse.data[0].content[i].key] =
+                                        dataResponse.data[0].content[i]
+                                }
+                                if (webSocketLiveData.value.isNullOrEmpty()) {
+                                    //websockets only updates symbols changed, post value would replace all 3 symbols with the new data.
+                                    webSocketLiveData.postValue(dataMap)
+                                } else {
+                                    //we use putALl to only update the future symbol that changed and notifyObserver manually (postValue does it auto).
+                                    webSocketLiveData.value!!.putAll(dataMap)
+                                    webSocketLiveData.notifyObserver()
+                                }
+                            }
+                        } else if (jsonObject.has("snapshot")) {
+                            println("onMassage : YESSSSSSSSSSS")
+                        }
+                        if (jsonObject.has("response")) {
+                            val data = jsonObject.getJSONArray("response")
+                            val content = data.getJSONObject(0)
+                            if (content.getString("command") == "LOGIN") {
+                                Timber.i("Login Command Successful")
+                                //start data subscriptions
+                               // sendFuturesPayload()
+                                sendFuturesHistorical()
+                            }
+                        }
+                    } else {
+                        println("onMassage : ERROR YESSSSSSSSSSS")
+
+                        onSocketError(it.exception)
+                    }
+                }
+            } catch (ex: java.lang.Exception) {
+                onSocketError(ex)
+            }
+        }
+    }
+
+    private fun onSocketError(ex: Throwable) {
+        println("Error occurred : ${ex.message}")
+    }
+
+    @ExperimentalCoroutinesApi
+    override fun onCleared() {
+        interactor.stopSocket()
+        super.onCleared()
+    }
+
 
 }
 
