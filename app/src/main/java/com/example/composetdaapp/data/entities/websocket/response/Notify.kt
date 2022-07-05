@@ -1,11 +1,11 @@
 package com.example.composetdaapp.data.entities.websocket.response
 
+
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Data(
-    val command: String,
-    val content: List<Content>,
-    val service: String,
-    val timestamp: Long
-)
+data class Notify(
+    @Json(name = "heartbeat")
+    val heartbeat: String? = null
+) 

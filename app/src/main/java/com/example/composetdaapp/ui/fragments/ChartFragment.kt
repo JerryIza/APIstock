@@ -81,7 +81,7 @@ class ChartFragment : Fragment() {
         val marketCloseInMilli = viewModel.marketCloseToMilli()
 
         if (mainActivity.tickerSymbol.startsWith("/")) {
-            viewModel.subscribeToSocketEvents()
+            //viewModel.subscribeToSocketEvents()
 
         } else {
             startSymbolData()
