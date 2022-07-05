@@ -1,6 +1,6 @@
 package com.example.composetdaapp.data.websocket
 
-import com.example.composetdaapp.data.websocket.SocketUpdate
+import com.example.composetdaapp.data.entities.websocket.SocketUpdate
 import com.example.composetdaapp.data.websocket.WebServicesProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel

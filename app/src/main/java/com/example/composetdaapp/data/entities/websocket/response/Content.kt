@@ -13,5 +13,5 @@ data class Content(
     val futLast: Double? = null,
     @Json(name = "34")
     val activeFut: String? = null,
-    val key: String
+    val key: String? = null
 )

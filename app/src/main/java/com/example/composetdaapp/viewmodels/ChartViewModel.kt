@@ -3,7 +3,6 @@ package com.example.composetdaapp.viewmodels
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.apistock.utils.ToCandleEntries
 import com.example.composetdaapp.data.api.MainRepository
 import com.example.composetdaapp.data.entities.account.Accounts
@@ -15,18 +14,15 @@ import com.example.composetdaapp.data.entities.websocket.request.DataRequest
 import com.example.composetdaapp.data.entities.websocket.request.FuturesParam
 import com.example.composetdaapp.data.entities.websocket.request.Request
 import com.example.composetdaapp.data.entities.websocket.response.Content
-import com.example.composetdaapp.data.entities.websocket.response.DataResponse
 import com.example.composetdaapp.utils.LEVELONE_FUTURES
 import com.example.composetdaapp.utils.MyPreference
 import com.example.composetdaapp.utils.Resource
-import com.example.composetdaapp.utils.SocketInteractor
+import com.example.composetdaapp.data.websocket.SocketInteractor
 import com.github.mikephil.charting.data.CandleEntry
 import com.github.mikephil.charting.data.Entry
 import com.squareup.moshi.Moshi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.consumeEach
-import org.json.JSONObject
 import timber.log.Timber
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -304,7 +300,7 @@ class ChartViewModel @Inject constructor(
             "            }\n" +
             "        }"
 
-    @ExperimentalCoroutinesApi
+    /*@ExperimentalCoroutinesApi
     fun subscribeToSocketEvents() {
         viewModelScope.launch {
             val jsonAdapterRequest = moshi.adapter(Request::class.java)
@@ -381,6 +377,8 @@ class ChartViewModel @Inject constructor(
         interactor.stopSocket()
         super.onCleared()
     }
+    */
+
 
 
 }

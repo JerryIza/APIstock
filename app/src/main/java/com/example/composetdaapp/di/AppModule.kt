@@ -72,8 +72,8 @@ object AppModule {
 
     //websocket
     @Provides
-    fun provideWebServiceProvider(myPreference: MyPreference): WebServicesProvider {
-        return WebServicesProvider(myPreference)
+    fun provideWebServiceProvider(myPreference: MyPreference, moshi: Moshi): WebServicesProvider {
+        return WebServicesProvider(myPreference, moshi)
     }
 
     //test socket
