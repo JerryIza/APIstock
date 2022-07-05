@@ -18,7 +18,7 @@ const val SOCKET_CREDENTIALS: String = "SOCKET_CREDENTIALS"
 const val ACCOUNT_NUMBER: String = "ACCOUNT_VALUE"
 const val USER_ID: String = "USER_ID"
 const val SPINNER_POS: String = "SPINNER_POS"
-//TEST 2
+//TEST 2 let's try this again
 @Singleton
 class MyPreference @Inject constructor(@ApplicationContext context: Context) {
 
