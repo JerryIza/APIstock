@@ -1,6 +1,8 @@
 package com.example.composetdaapp.data.websocket
 
+import com.example.composetdaapp.data.entities.websocket.SocketUpdate
 import com.example.composetdaapp.utils.MyPreference
+import com.squareup.moshi.Moshi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import okhttp3.*
@@ -8,7 +10,10 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
-class WebServicesProvider @Inject constructor(private val myPreference: MyPreference) {
+class WebServicesProvider @Inject constructor(
+    private val myPreference: MyPreference,
+    private val moshi: Moshi
+) {
     private var _webSocket: WebSocket? = null
 
 
@@ -24,12 +29,10 @@ class WebServicesProvider @Inject constructor(private val myPreference: MyPrefer
 
     @ExperimentalCoroutinesApi
     fun startSocket(): Channel<SocketUpdate> =
-        with(StockSocketListener(myPreference)) {
+        with(StockSocketListener(myPreference, moshi)) {
             startSocket(this)
-
             this@with.socketEventChannel
         }
-
 
 
     @ExperimentalCoroutinesApi
@@ -39,18 +42,17 @@ class WebServicesProvider @Inject constructor(private val myPreference: MyPrefer
             Request.Builder().url("ws://streamer-ws.tdameritrade.com/ws").build(),
             webSocketListener
         )
-        try{_webSocket}
-        catch (ex: Exception) {}
+        try {
+            _webSocket
+        } catch (ex: Exception) {
+        }
         socketOkHttpClient.dispatcher.executorService.shutdown()
     }
 
     @ExperimentalCoroutinesApi
-    fun sendSocketRequest(payLoad: String){
+    fun sendSocketRequest(payLoad: String) {
         _webSocket?.send(payLoad)
     }
-
-
-
 
 
     @ExperimentalCoroutinesApi

@@ -6,7 +6,7 @@ import com.example.composetdaapp.data.entities.account.Positions
 import com.example.composetdaapp.data.entities.quotes.SymbolDetails
 import com.example.composetdaapp.data.entities.watchlist.Watchlist
 import com.example.composetdaapp.data.entities.websocket.response.Content
-import com.example.composetdaapp.data.entities.websocket.response.DataResponse
+import com.example.composetdaapp.data.entities.websocket.DataResponse
 import com.example.composetdaapp.indicators.UpperIndicators
 import com.example.composetdaapp.utils.MyPreference
 import com.example.composetdaapp.utils.Resource
@@ -18,7 +18,7 @@ import com.example.composetdaapp.data.entities.websocket.request.Request
 import com.example.composetdaapp.data.entities.websocket.request.FuturesParam
 import com.example.composetdaapp.utils.LEVELONE_FUTURES
 
-import com.example.composetdaapp.utils.SocketInteractor
+import com.example.composetdaapp.data.websocket.SocketInteractor
 import com.github.mikephil.charting.data.Entry
 import com.squareup.moshi.Moshi
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,7 +28,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.json.JSONObject
 import timber.log.Timber
-import javax.annotation.meta.When
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 import kotlin.coroutines.CoroutineContext
@@ -430,12 +429,12 @@ class MarketViewModel @Inject constructor(
                 //TODO Create a data class and custom deserializer and clean this interactor thingy
                 interactor.startSocket().consumeEach {
                     if (it.exception == null) {
-                        Timber.i("raw data %s", it.text)
-                        val jsonObject = JSONObject(it.text.toString())
+                        Timber.i("raw data %s", it.dataResponse)
+                        val jsonObject = JSONObject(it.toString())
                         //filter response by "data" refactor as a util
                         println("onMassage : " + jsonObject)
                         if (jsonObject.has("data")) {
-                            val dataResponse = jsonAdapter.fromJson(it.text.toString())
+                            val dataResponse = jsonAdapter.fromJson(it.toString())
                             val dataMap = mutableMapOf<String, Content>()
                             fun <T> MutableLiveData<T>.notifyObserver() {
                                 this.value = this.value
@@ -443,11 +442,13 @@ class MarketViewModel @Inject constructor(
                             //Make Dictionary.
                             if (dataResponse != null) {
                                 println("onMassage : LEVEL ONE BABY")
-
+/*
                                 for (i in dataResponse.data[0].content.indices) {
                                     dataMap[dataResponse.data[0].content[i].key] =
                                         dataResponse.data[0].content[i]
                                 }
+
+ */
                                 if (webSocketLiveData.value.isNullOrEmpty()) {
                                     //websockets only updates symbols changed, post value would replace all 3 symbols with the new data.
                                     webSocketLiveData.postValue(dataMap)
@@ -493,11 +494,3 @@ class MarketViewModel @Inject constructor(
 
 
 }
-
-
-
-
-
-
-
-

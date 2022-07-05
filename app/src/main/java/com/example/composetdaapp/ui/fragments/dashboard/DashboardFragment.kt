@@ -18,15 +18,11 @@ import com.example.composetdaapp.ui.adapters.IndicesAdapter
 import com.example.composetdaapp.viewmodels.MarketViewModel
 import com.example.composetdaapp.utils.Resource
 import com.example.composetdaapp.R
-import com.example.composetdaapp.data.entities.watchlist.patch.PatchWatchlist
-import com.example.composetdaapp.data.entities.watchlist.patch.WatchlistItems
 import com.example.composetdaapp.databinding.DashboardFragmentBinding
 import com.example.composetdaapp.ui.adapters.DashPagerAdapter
-import com.example.composetdaapp.utils.MyPreference
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class DashboardFragment : Fragment (

@@ -26,7 +26,7 @@ class DashPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
         fragment.arguments = Bundle().apply {
             // Our object is just an integer :-P
             when (position){
-                0 -> putString(ARG_OBJECT, "Watchlist")
+                0  -> putString(ARG_OBJECT, "Watchlist")
                 1 -> putString(ARG_OBJECT, "Watchlist")
                 2 -> putString(ARG_OBJECT, "Watchlist")
             }
