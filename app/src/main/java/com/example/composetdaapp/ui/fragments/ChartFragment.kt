@@ -24,7 +24,7 @@ import com.example.composetdaapp.data.entities.orders.place.Instrument
 import com.example.composetdaapp.data.entities.orders.place.OrderLegCollection
 import com.example.composetdaapp.data.entities.orders.place.PlaceOrder
 import com.example.composetdaapp.databinding.ChartFragmentBinding
-import com.example.composetdaapp.viewmodels.ChartViewModel
+import com.example.composetdaapp.ui.viewmodels.ChartViewModel
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi

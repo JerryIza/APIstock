@@ -15,7 +15,7 @@ import com.example.composetdaapp.data.entities.quotes.SymbolSearch
 import com.example.composetdaapp.ui.adapters.SearchResultsAdapter
 import com.example.composetdaapp.R
 import com.example.composetdaapp.databinding.SearchFragmentBinding
-import com.example.composetdaapp.viewmodels.ChartViewModel
+import com.example.composetdaapp.ui.viewmodels.ChartViewModel
 
 class SearchFragment: Fragment() {
 

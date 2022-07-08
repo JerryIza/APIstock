@@ -1,6 +1,5 @@
 package com.example.composetdaapp.ui.fragments.dashboard
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,20 +19,14 @@ import com.example.composetdaapp.data.entities.watchlist.patch.PatchWatchlist
 import com.example.composetdaapp.data.entities.watchlist.patch.WatchlistItems
 import com.example.composetdaapp.databinding.WatchlistFragmentBinding
 import com.example.composetdaapp.ui.adapters.WatchlistAdapter
-import com.example.composetdaapp.viewmodels.MarketViewModel
+import com.example.composetdaapp.ui.viewmodels.MarketViewModel
 import com.example.composetdaapp.utils.ARG_OBJECT
-import com.example.composetdaapp.utils.MyPreference
-import com.example.composetdaapp.utils.Resource
 import com.example.composetdaapp.utils.Resource.Status.*
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.qualifiers.ActivityContext
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
-import okhttp3.internal.notify
 import java.util.*
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class WatchlistFragment : Fragment() {

@@ -1,4 +1,4 @@
-package com.example.composetdaapp.viewmodels
+package com.example.composetdaapp.ui.viewmodels
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData

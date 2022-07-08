@@ -1,4 +1,4 @@
-package com.example.composetdaapp.viewmodels
+package com.example.composetdaapp.ui.viewmodels
 
 import androidx.lifecycle.*
 import com.example.composetdaapp.data.entities.account.Accounts

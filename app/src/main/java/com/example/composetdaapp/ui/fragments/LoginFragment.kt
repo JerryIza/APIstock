@@ -11,7 +11,7 @@ import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.composetdaapp.viewmodels.LoginViewModel
+import com.example.composetdaapp.ui.viewmodels.LoginViewModel
 import com.example.composetdaapp.R
 import com.example.composetdaapp.data.api.API_KEY
 import com.example.composetdaapp.databinding.LoginFragmentBinding

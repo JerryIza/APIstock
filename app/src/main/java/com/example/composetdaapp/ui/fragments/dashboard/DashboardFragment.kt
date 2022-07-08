@@ -15,7 +15,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.composetdaapp.MainActivity
 import com.example.composetdaapp.data.entities.websocket.response.Content
 import com.example.composetdaapp.ui.adapters.IndicesAdapter
-import com.example.composetdaapp.viewmodels.MarketViewModel
+import com.example.composetdaapp.ui.viewmodels.MarketViewModel
 import com.example.composetdaapp.utils.Resource
 import com.example.composetdaapp.R
 import com.example.composetdaapp.databinding.DashboardFragmentBinding

@@ -15,7 +15,7 @@ import com.example.composetdaapp.data.entities.account.Positions
 import com.example.composetdaapp.data.entities.quotes.SymbolDetails
 import com.example.composetdaapp.databinding.PositionsFragmentBinding
 import com.example.composetdaapp.ui.adapters.PositionsAdapter
-import com.example.composetdaapp.viewmodels.MarketViewModel
+import com.example.composetdaapp.ui.viewmodels.MarketViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
