@@ -12,4 +12,5 @@ data class DataResponse(
     @Json(name = "notify")
     val notify: List<Notify>?,
     val response: List<Response?>?,
+    val snapshot: String? = null,
     )

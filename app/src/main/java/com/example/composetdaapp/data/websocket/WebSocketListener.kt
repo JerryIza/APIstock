@@ -38,9 +38,9 @@ class StockSocketListener @Inject constructor(
     override fun onMessage(webSocket: WebSocket, text: String) {
         GlobalScope.launch {
             val dataResponse = jsonAdapter.fromJson(text)
-
             socketEventChannel.send(SocketUpdate(dataResponse = dataResponse))
             Timber.i("WebSocket onMessage: %s", text)
+            Timber.i("WebSocket onMessage: %s", dataResponse)
 
         }
     }

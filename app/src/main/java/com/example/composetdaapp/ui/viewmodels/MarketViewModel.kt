@@ -424,52 +424,61 @@ class MarketViewModel @Inject constructor(
 
             //fun sendFuturesPayload() = interactor.sendSocketRequest(chartEquity)
             try {
-                val jsonAdapter = moshi.adapter(DataResponse::class.java)
 
                 //TODO Create a data class and custom deserializer and clean this interactor thingy
                 interactor.startSocket().consumeEach {
                     if (it.exception == null) {
-                        Timber.i("raw data %s", it.dataResponse)
-                        val jsonObject = JSONObject(it.toString())
+                        val liveObject = it.dataResponse
+                        Timber.i("raw data %s", liveObject)
                         //filter response by "data" refactor as a util
-                        println("onMassage : " + jsonObject)
-                        if (jsonObject.has("data")) {
-                            val dataResponse = jsonAdapter.fromJson(it.toString())
+                        println("onMassage : $it")
+
+                        println("onMassage data is null : " + !liveObject?.data.isNullOrEmpty())
+                        if (!liveObject?.data.isNullOrEmpty()) {
                             val dataMap = mutableMapOf<String, Content>()
                             fun <T> MutableLiveData<T>.notifyObserver() {
                                 this.value = this.value
                             }
                             //Make Dictionary.
-                            if (dataResponse != null) {
-                                println("onMassage : LEVEL ONE BABY")
-/*
-                                for (i in dataResponse.data[0].content.indices) {
-                                    dataMap[dataResponse.data[0].content[i].key] =
-                                        dataResponse.data[0].content[i]
-                                }
 
- */
-                                if (webSocketLiveData.value.isNullOrEmpty()) {
-                                    //websockets only updates symbols changed, post value would replace all 3 symbols with the new data.
-                                    webSocketLiveData.postValue(dataMap)
-                                } else {
-                                    //we use putALl to only update the future symbol that changed and notifyObserver manually (postValue does it auto).
-                                    webSocketLiveData.value!!.putAll(dataMap)
-                                    webSocketLiveData.notifyObserver()
-                                }
+                            for (i in liveObject!!.data!![0].content.indices) {
+                                dataMap[liveObject.data!![0].content[i].key.toString()] =
+                                    liveObject.data[0].content[i]
                             }
-                        } else if (jsonObject.has("snapshot")) {
+                            println("onMassage : LEVEL ONE BABY: $dataMap")
+
+                            if (webSocketLiveData.value.isNullOrEmpty()) {
+                                //websockets only updates symbols changed, post value would replace all 3 symbols with the new data.
+                                webSocketLiveData.postValue(dataMap)
+                            } else {
+                                //we use putALl to only update the future symbol that changed and notifyObserver manually (postValue does it auto).
+                                webSocketLiveData.value!!.putAll(dataMap)
+                                webSocketLiveData.notifyObserver()
+                            }
+
+                        }
+                        println(
+                            "onMassage contains login : " + liveObject?.response?.get(0)?.command?.contains(
+                                "LOGIN"
+                            )
+                        )
+                        if (liveObject?.response?.get(0)!!.command.contains("LOGIN") && !liveObject.response.isNullOrEmpty()) {
+                            Timber.i("Login Command Successful")
+                            //start data subscriptions
+                            sendFuturesPayload()
+                        }
+                       /* println("onMassage contains SUB : " + liveObject.response[0]?.command?.contains("SUBS"))
+                        if (liveObject.response[0]!!.command.contains("SUBS")) {
+                            println("onMassage: Do nothing")
+                        }
+
+                        if (!liveObject.notify?.get(0)?.heartbeat.isNullOrEmpty()) {
+                            println("onMassage : Heartbeat")
+                        }
+                        println("onMassage snapshot is null : " + !liveObject.snapshot.isNullOrEmpty())
+                        if (!liveObject.snapshot.isNullOrEmpty()) {
                             println("onMassage : YESSSSSSSSSSS")
-                        }
-                        if (jsonObject.has("response")) {
-                            val data = jsonObject.getJSONArray("response")
-                            val content = data.getJSONObject(0)
-                            if (content.getString("command") == "LOGIN") {
-                                Timber.i("Login Command Successful")
-                                //start data subscriptions
-                                sendFuturesPayload()
-                            }
-                        }
+                        }*/
                     } else {
                         println("onMassage : ERROR YESSSSSSSSSSS")
 
